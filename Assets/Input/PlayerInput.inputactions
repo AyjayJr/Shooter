@@ -2,7 +2,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "OnFoot",
+            "name": "Player",
             "id": "c1d5da99-1a0b-4bea-ab09-2046cdfc06d8",
             "actions": [
                 {
@@ -170,17 +170,6 @@
                     "name": "",
                     "id": "fdf28998-2109-469f-a9d2-b7f322ff8029",
                     "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2320adff-7871-49b4-91b5-07eb4fb7a6bf",
-                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
