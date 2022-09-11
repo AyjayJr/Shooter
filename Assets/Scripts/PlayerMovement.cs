@@ -1,60 +1,119 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement: MonoBehaviour
 {
-	private CharacterController controller;
-	private Vector3 playerVelocity;
-	private bool isGrounded;
-	public float gravity = -9.8f;
-	public float speed = 5f;
-	public float jumpHeight = 1f;
+    [Header("Movement")]
+    public float moveSpeed;
 
-    // Start is called before the first frame update
-    void Start()
+    public float groundDrag;
+
+    public float jumpForce;
+    public float jumpCooldown;
+    public float airMultiplier;
+    bool readyToJump;
+
+    [HideInInspector] public float walkSpeed;
+    [HideInInspector] public float sprintSpeed;
+
+    [Header("Keybinds")]
+    public KeyCode jumpKey = KeyCode.Space;
+
+    [Header("Ground Check")]
+    public float playerHeight;
+    public LayerMask whatIsGround;
+    bool grounded;
+
+    public Transform orientation;
+
+    float horizontalInput;
+    float verticalInput;
+
+    Vector3 moveDirection;
+
+    Rigidbody rb;
+
+    private void Start()
     {
-		// get character controller from object
-      controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
+        readyToJump = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-		isGrounded = controller.isGrounded;
+        // ground check
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+
+        MyInput();
+        SpeedControl();
+
+        // handle drag
+        if (grounded)
+            rb.drag = groundDrag;
+        else
+            rb.drag = 0;
     }
-	
-	 // Receive inputs from InputManager.cs and apply to character controller.
-	 public void ProcessMove(Vector2 input)
-	 {
-		// empty Vector3 for char direction
-		Vector3 moveDirection = Vector3.zero;
 
-		// bind values from InputManager to character directions
-		moveDirection.x = input.x;
-		moveDirection.z = input.y;
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
 
-		// controller.move moves game object in direction 
-		controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+    private void MyInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
 
-		// apply gravity to player
-		playerVelocity.y += gravity * Time.deltaTime;
+        // when to jump
+        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        {
+            readyToJump = false;
 
-		// if player is grounded only apply a small amount of gravity
-		if (isGrounded && playerVelocity.y < 0)
-		{
-			playerVelocity.y = -2f;
-		}
+            Jump();
 
-		// keep applying gravity over time
-		controller.Move(playerVelocity * Time.deltaTime);
-	 }
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
 
-	 public void Jump()
-	 {
-		if (isGrounded)
-		{
-			playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-		}
-	 }
+    private void MovePlayer()
+    {
+        // calculate movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        // on ground
+        if(grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+        // in air
+        else if(!grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+    }
+
+    private void SpeedControl()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        // limit velocity if needed
+        if(flatVel.magnitude > moveSpeed)
+        {
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
+    private void Jump()
+    {
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
+    }
 }
