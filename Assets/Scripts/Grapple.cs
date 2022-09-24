@@ -38,6 +38,12 @@ public class Grapple : MonoBehaviour
         {
             ShootGrapple();
         }
+        else if(Input.GetMouseButtonUp(1) && isDeployed)
+        {
+            StopAllCoroutines();
+            StartCoroutine(RotateGun());
+            isDeployed = false;
+        }
     }
 
     void LateUpdate()
@@ -66,7 +72,9 @@ public class Grapple : MonoBehaviour
         {
             //SMG looks at grapple point so gunTip never gets flicked around
             transform.LookAt(grappleLocation);
-            playerTransform.position = Vector3.Lerp(playerTransform.position, grappleLocation, 0.12f);
+            //playerTransform.position = Vector3.Lerp(playerTransform.position, grappleLocation, 0.12f);
+
+            playerTransform.gameObject.GetComponent<CPMPlayer>().addVelocity(grappleLocation);
 
             yield return null;
         }
@@ -75,6 +83,11 @@ public class Grapple : MonoBehaviour
         isDeployed = false;
 
         //Loop to reset the gun to face in the direction the player is facing
+        StartCoroutine(RotateGun());
+    }
+
+    IEnumerator RotateGun()
+    {
         while(transform.rotation != playerCamera.rotation)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, playerCamera.rotation, 0.06f);

@@ -377,4 +377,9 @@ public class CPMPlayer : MonoBehaviour
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100 + "ups", style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(playerTopVelocity * 100) / 100 + "ups", style);
     }
+
+    public void addVelocity(Vector3 location)
+    {
+        transform.position = Vector3.SmoothDamp(transform.position, location, ref playerVelocity, .1f, 20f);
+    }
 }
