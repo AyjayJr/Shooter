@@ -59,15 +59,13 @@ public class Grapple : MonoBehaviour
     IEnumerator DeployGrapple(RaycastHit hit)
     {
         isDeployed = true;
-
         grappleLocation = hit.point;
 
         //Loop to pull player to grapple location and have gun always look at the grapple location
-        while(Vector3.Distance(gunTip.position, grappleLocation) >= 2f)
+        while(Vector3.Distance(gunTip.position, grappleLocation) >= 3f)
         {
             //SMG looks at grapple point so gunTip never gets flicked around
             transform.LookAt(grappleLocation);
-
             playerTransform.position = Vector3.Lerp(playerTransform.position, grappleLocation, 0.12f);
 
             yield return null;
