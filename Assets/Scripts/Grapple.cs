@@ -60,13 +60,14 @@ public class Grapple : MonoBehaviour
     {
         isDeployed = true;
         grappleLocation = hit.point;
+        playerTransform.GetComponent<CPMPlayer>().SetVelocity();
 
         //Loop to pull player to grapple location and have gun always look at the grapple location
-        while(Vector3.Distance(gunTip.position, grappleLocation) >= 3f)
+        while(Vector3.Distance(gunTip.position, grappleLocation) >= 2f)
         {
             //SMG looks at grapple point so gunTip never gets flicked around
             transform.LookAt(grappleLocation);
-            playerTransform.position = Vector3.Lerp(playerTransform.position, grappleLocation, 0.12f);
+            playerTransform.position = Vector3.Lerp(playerTransform.position, grappleLocation, 0.08f);
 
             yield return null;
         }
