@@ -29,9 +29,14 @@ public class MainMenuController : MonoBehaviour
         settingsButton.onClick.AddListener(ShowSettings);
         backButton.onClick.AddListener(ShowMainMenu);
 
+        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
         sfxSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetSFXVolume(x));
+        SoundManager.Instance.StopAll();
     }
 
     private void PlayGame()

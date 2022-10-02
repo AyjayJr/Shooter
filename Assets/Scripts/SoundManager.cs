@@ -12,6 +12,13 @@ public class SoundManager : Singleton<SoundManager>
 
     private List<AudioSource> audioSources;
 
+    public void Start()
+    {
+        SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
+        SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+        SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
+    }
+
     public void AddAudioSource(AudioSource audioSource)
     {
         audioSources.Add(audioSource);
@@ -41,6 +48,12 @@ public class SoundManager : Singleton<SoundManager>
         musicAudioSource.Play();
     }
 
+    public void StopAll()
+    {
+        musicAudioSource.Stop();
+        sfxAudioSource.Stop();
+    }
+
     public void PlayMusicOnceNoInterrupt(AudioClip audioClip)
     {
         if (musicAudioSource.isPlaying) return;
@@ -50,13 +63,16 @@ public class SoundManager : Singleton<SoundManager>
     public void SetMasterVolume(float sliderValue)
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(sliderValue) * 20);
+        PlayerPrefs.SetFloat("MasterVolume", sliderValue);
     }
     public void SetMusicVolume(float sliderValue)
     {
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(sliderValue) * 20);
+        PlayerPrefs.SetFloat("MusicVolume", sliderValue);
     }
     public void SetSFXVolume(float sliderValue)
     {
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(sliderValue) * 20);
+        PlayerPrefs.SetFloat("SFXVolume", sliderValue);
     }
 }
