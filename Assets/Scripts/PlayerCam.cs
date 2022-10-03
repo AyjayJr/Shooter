@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+	[SerializeField] private PlayerMovementAdvanced player;
 	public float sensX;
 	public float sensY;
 
@@ -17,6 +18,7 @@ public class PlayerCam : MonoBehaviour
     {
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
+		GameManager.Instance.onPaused += ManageCursorState;
     }
 
     // Update is called once per frame
@@ -27,6 +29,8 @@ public class PlayerCam : MonoBehaviour
 
 	public void MouseLook()
 	{
+		if (GameManager.Instance.isPaused) return;
+
 		float mouseX = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
     	float mouseY = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
 
@@ -36,5 +40,20 @@ public class PlayerCam : MonoBehaviour
 
 		transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
 		orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+	}
+
+	private void ManageCursorState(bool isPaused)
+    {
+		if (isPaused)
+        {
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
+		else
+        {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+
 	}
 }

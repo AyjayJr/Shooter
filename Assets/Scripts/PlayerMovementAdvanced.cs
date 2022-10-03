@@ -99,6 +99,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MyInput()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager.Instance.TogglePause();
+        }
+
+        if (GameManager.Instance.isPaused) return;
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 

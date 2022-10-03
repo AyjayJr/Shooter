@@ -153,9 +153,11 @@
                 "key": "ShapeBuilder.LastSize",
 <<<<<<< HEAD
                 "value": "{\"m_Value\":{\"x\":3.0702133178710939,\"y\":2.018604278564453,\"z\":2.423887252807617}}"
+||||||| ad6e746
+                "value": "{\"m_Value\":{\"x\":-4.52407169342041,\"y\":5.4909138679504398,\"z\":4.197092056274414}}"
 =======
                 "value": "{\"m_Value\":{\"x\":18.24972152709961,\"y\":11.201509475708008,\"z\":22.24395751953125}}"
->>>>>>> 626bf4f9364d2145da33108a8dd17779a887f398
+>>>>>>> main
             },
             {
                 "type": "UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
