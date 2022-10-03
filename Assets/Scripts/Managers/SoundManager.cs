@@ -117,7 +117,6 @@ public class SoundManager : Singleton<SoundManager>
         {
             if (audioClip.sound == sound)
             {
-                Debug.Log("AUDIO CLIP FOUND, ABOUT TO PLAY");
                 return audioClip.audioClip;
             }
         }
@@ -137,7 +136,7 @@ public class SoundManager : Singleton<SoundManager>
                 return footstepClipArray[rand].audioClip;
             }
 
-            if (count == 10) break;
+            if (count >= 8) break;
         }
         Debug.LogError("Sound " + sound + " not found!");
         return null;
