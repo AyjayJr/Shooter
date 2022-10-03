@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    [Header("Shooting")]
+    [SerializeField] private Camera cam; 
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float range = 100f;
+    [SerializeField] private float fireRate = 15f;
+    [SerializeField] private float impactForce = 3f;
+    [SerializeField] private float nextTimeToFire = 3f;
+    [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private GameObject impactEffect;
+    
+
     [Header("Weapon Sway")]
     [SerializeField] private float smooth;
     [SerializeField] private float multiplier;
@@ -25,6 +36,39 @@ public class WeaponController : MonoBehaviour
     {
         WeaponSway();
         CalculateIdleSway();
+
+        // primary mouse button, maybe change this later
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextTimeToFire)
+        {
+            nextTimeToFire = Time.time + 1f / fireRate;
+            Shoot();
+        }
+
+    }
+
+    void Shoot()
+    {
+        muzzleFlash.Play();
+
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+        {
+            Debug.Log(hit.transform.name);
+
+            Target target = hit.transform.GetComponent<Target>();
+            if (target != null)
+            {
+                target.TakeDamage(damage);
+            }
+
+            if (hit.rigidbody != null)
+            {
+                hit.rigidbody.AddForce(-hit.normal * impactForce);
+            }
+
+            GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impact, 2f);
+        }
     }
 
     void WeaponSway()
