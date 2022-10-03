@@ -1,5 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Target.cs.meta
+guid: 9a86c37a65d9b6a47966426d60d5c268
+|||||||| ad6e746:Assets/Scripts/CPMPlayer.cs.meta
+guid: 2c6049aa1505a5f43a0eb1694ef6c11f
+========
 guid: 2bec7b98a3b3bff45a69d16da8621578
+>>>>>>>> main:Assets/UI/Scripts/MainMenuController.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

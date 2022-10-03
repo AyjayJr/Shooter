@@ -1,5 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Models/Weapons/LOW-POLY GUNS PACK_SAMPLE.meta
+guid: 68ff602bc9fa68c439c5068fca9d8fdd
+folderAsset: yes
+|||||||| ad6e746:Assets/Skyboxes/FREE Skyboxes - Sci-Fi & Fantasy/Demo Scenes/SBS Sci-Fi & Fantasy 2.unity.meta
+guid: 70642b13437a3124c8bd489dfe766645
+========
 guid: 1b8d251f9af63b746bf2f7ffe00ebb9b
+>>>>>>>> main:Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

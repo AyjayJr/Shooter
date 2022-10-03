@@ -1,6 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/CameraHolder.prefab.meta
+guid: 1f40d5bbad1a2af4391fb49f33fb176b
+PrefabImporter:
+|||||||| ad6e746:Assets/Skyboxes/FREE Skyboxes - Sci-Fi & Fantasy/Demo Scenes/SBS Sci-Fi & Fantasy 3.unity.meta
+guid: 402285be7659e714298d629a23acf5ae
+DefaultImporter:
+========
 guid: f7a2a0ce4658f2143b7ccc35b39a1e30
 DefaultImporter:
+>>>>>>>> main:Assets/Scenes/MainMenu.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

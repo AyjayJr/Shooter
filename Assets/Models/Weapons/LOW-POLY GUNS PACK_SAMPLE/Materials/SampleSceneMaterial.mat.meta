@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Models/Weapons/LOW-POLY GUNS PACK_SAMPLE/Materials/SampleSceneMaterial.mat.meta
+guid: 03c564d1402fb124a82c23815a195a96
+|||||||| ad6e746:Assets/Skyboxes/ColorSkies/Demo/DemoSceneSettings.lighting.meta
+guid: be6624bd5119807469455dd148b3b238
+========
+guid: f85d83765972af1419f88318d41e5a5b
+>>>>>>>> main:Assets/Audio/AudioMixer.mixer.meta
+NativeFormatImporter:
+  externalObjects: {}
+<<<<<<<< HEAD:Assets/Models/Weapons/LOW-POLY GUNS PACK_SAMPLE/Materials/SampleSceneMaterial.mat.meta
+  mainObjectFileID: 0
+|||||||| ad6e746:Assets/Skyboxes/ColorSkies/Demo/DemoSceneSettings.lighting.meta
+  mainObjectFileID: 4890085278179872738
+========
+  mainObjectFileID: 24100000
+>>>>>>>> main:Assets/Audio/AudioMixer.mixer.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

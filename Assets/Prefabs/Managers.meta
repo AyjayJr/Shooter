@@ -1,6 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Models/Weapons/LOW-POLY GUNS PACK_SAMPLE/Meshes.meta
+guid: 2447f1f661a1b304b84d29eb0bd0ce68
+folderAsset: yes
+|||||||| ad6e746:Assets/Skyboxes/FREE Skyboxes - Sci-Fi & Fantasy/Demo Scenes/SBS Sci-Fi & Fantasy 1.unity.meta
+guid: 81b962bba3836e4469089863be9ffa0b
+========
 guid: 480922119c8e0964787835fd6d74e2b7
 folderAsset: yes
+>>>>>>>> main:Assets/Prefabs/Managers.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

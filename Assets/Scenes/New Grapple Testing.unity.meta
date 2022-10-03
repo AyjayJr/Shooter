@@ -1,5 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Models/Weapons/LOW-POLY GUNS PACK_SAMPLE/Materials.meta
+guid: e09c64aaf8a097f48bb4aa5ab747d25d
+folderAsset: yes
+|||||||| ad6e746:Assets/Scenes/Grapple Testing.unity.meta
+guid: 21b9c8f5e181d494f9b0bb8463940feb
+========
 guid: e4deaad19755c1d45949ad4ef9ddd095
+>>>>>>>> main:Assets/Scenes/New Grapple Testing.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

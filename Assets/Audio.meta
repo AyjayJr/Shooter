@@ -1,5 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Thirdparty/Hit Impact Effects.meta
+guid: f7fd6c9a49f06e7479b4738d4e85babd
+|||||||| ad6e746:Assets/Skyboxes/FREE Skyboxes - Sci-Fi & Fantasy/Demo Scenes.meta
+guid: 228297902bf50504bb100697e2e77c5e
+========
 guid: a85d96b4e5ef9b6499de7f87d87a0419
+>>>>>>>> main:Assets/Audio.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
