@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 105987453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eabfe944c32ee44584e44c17c6681fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 281a0940518e43347b7f68923c08b6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2133632273}
@@ -150,7 +150,7 @@ MonoBehaviour:
   gunTip: {fileID: 1542857643}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 0
 --- !u!1 &164546681
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +387,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5396937195169073451, guid: 3580927d19a7b344aaf20f89471cd62d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3580927d19a7b344aaf20f89471cd62d, type: 3}
 --- !u!43 &252412205
 Mesh:
@@ -395,7 +396,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-60080
+  m_Name: pb_Mesh58572
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1185,7 +1186,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh31146
+  m_Name: pb_Mesh58526
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1828,7 +1829,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-60314
+  m_Name: pb_Mesh58442
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3099,6 +3100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7178a2b30ecaad49bb08d7cfb03cdf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   sensX: 250
   sensY: 250
   orientation: {fileID: 1681259407}
