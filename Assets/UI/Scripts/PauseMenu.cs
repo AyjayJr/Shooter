@@ -4,16 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Pixelplacement;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 
-public class MainMenuController : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject title;
     [SerializeField] private GameObject main;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private StateMachine stateMachineUI;
- 
+
     [SerializeField] private Button playButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
@@ -26,31 +23,18 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.AddButtonSounds(playButton, SoundManager.GameSounds.MenuPlaySound);
-        SoundManager.Instance.AddButtonSounds(settingsButton, SoundManager.GameSounds.MenuInputSound);
-        SoundManager.Instance.AddButtonSounds(backButton, SoundManager.GameSounds.MenuBackSound);
-        SoundManager.Instance.AddButtonSounds(quitButton, SoundManager.GameSounds.MenuBackSound);
-        SoundManager.Instance.AddSliderSounds(musicSlider, SoundManager.GameSounds.MenuMusicSlider, true);
-        SoundManager.Instance.AddSliderSounds(sfxSlider, SoundManager.GameSounds.MenuSFXSlider, false);
-        SoundManager.Instance.AddSliderSounds(masterSlider, SoundManager.GameSounds.MenuMasterSlider, false);
-
-        playButton.onClick.AddListener(PlayGame);
+        playButton.onClick.AddListener(ResumeGame);
         settingsButton.onClick.AddListener(ShowSettings);
         backButton.onClick.AddListener(ShowMainMenu);
-
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
         sfxSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetSFXVolume(x));
-        SoundManager.Instance.StopAll();
     }
 
-    private void PlayGame()
+    private void ResumeGame()
     {
-        SceneManager.LoadScene(1);
+        this.gameObject.SetActive(false);
     }
 
     private void ShowSettings()
