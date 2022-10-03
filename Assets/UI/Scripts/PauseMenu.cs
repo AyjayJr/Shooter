@@ -7,16 +7,19 @@ using Pixelplacement;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class MainMenuController : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject title;
+    [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private GameObject main;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject confirmQuitPanel;
     [SerializeField] private StateMachine stateMachineUI;
- 
-    [SerializeField] private Button playButton;
+
+    [SerializeField] private Button resumeButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
 
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider musicSlider;
@@ -24,9 +27,11 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown qualityDropdown;
     [SerializeField] private Button backButton;
 
+    private PlayerMovementAdvanced player;
+
     private void Start()
     {
-        SoundManager.Instance.AddButtonSounds(playButton, SoundManager.GameSounds.MenuPlaySound);
+        SoundManager.Instance.AddButtonSounds(resumeButton, SoundManager.GameSounds.MenuPlaySound);
         SoundManager.Instance.AddButtonSounds(settingsButton, SoundManager.GameSounds.MenuInputSound);
         SoundManager.Instance.AddButtonSounds(backButton, SoundManager.GameSounds.MenuBackSound);
         SoundManager.Instance.AddButtonSounds(quitButton, SoundManager.GameSounds.MenuBackSound);
@@ -34,32 +39,50 @@ public class MainMenuController : MonoBehaviour
         SoundManager.Instance.AddSliderSounds(sfxSlider, SoundManager.GameSounds.MenuSFXSlider, false);
         SoundManager.Instance.AddSliderSounds(masterSlider, SoundManager.GameSounds.MenuMasterSlider, false);
 
-        playButton.onClick.AddListener(PlayGame);
+        resumeButton.onClick.AddListener(ResumeGame);
         settingsButton.onClick.AddListener(ShowSettings);
-        backButton.onClick.AddListener(ShowMainMenu);
+        backButton.onClick.AddListener(ShowPauseMenu);
+        quitButton.onClick.AddListener(ShowConfirmQuit);
 
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        // actually quit
+        yesButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+        noButton.onClick.AddListener(ShowPauseMenu);
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
         sfxSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetSFXVolume(x));
-        SoundManager.Instance.StopAll();
+
+        GameManager.Instance.onPaused += TogglePauseMenu;
+        this.gameObject.SetActive(false);
     }
 
-    private void PlayGame()
+    private void TogglePauseMenu(bool isPaused)
     {
-        SceneManager.LoadScene(1);
+        this.gameObject.SetActive(isPaused);
+    }
+
+    private void ResumeGame()
+    {
+        title.text = "Paused";
+        GameManager.Instance.isPaused = false;
+        GameManager.Instance.onPaused?.Invoke(false);
     }
 
     private void ShowSettings()
     {
+        title.text = "Settings";
         stateMachineUI.ChangeState(settingsPanel);
     }
 
-    private void ShowMainMenu()
+    private void ShowPauseMenu()
     {
+        title.text = "Paused";
         stateMachineUI.ChangeState(main);
+    }
+
+    private void ShowConfirmQuit()
+    {
+        title.text = "Are you sure you want to quit?";
+        stateMachineUI.ChangeState(confirmQuitPanel);
     }
 }

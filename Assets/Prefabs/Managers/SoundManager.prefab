@@ -59,7 +59,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45794bbd732adb4c81348b0d561c4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
+  _dontDestroyOnLoad: 0
+  audioClipArray:
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 67ed0a5995367964daa58e74aa5fc8a6, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: 57c23040011651b4d957ca53e490f0ac, type: 3}
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 548bedaec7bb1e548a7ef850b68cbdeb, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: 6d52656a217d2994194d977f27a3635e, type: 3}
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
+  - sound: 6
+    audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
+  footstepClipArray: []
   audioMixer: {fileID: 24100000, guid: f85d83765972af1419f88318d41e5a5b, type: 2}
   musicAudioSource: {fileID: 4242037835644976522}
   sfxAudioSource: {fileID: 7240574404738154731}
@@ -72,8 +88,7 @@ AudioSource:
   m_GameObject: {fileID: 3205872847812491721}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6580985905814745699, guid: f85d83765972af1419f88318d41e5a5b,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: -6580985905814745699, guid: f85d83765972af1419f88318d41e5a5b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -169,8 +184,7 @@ AudioSource:
   m_GameObject: {fileID: 3205872847812491721}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 6794540041016030892, guid: f85d83765972af1419f88318d41e5a5b,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 6794540041016030892, guid: f85d83765972af1419f88318d41e5a5b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
