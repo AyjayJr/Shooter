@@ -5,6 +5,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     public float health = 50f;
+    public Animator animator;
 
     public void TakeDamage(float amount)
     {
@@ -18,6 +19,13 @@ public class Target : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
