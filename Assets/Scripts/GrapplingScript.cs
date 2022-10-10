@@ -8,6 +8,11 @@ public class GrapplingScript : MonoBehaviour
     public Transform pCamera;
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
+
+    [Header("Values of Joint")]
+    public float spring;
+    public float damper;
+    public float massScale;
         
     private Vector3 grapplePoint;
     private LineRenderer lr;
@@ -15,6 +20,9 @@ public class GrapplingScript : MonoBehaviour
     private Vector3 direction;
     private ConstantForce grapplePull;
     private bool isDeployed = false;
+    
+    public float pullForceValue;
+    public float cameraForceValue;
 
 
     void Awake()
@@ -31,17 +39,22 @@ public class GrapplingScript : MonoBehaviour
         }
         else if(Input.GetMouseButtonUp(0))
         {
-            StopCoroutine(PullTowards(1));
-            isDeployed = false;
-            grapplePull.force = Vector3.zero;
-            Destroy(joint);
-            StartCoroutine(RotateGun());
+            EndGrapple();
         }
 
         if(isDeployed)
         {
-            grapplePull.force = Vector3.Normalize(grapplePoint - gunTip.position) * 40f;
+            grapplePull.force = (pCamera.forward * cameraForceValue) + (Vector3.Normalize(grapplePoint - gunTip.position) * (pullForceValue));
+            //grapplePull.force = Vector3.Normalize(grapplePoint - gunTip.position) * 40f;
+            //grapplePull.relativeForce = pCamera.forward * cameraForceValue;
+
+            checkIfFacingGrapple();
         }
+    }
+
+    public bool Deployed()
+    {
+        return isDeployed;
     }
 
     void LateUpdate()
@@ -68,13 +81,48 @@ public class GrapplingScript : MonoBehaviour
             joint.maxDistance = distanceFromPoint * 0.8f;
             joint.minDistance = distanceFromPoint * 0.1f;
 
-            joint.spring = 4.5f;
-            joint.damper = 7f;
-            joint.massScale = 1f;
+            joint.spring = spring;
+            joint.damper = damper;
+            joint.massScale = massScale;
 
             lr.positionCount = 2;
 
             StartCoroutine(PullTowards(joint.minDistance));
+        }
+    }
+
+    public void EndGrapple()
+    {
+        StopCoroutine(PullTowards(1));
+        isDeployed = false;
+        grapplePull.force = Vector3.zero;
+        Destroy(joint);
+        StartCoroutine(RotateGun());
+    }
+
+    void DrawGrapple()
+    {
+        if(isDeployed)
+        {
+            lr.positionCount = 2;
+
+            lr.SetPosition(0, gunTip.position);
+            lr.SetPosition(1, grapplePoint);
+        }
+        else
+        {
+            lr.positionCount = 0;
+        }
+    }
+
+    public void checkIfFacingGrapple()
+    {
+        float angle = Mathf.Abs(Vector3.Angle(pCamera.forward, grapplePoint - gunTip.position));
+
+        if(isDeployed && angle >= 150)
+        {
+            Debug.Log("Broke Grapple");
+            EndGrapple();
         }
     }
 
@@ -94,21 +142,6 @@ public class GrapplingScript : MonoBehaviour
         grapplePull.force = Vector3.zero;
 
         StartCoroutine(RotateGun());
-    }
-
-    void DrawGrapple()
-    {
-        if(isDeployed)
-        {
-            lr.positionCount = 2;
-
-            lr.SetPosition(0, gunTip.position);
-            lr.SetPosition(1, grapplePoint);
-        }
-        else
-        {
-            lr.positionCount = 0;
-        }
     }
 
     IEnumerator RotateGun()
