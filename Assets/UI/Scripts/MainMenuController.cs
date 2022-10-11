@@ -37,6 +37,7 @@ public class MainMenuController : MonoBehaviour
         playButton.onClick.AddListener(PlayGame);
         settingsButton.onClick.AddListener(ShowSettings);
         backButton.onClick.AddListener(ShowMainMenu);
+        quitButton.onClick.AddListener(() => Application.Quit());
 
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
