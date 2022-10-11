@@ -59,6 +59,10 @@ public class PauseMenu : MonoBehaviour
     private void TogglePauseMenu(bool isPaused)
     {
         this.gameObject.SetActive(isPaused);
+        if (isPaused)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
     }
 
     private void ResumeGame()
@@ -76,6 +80,7 @@ public class PauseMenu : MonoBehaviour
 
     private void ShowPauseMenu()
     {
+        Debug.LogError("PAUSED");
         title.text = "Paused";
         stateMachineUI.ChangeState(main);
     }
