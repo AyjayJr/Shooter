@@ -2989,7 +2989,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.08805466
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -3001,8 +3001,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3025,7 +3025,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -5598,7 +5598,7 @@ PrefabInstance:
       objectReference: {fileID: 3842508594332602064}
     - target: {fileID: 3549836894044523446, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
       propertyPath: damage
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3549836894044523446, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
       propertyPath: weapon
@@ -5624,6 +5624,10 @@ PrefabInstance:
       propertyPath: impactEffect
       value: 
       objectReference: {fileID: 5024009746357069194, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
+    - target: {fileID: 3549836894044523446, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
+      propertyPath: swayPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3842508593609665505, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
       propertyPath: orientation
       value: 
@@ -5684,43 +5688,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3549836894044523446, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
---- !u!1 &3842508594332602055 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1111400835116789893, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
-  m_PrefabInstance: {fileID: 3842508594332602054}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3842508594332602056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3842508594332602055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22d9fac18816f264ab9eb252425548c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 3842508594332602064}
-  damage: 10
-  range: 100
-  fireRate: 15
-  impactForce: 100
-  nextTimeToFire: 3
-  muzzleFlash: {fileID: 1799405975}
-  impactEffect: {fileID: 2955623459812423943, guid: f5507a8c6a22c404ab324980c4e8a11b, type: 3}
-  smooth: 0
-  multiplier: 0
-  weapon: {fileID: 2011256227}
-  idleA: 1
-  idleB: 2
-  swayScale: 600
-  swayLerpSpeed: 14
-  swayTime: 0
-  swayPosition: {x: 0, y: 0, z: 0}
 --- !u!20 &3842508594332602064 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 3842508593609665507, guid: 24ebb89050dc49342b79e0eb17c7bf8f, type: 3}
