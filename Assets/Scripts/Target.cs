@@ -21,7 +21,8 @@ public class Target : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("IsDead", true);
+            
+            animator.SetTrigger("dead");
         }
         else
         {
