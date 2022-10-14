@@ -11,10 +11,12 @@ public class Target : MonoBehaviour
 
     void Start()
     {
+        setRigidbodyState(true);
+        setColliderState(false);    
         enemyController = GetComponent<EnemyController>();
     }
 
-public void TakeDamage(float amount)
+    public void TakeDamage(float amount)
     {
         health -= amount;
         Debug.Log(health);
@@ -22,6 +24,35 @@ public void TakeDamage(float amount)
         {
             Die();
         }
+    }
+
+    void setRigidbodyState(bool state)
+    {
+
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = state;
+        }
+
+        GetComponent<Rigidbody>().isKinematic = !state;
+
+    }
+
+
+    void setColliderState(bool state)
+    {
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = state;
+        }
+
+        GetComponent<Collider>().enabled = !state;
+
     }
 
     void Die()

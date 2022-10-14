@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
+        setRigidbodyState(true);
+        setColliderState(false);
     }
 
     // Update is called once per frame
@@ -36,6 +38,39 @@ public class EnemyController : MonoBehaviour
         }      
     }
 
+    void setRigidbodyState(bool state)
+    {
+
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = state;
+        }
+
+        GetComponent<Rigidbody>().isKinematic = !state;
+
+    }
+
+
+    void setColliderState(bool state)
+    {
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = state;
+        }
+        Collider[] parentColliders = GetComponents<Collider>();
+
+        GetComponent<Collider>().enabled = !state;
+        foreach (Collider collider in parentColliders)
+        {
+            collider.enabled = !state;
+        }
+    }
+
     void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -45,8 +80,9 @@ public class EnemyController : MonoBehaviour
 
     public void Die()
     {
-        animator.SetBool("isWalking", false);
-        animator.SetTrigger("dead");
+        animator.enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
         isDead = true;
         Destroy(agent);
 
