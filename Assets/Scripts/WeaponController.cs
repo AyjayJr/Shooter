@@ -56,11 +56,16 @@ public class WeaponController : MonoBehaviour
             Debug.Log(hit.transform.name);
 
             Target target = hit.transform.GetComponent<Target>();
+            EnemyController enemy = hit.transform.GetComponent<EnemyController>();
+
             if (target != null)
             {
                 target.TakeDamage(damage);
             }
-
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
             if (hit.rigidbody != null)
             {
                 hit.rigidbody.AddForce(-hit.normal * impactForce);

@@ -6,8 +6,15 @@ public class Target : MonoBehaviour
 {
     public float health = 50f;
     public Animator animator;
+    public UnityEngine.AI.NavMeshAgent agent;
+    EnemyController enemyController;
 
-    public void TakeDamage(float amount)
+    void Start()
+    {
+        enemyController = GetComponent<EnemyController>();
+    }
+
+public void TakeDamage(float amount)
     {
         health -= amount;
         Debug.Log(health);
@@ -19,14 +26,15 @@ public class Target : MonoBehaviour
 
     void Die()
     {
-        if (animator != null)
+        if (enemyController != null)
         {
+            enemyController.Die();
             
-            animator.SetTrigger("dead");
         }
         else
         {
             Destroy(gameObject);
+            Destroy(agent);
         }
     }
 }
