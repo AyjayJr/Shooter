@@ -245,31 +245,6 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     path: Root/Hip/Right_Thigh_Joint_01
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: -184.978, y: -166.084, z: -180.996}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 0.2
-        value: {x: -179.418, y: -251.323, z: -185.043}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Root/Pistol
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -459,6 +434,31 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     path: Root/Hip/Right_Thigh_Joint_01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0.222, y: -0.155, z: 0.3163}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 0.41666666
+        value: {x: 1.113, y: 0.063, z: -0.152}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Pistol
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -505,6 +505,13 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
+      path: 2776443277
+      attribute: 1
+      script: {fileID: 0}
+      typeID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
       path: 0
       attribute: 4
       script: {fileID: 0}
@@ -541,13 +548,6 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1084518694
-      attribute: 4
-      script: {fileID: 0}
-      typeID: 4
-      customType: 4
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 3979582128
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -1936,7 +1936,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -184.978
+        value: 0.222
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1944,8 +1944,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.2
-        value: -179.418
+        time: 0.41666666
+        value: 1.113
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1955,8 +1955,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.x
-    path: Root/Pistol
+    attribute: m_LocalPosition.x
+    path: Pistol
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1964,7 +1964,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -166.084
+        value: -0.155
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1972,8 +1972,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.2
-        value: -251.323
+        time: 0.41666666
+        value: 0.063
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1983,8 +1983,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.y
-    path: Root/Pistol
+    attribute: m_LocalPosition.y
+    path: Pistol
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1992,7 +1992,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -180.996
+        value: 0.3163
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -2000,8 +2000,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.2
-        value: -185.043
+        time: 0.41666666
+        value: -0.152
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -2011,8 +2011,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.z
-    path: Root/Pistol
+    attribute: m_LocalPosition.z
+    path: Pistol
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -2023,7 +2023,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Root/Pistol
+    path: Root/Hip/Right_Thigh_Joint_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2033,7 +2033,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Root/Pistol
+    path: Root/Hip/Right_Thigh_Joint_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2043,7 +2043,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Root/Pistol
+    path: Root/Hip/Right_Thigh_Joint_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2194,36 +2194,6 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
     path: Root/Hip/Left_Thigh_Joint_01
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: Root/Hip/Right_Thigh_Joint_01
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: Root/Hip/Right_Thigh_Joint_01
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: Root/Hip/Right_Thigh_Joint_01
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
