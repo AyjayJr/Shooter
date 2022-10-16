@@ -63,4 +63,9 @@ public class MainMenuController : MonoBehaviour
     {
         stateMachineUI.ChangeState(main);
     }
+
+    public void SetQualityLevel(int index)
+    {
+        QualitySettings.SetQualityLevel(index, false);
+    }
 }
