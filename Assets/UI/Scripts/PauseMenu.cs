@@ -80,7 +80,6 @@ public class PauseMenu : MonoBehaviour
 
     private void ShowPauseMenu()
     {
-        Debug.LogError("PAUSED");
         title.text = "Paused";
         stateMachineUI.ChangeState(main);
     }
