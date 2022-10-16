@@ -7,8 +7,8 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
-    guid: f7a2a0ce4658f2143b7ccc35b39a1e30
+    guid: 1f40d5bbad1a2af4391fb49f33fb176b
   - enabled: 1
-    path: Assets/Scenes/Grapple Testing.unity
-    guid: 21b9c8f5e181d494f9b0bb8463940feb
+    path: Assets/Scenes/EndTrigger.unity
+    guid: a2d948ee5643e8f4d992d109bcde6182
   m_configObjects: {}
