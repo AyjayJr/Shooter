@@ -1,0 +1,65 @@
+using Pixelplacement;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using System.Linq;
+using System;
+
+public class TimeManager : Singleton<TimeManager>
+{
+    [SerializeField] private GameObject levelTimerPrefab;
+
+    private TextMeshProUGUI timerCounter;
+    private TimeSpan timePlaying;
+    private bool timerActive;
+    private float elapsedTime;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        SceneManager.sceneLoaded += OnGameSceneLoaded;
+    }
+
+    private void OnGameSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == "Map MVP")
+        {
+            GameObject timerGO = Instantiate(levelTimerPrefab, null);
+            timerCounter = timerGO.GetComponentInChildren<TextMeshProUGUI>();
+            BeginTimer();
+        }
+    }
+
+    public void BeginTimer()
+    {
+        elapsedTime = 0f;
+        timerActive = true;
+
+        StartCoroutine(UpdateTimer());
+    }
+
+    public void EndTimer()
+    {
+        timerActive = false;
+    }
+
+    private IEnumerator UpdateTimer()
+    {
+        while (timerActive)
+        {
+            elapsedTime += Time.deltaTime;
+            timePlaying = TimeSpan.FromSeconds(elapsedTime);
+            string timePlayingString = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+            timerCounter.text = timePlayingString;
+
+            yield return null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(UpdateTimer());
+    }
+}

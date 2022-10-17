@@ -8,9 +8,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Camera cam; 
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
-    [SerializeField] private float fireRate = 15f;
     [SerializeField] private float impactForce = 3f;
-    [SerializeField] private float nextTimeToFire = 3f;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
     
@@ -18,6 +16,12 @@ public class WeaponController : MonoBehaviour
     [Header("Weapon Sway")]
     [SerializeField] private float smooth;
     [SerializeField] private float multiplier;
+
+    [Header("Weapon Bob")]
+    [SerializeField] private float gunBobAmtX;
+    [SerializeField] private float gunBobAmtY;
+    private float currentBobX;
+    private float currentBobY;
 
     [Header("Idle Sway")]
     [SerializeField] private Transform weapon;
@@ -36,14 +40,18 @@ public class WeaponController : MonoBehaviour
     {
         WeaponSway();
         CalculateIdleSway();
+        WalkMovement();
 
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextTimeToFire)
+        if (Input.GetMouseButtonDown(0))
         {
-            nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
         }
 
+    }
+
+    void WalkMovement()
+    {
     }
 
     void Shoot()
