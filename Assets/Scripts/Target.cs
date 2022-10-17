@@ -10,9 +10,7 @@ public class Target : MonoBehaviour
     EnemyController enemyController;
 
     void Start()
-    {
-        setRigidbodyState(true);
-        setColliderState(false);    
+    { 
         enemyController = GetComponent<EnemyController>();
     }
 
@@ -26,34 +24,6 @@ public class Target : MonoBehaviour
         }
     }
 
-    void setRigidbodyState(bool state)
-    {
-
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-
-        foreach (Rigidbody rigidbody in rigidbodies)
-        {
-            rigidbody.isKinematic = state;
-        }
-
-        GetComponent<Rigidbody>().isKinematic = !state;
-
-    }
-
-
-    void setColliderState(bool state)
-    {
-
-        Collider[] colliders = GetComponentsInChildren<Collider>();
-
-        foreach (Collider collider in colliders)
-        {
-            collider.enabled = state;
-        }
-
-        GetComponent<Collider>().enabled = !state;
-
-    }
 
     void Die()
     {
