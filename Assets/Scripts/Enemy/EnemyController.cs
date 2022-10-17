@@ -1,3 +1,4 @@
+using Pixelplacement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,13 @@ public class EnemyController : MonoBehaviour
 {
     public float visionRadius = 10f;
     public float shootingRange = 6f;
-    Transform target;
-    NavMeshAgent agent;
+    public Transform target;
+    public NavMeshAgent agent;
     public Animator animator;
     public float health = 50f;
-    bool isDead = false;
+    public bool isDead = false;
+    public AiStateMachine stateMachine;
+    public AiStateId initialState = AiStateId.Idle;
 
 
     // Start is called before the first frame update
@@ -19,26 +22,38 @@ public class EnemyController : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
         setRigidbodyState(true);
         setColliderState(false);
+        stateMachine = new AiStateMachine(this);
+        stateMachine.RegisterState(new AiChaseState());
+        stateMachine.RegisterState(new AiDeathState());
+        stateMachine.RegisterState(new AiIdleState());
+
+        stateMachine.ChangeState(initialState);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isDead)
+        stateMachine.Update();
+
+        if (isDead)
         {
-            float distance = Vector3.Distance(target.position, transform.position);
-            if (distance <= visionRadius)
-            {
-                animator.SetBool("isWalking", true);
-                agent.SetDestination(target.position);
-                FaceTarget();
-            }
-        }      
+            return;
+        }
+        if (agent.hasPath)
+        {
+            animator.SetFloat("Speed", agent.velocity.magnitude);
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0);
+        }
     }
 
-    void setRigidbodyState(bool state)
+    public void setRigidbodyState(bool state)
     {
 
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -53,7 +68,7 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    void setColliderState(bool state)
+    public void setColliderState(bool state)
     {
 
         Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -71,7 +86,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void FaceTarget()
+    public void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
@@ -80,10 +95,7 @@ public class EnemyController : MonoBehaviour
 
     public void Die()
     {
-        animator.enabled = false;
-        setRigidbodyState(false);
-        setColliderState(true);
-        isDead = true;
+        stateMachine.ChangeState(AiStateId.Death);
         Destroy(agent);
 
     }
@@ -91,10 +103,8 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount;
-        Debug.Log(health);
         if (health <= 0f)
         {
-            Debug.Log("dead");
             Die();
         }
     }
