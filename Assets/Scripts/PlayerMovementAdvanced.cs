@@ -43,8 +43,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
     private bool exitingSlope;
-    
 
+    public bool inputEnabled = true;
     public Transform orientation;
 
     float horizontalInput;
@@ -78,6 +78,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void Update()
     {
+        if (!inputEnabled) return;
+
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
@@ -94,6 +96,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!inputEnabled) return;
+
         MovePlayer();
     }
 
@@ -101,10 +105,10 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameManager.Instance.TogglePause();
+            GameManager.Instance.TogglePause(!GameManager.Instance.IsPaused);
         }
 
-        if (GameManager.Instance.isPaused) return;
+        if (GameManager.Instance.IsPaused) return;
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");

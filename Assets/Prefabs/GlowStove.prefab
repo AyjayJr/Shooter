@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720baa6b3543cbb40b5ba891338923c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadLevel: EndTrigger
+  winScreen: {fileID: 8714229470201682174, guid: c6b5c489454ff3845bc6a697b82a690a, type: 3}
 --- !u!1 &6501094026216307614
 GameObject:
   m_ObjectHideFlags: 0

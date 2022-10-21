@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour
 {
-    // scene to load on trigger
-    [SerializeField] private string loadLevel;
+    [SerializeField] private GameObject winScreen;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(loadLevel);
+            GameObject.Instantiate(winScreen, null);
+            GameManager.Instance.WinScreen();
         }
     }
 }

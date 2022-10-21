@@ -51,6 +51,7 @@ public class MainMenuController : MonoBehaviour
 
     private void PlayGame()
     {
+        GameManager.Instance.TogglePause();
         SceneManager.LoadScene(1);
     }
 
