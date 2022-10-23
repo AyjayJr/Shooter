@@ -16,20 +16,31 @@ public class TimeManager : Singleton<TimeManager>
     private bool timerActive;
     private float elapsedTime;
 
+    public TextMeshProUGUI TimerCounter { get => timerCounter; }
+
     // Start is called before the first frame update
     void Start()
     {
         SceneManager.sceneLoaded += OnGameSceneLoaded;
+        if (SceneManager.GetActiveScene().name == "Map MVP")
+        {
+            InitializeTimer();
+        }
     }
 
     private void OnGameSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (scene.name == "Map MVP")
         {
-            GameObject timerGO = Instantiate(levelTimerPrefab, null);
-            timerCounter = timerGO.GetComponentInChildren<TextMeshProUGUI>();
-            BeginTimer();
+            InitializeTimer();
         }
+    }
+
+    private void InitializeTimer()
+    {
+        GameObject timerGO = Instantiate(levelTimerPrefab, null);
+        timerCounter = timerGO.GetComponentInChildren<TextMeshProUGUI>();
+        BeginTimer();
     }
 
     public void BeginTimer()

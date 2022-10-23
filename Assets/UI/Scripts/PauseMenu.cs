@@ -27,8 +27,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private TMP_Dropdown qualityDropdown;
     [SerializeField] private Button backButton;
 
-    private PlayerMovementAdvanced player;
-
     private void Start()
     {
         SoundManager.Instance.AddButtonSounds(resumeButton, SoundManager.GameSounds.MenuPlaySound);
@@ -45,7 +43,7 @@ public class PauseMenu : MonoBehaviour
         quitButton.onClick.AddListener(ShowConfirmQuit);
 
         // actually quit
-        yesButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+        yesButton.onClick.AddListener(QuitToMainMenu);
         noButton.onClick.AddListener(ShowPauseMenu);
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
@@ -56,10 +54,10 @@ public class PauseMenu : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    private void TogglePauseMenu(bool isPaused)
+    private void TogglePauseMenu(bool showUI)
     {
-        this.gameObject.SetActive(isPaused);
-        if (isPaused)
+        this.gameObject.SetActive(showUI);
+        if (GameManager.Instance.IsPaused)
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
@@ -68,8 +66,7 @@ public class PauseMenu : MonoBehaviour
     private void ResumeGame()
     {
         title.text = "Paused";
-        GameManager.Instance.isPaused = false;
-        GameManager.Instance.onPaused?.Invoke(false);
+        GameManager.Instance.TogglePause();
     }
 
     private void ShowSettings()
@@ -88,5 +85,11 @@ public class PauseMenu : MonoBehaviour
     {
         title.text = "Are you sure you want to quit?";
         stateMachineUI.ChangeState(confirmQuitPanel);
+    }
+
+    private void QuitToMainMenu()
+    {
+        title.text = "Paused";
+        SceneManager.LoadScene(0);
     }
 }

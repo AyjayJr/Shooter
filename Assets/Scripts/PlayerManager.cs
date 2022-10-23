@@ -1,19 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pixelplacement;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : Singleton<PlayerManager>
 {
-    #region Singleton
-       
-    public static PlayerManager instance;
-
-    void Awake()
-    {
-        instance = this;
-    }
-
-    #endregion
-
     public GameObject player;
 }

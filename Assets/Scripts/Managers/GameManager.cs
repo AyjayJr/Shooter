@@ -7,11 +7,36 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public Action<bool> onPaused;
-    public bool isPaused = false;
+    private bool isPaused = true;
 
-    public void TogglePause()
+    public bool IsPaused { get => isPaused; }
+
+    public void TogglePause(bool shouldShowPauseUI = false)
     {
         isPaused = !isPaused;
-        onPaused?.Invoke(isPaused);
+        Debug.Log(IsPaused);
+        onPaused?.Invoke(shouldShowPauseUI);
+        ManageCursorState();
+    }
+
+    public void WinScreen()
+    {
+        isPaused = true;
+        PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
+    }
+
+    private void ManageCursorState()
+    {
+        if (isPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
     }
 }

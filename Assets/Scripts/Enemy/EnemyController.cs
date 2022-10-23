@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = PlayerManager.Instance.player.transform;
         rigs = GetComponent<RigBuilder>();
 
         weapon = GetComponentInChildren<RayCastWeapon>();
@@ -109,7 +110,6 @@ public class EnemyController : MonoBehaviour
 
     public void SetRigBuilder()
     {
-        target = PlayerManager.instance.player.transform;
         foreach (MultiAimConstraint component in GetComponentsInChildren<MultiAimConstraint>())
         {
             var data = component.data.sourceObjects;
