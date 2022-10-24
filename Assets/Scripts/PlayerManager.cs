@@ -3,6 +3,7 @@ using UnityEngine;
 using Pixelplacement;
 using UnityEditor;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
@@ -37,11 +38,10 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if(Health <= 0f)
         {
-            Debug.Log("Player has died");
-            EditorApplication.isPlaying = false;
+            SceneManager.LoadScene(0);
         }
 
-        if(Time.time >= lastDamageTaken)
+        if (Time.time >= lastDamageTaken)
         {
             lastDamageTaken = float.MaxValue;
             StartCoroutine(HealthRegneration());
