@@ -22,4 +22,9 @@ public class Target : MonoBehaviour
     {
           Destroy(gameObject);  
     }
+
+    public void DamagePlayer(float damage)
+    {
+        PlayerManager.Instance.LoseHealth(damage);
+    }
 }

@@ -7,7 +7,6 @@ public class EnemyController : MonoBehaviour
 {
     public float visionRadius = 10f;
     public float shootingRange = 6f;
-    public float damage = 0.007f;
     public Transform target;
     public NavMeshAgent agent;
     public Animator animator;
@@ -15,8 +14,6 @@ public class EnemyController : MonoBehaviour
     public bool isDead = false;
     public AiStateMachine stateMachine;
     public AiStateId initialState = AiStateId.Idle;
-    public float accuracy = 0.4f;
-    public float fireRate = 1.0f;
     RayCastWeapon weapon;
     RigBuilder rigs;
     // Start is called before the first frame update
@@ -142,7 +139,6 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        DealDamage(damage);
     }
 
     public void Die()
@@ -161,8 +157,4 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void DealDamage(float damage)
-    {
-        PlayerManager.Instance.LoseHealth(damage);
-    }
 }

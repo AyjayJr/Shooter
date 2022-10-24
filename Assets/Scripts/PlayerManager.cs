@@ -2,13 +2,14 @@
 using UnityEngine;
 using Pixelplacement;
 using UnityEditor;
+using System.Collections;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
     #region Singleton
        
     public static PlayerManager Instance;
-    [SerializeField] private float Health;
+    [SerializeField] private float Health = 100;
     [SerializeField] private float lastDamageTaken = float.MaxValue;
     [SerializeField] private float healthRegenRate;
 
