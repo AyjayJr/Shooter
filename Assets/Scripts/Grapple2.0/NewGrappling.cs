@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrapplingScript : MonoBehaviour
+public class NewGrappling : MonoBehaviour
 {
     public Rigidbody player;
     public Transform pCamera;
-    public Transform gunTip;
+    public Transform limb;
+    public Transform hand;
     public LayerMask whatIsGrappleable;
 
     [Header("Values of Joint")]
@@ -27,8 +28,10 @@ public class GrapplingScript : MonoBehaviour
 
     void Awake()
     {
-        lr = GetComponentInChildren<LineRenderer>();
+        lr = hand.GetComponent<LineRenderer>();
         grapplePull = player.GetComponent<ConstantForce>();
+
+        Debug.Log(limb.gameObject.name + "   " + hand.gameObject.name);
     }
 
     void Update()
@@ -44,8 +47,8 @@ public class GrapplingScript : MonoBehaviour
 
         if(isDeployed)
         {
-            grapplePull.force = (pCamera.forward * cameraForceValue) + (Vector3.Normalize(grapplePoint - gunTip.position) * (pullForceValue));
-            //grapplePull.force = Vector3.Normalize(grapplePoint - gunTip.position) * 40f;
+            grapplePull.force = (pCamera.forward * cameraForceValue) + (Vector3.Normalize(grapplePoint - hand.position) * (pullForceValue));
+            //grapplePull.force = Vector3.Normalize(grapplePoint - limb.position) * 40f;
             //grapplePull.relativeForce = pCamera.forward * cameraForceValue;
 
             checkIfFacingGrapple();
@@ -76,7 +79,7 @@ public class GrapplingScript : MonoBehaviour
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = grapplePoint;
 
-            float distanceFromPoint = Vector3.Distance(gunTip.position, grapplePoint);
+            float distanceFromPoint = Vector3.Distance(hand.position, grapplePoint);
 
             joint.maxDistance = distanceFromPoint * 0.8f;
             joint.minDistance = distanceFromPoint * 0.1f;
@@ -106,7 +109,7 @@ public class GrapplingScript : MonoBehaviour
         {
             lr.positionCount = 2;
 
-            lr.SetPosition(0, gunTip.position);
+            lr.SetPosition(0, hand.position);
             lr.SetPosition(1, grapplePoint);
         }
         else
@@ -117,7 +120,7 @@ public class GrapplingScript : MonoBehaviour
 
     public void checkIfFacingGrapple()
     {
-        float angle = Mathf.Abs(Vector3.Angle(pCamera.forward, grapplePoint - gunTip.position));
+        float angle = Mathf.Abs(Vector3.Angle(pCamera.forward, grapplePoint - hand.position));
 
         if(isDeployed && angle >= 150)
         {
@@ -128,11 +131,12 @@ public class GrapplingScript : MonoBehaviour
 
     IEnumerator PullTowards(float minDistance)
     {
-        while(Vector3.Distance(gunTip.position, grapplePoint) >= 2f && isDeployed)
+        while(Vector3.Distance(hand.position, grapplePoint) >= 2f && isDeployed)
         {
             //player.AddForce(direction * 5f, ForceMode.Acceleration);
 
-            transform.LookAt(grapplePoint);
+            //transform.LookAt(grapplePoint);
+            limb.LookAt(grapplePoint);
             joint.maxDistance = Vector3.Distance(grapplePoint, player.gameObject.transform.position);
 
            yield return null;
@@ -146,9 +150,11 @@ public class GrapplingScript : MonoBehaviour
 
     IEnumerator RotateGun()
     {
-        while(transform.rotation != pCamera.rotation)
+        while(limb.rotation != pCamera.rotation)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, pCamera.rotation, 0.06f);
+            
+            //transform.rotation = Quaternion.Lerp(transform.rotation, pCamera.rotation, 0.06f);
+            limb.rotation = Quaternion.Lerp(limb.rotation, pCamera.rotation, 0.06f);
 
             yield return null;
         }
