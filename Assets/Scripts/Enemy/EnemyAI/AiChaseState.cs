@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class AiChaseState : AiState
 {
-    void AiState.Enter(EnemyController agent)
+    void AiState.Enter(EnemyController enemyController)
     {
-        return;
+        enemyController.Aim();
     }
 
-    void AiState.Exit(EnemyController agent)
+    void AiState.Exit(EnemyController enemyController)
     {
-        return;
+        enemyController.agent.SetDestination(enemyController.transform.position);
+        enemyController.StopAim();
     }
 
     AiStateId AiState.GetId()
@@ -24,7 +25,18 @@ public class AiChaseState : AiState
         if (!enemyController.isDead)
         {
             enemyController.agent.SetDestination(enemyController.target.position);
-            enemyController.FaceTarget();       
+            enemyController.FaceTarget();
         }
+
+        Vector3 playerDirection = enemyController.target.transform.position - enemyController.transform.position;
+        if (playerDirection.magnitude < enemyController.shootingRange)
+        {
+            enemyController.stateMachine.ChangeState(AiStateId.Attack);
+        }
+        if (playerDirection.magnitude > enemyController.visionRadius)
+        {
+            enemyController.stateMachine.ChangeState(AiStateId.Idle);
+        }
+
     }
 }

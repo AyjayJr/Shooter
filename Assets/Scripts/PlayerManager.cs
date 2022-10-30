@@ -24,10 +24,10 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     public void LoseHealth(float damageReceived)
     {
-        if(Health < 0) return;
+        if (Health < 0) return;
 
         StopCoroutine(HealthRegneration());
-        
+
         Health -= damageReceived;
         onPlayerDamaged?.Invoke();
 
@@ -36,7 +36,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     void Update()
     {
-        if(Health <= 0f)
+        if (Health <= 0f)
         {
             // Invoke tells subscribers to trigger listened functions (+=)
             onPlayerDeath?.Invoke();
@@ -52,12 +52,12 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     IEnumerator HealthRegneration()
     {
-        while(true)
+        while (true)
         {
             Health += healthRegenRate;
             Mathf.Clamp(Health, 0, internalHealthCounter);
 
-            if(Health >= internalHealthCounter)
+            if (Health >= internalHealthCounter)
             {
                 Health = internalHealthCounter;
                 break;

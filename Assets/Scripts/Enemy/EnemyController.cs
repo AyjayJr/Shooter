@@ -1,8 +1,7 @@
-using Pixelplacement;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,21 +14,28 @@ public class EnemyController : MonoBehaviour
     public bool isDead = false;
     public AiStateMachine stateMachine;
     public AiStateId initialState = AiStateId.Idle;
-
-
+    RayCastWeapon weapon;
+    RigBuilder rigs;
     // Start is called before the first frame update
     void Start()
     {
         target = PlayerManager.Instance.player.transform;
+        rigs = GetComponent<RigBuilder>();
+
+        weapon = GetComponentInChildren<RayCastWeapon>();
+        SetRigBuilder();
+
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
+        
         setRigidbodyState(true);
         setColliderState(false);
         stateMachine = new AiStateMachine(this);
         stateMachine.RegisterState(new AiChaseState());
         stateMachine.RegisterState(new AiDeathState());
         stateMachine.RegisterState(new AiIdleState());
+        stateMachine.RegisterState(new AiAttackState());
+        
 
         stateMachine.ChangeState(initialState);
     }
@@ -38,11 +44,12 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
-
+        
         if (isDead)
         {
             return;
         }
+       
         if (agent.hasPath)
         {
             animator.SetFloat("Speed", agent.velocity.magnitude);
@@ -50,6 +57,14 @@ public class EnemyController : MonoBehaviour
         else
         {
             animator.SetFloat("Speed", 0);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (weapon.isFiring)
+        {
+            weapon.UpdateFiring(Time.deltaTime);
         }
     }
 
@@ -86,6 +101,39 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Attack()
+    {
+        weapon.StartFiring();
+    }
+
+    public void SetRigBuilder()
+    {
+        foreach (MultiAimConstraint component in GetComponentsInChildren<MultiAimConstraint>())
+        {
+            var data = component.data.sourceObjects;
+            data.SetTransform(0, target);
+            component.data.sourceObjects = data;
+        }
+        rigs.Build();
+        rigs.enabled = false;
+    }
+
+    public void Aim()
+    {      
+        rigs.enabled = true;
+    }
+
+    public void StopAim()
+    {
+        rigs.enabled = false;
+    }
+
+
+    public void StopAttack()
+    {
+        weapon.StopFiring();
+    }
+
     public void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -108,4 +156,5 @@ public class EnemyController : MonoBehaviour
             Die();
         }
     }
+
 }
