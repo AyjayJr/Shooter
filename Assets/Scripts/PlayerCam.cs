@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -12,6 +14,14 @@ public class PlayerCam : MonoBehaviour
 
 	float xRotation;
 	float yRotation;
+	private PostProcessVolume postProcessVolume;
+	private Vignette vignette;
+
+	private void Start()
+    {
+		PlayerManager.Instance.onPlayerDamaged += UpdateVignette;
+		postProcessVolume = GetComponent<PostProcessVolume>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -33,4 +43,11 @@ public class PlayerCam : MonoBehaviour
 		transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
 		orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 	}
+
+	private void UpdateVignette()
+    {
+		vignette = postProcessVolume.profile.GetSetting<Vignette>();
+		if (vignette.intensity <= 0.5f)
+			vignette.intensity.value += 0.1f;
+    }
 }
