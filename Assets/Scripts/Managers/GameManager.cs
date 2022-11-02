@@ -34,6 +34,7 @@ public class GameManager : Singleton<GameManager>
     {
         isPaused = true;
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
+        ManageCursorState();
     }
 
     private void ManageCursorState()
