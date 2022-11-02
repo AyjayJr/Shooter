@@ -7,19 +7,21 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From Singleton Class
 {
     public GameObject player;
-    public Action onPlayerDamaged;
+    public Action<float> onPlayerDamaged;
     public Action onPlayerDeath;
+    public Action<float> onPlayerRegen;
 
-    [SerializeField] private float Health = 100;
+    [SerializeField] private float Health;
     [SerializeField] private float lastDamageTaken = float.MaxValue;
     [SerializeField] private float healthRegenRate;
 
-    private float internalHealthCounter;
+    private float maxHealth;
 
+    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
 
     void Awake()
     {
-        internalHealthCounter = Health;
+        maxHealth = Health;
     }
 
     public void LoseHealth(float damageReceived)
@@ -29,7 +31,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
         StopCoroutine(HealthRegneration());
 
         Health -= damageReceived;
-        onPlayerDamaged?.Invoke();
+        onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
     }
@@ -43,27 +45,30 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
             SceneManager.LoadScene(0);
         }
 
-        if (Time.time >= lastDamageTaken)
+        if (Health >= maxHealth)
         {
-            lastDamageTaken = float.MaxValue;
+            StopCoroutine(HealthRegneration());
+            return;
+        }
+
+        if (Time.time >= lastDamageTaken && Health < maxHealth)
+        {
+            lastDamageTaken = Time.time + 2f;
             StartCoroutine(HealthRegneration());
         }
     }
 
     IEnumerator HealthRegneration()
     {
-        while (true)
+        Health += healthRegenRate;
+        Mathf.Clamp(Health, 0, maxHealth);
+        Debug.Log("REGEN, current health: " + Health);
+        onPlayerRegen?.Invoke(healthRegenRate);
+
+        if (Health >= maxHealth)
         {
-            Health += healthRegenRate;
-            Mathf.Clamp(Health, 0, internalHealthCounter);
-
-            if (Health >= internalHealthCounter)
-            {
-                Health = internalHealthCounter;
-                break;
-            }
-
-            yield return null;
+            Health = maxHealth;
         }
+        yield return null;
     }
 }

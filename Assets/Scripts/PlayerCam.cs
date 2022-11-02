@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Pixelplacement;
 using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerCam : MonoBehaviour
@@ -16,12 +17,15 @@ public class PlayerCam : MonoBehaviour
 	float yRotation;
 	private PostProcessVolume postProcessVolume;
 	private Vignette vignette;
+	float maxVignetteIntesity = 0.5f;
 
 	private void Start()
     {
-		PlayerManager.Instance.onPlayerDamaged += UpdateVignette;
+		PlayerManager.Instance.onPlayerDamaged += UpdateVignetteDamaged;
+		PlayerManager.Instance.onPlayerRegen += UpdateVignetteHealed;
 		postProcessVolume = GetComponent<PostProcessVolume>();
-    }
+		vignette = postProcessVolume.profile.GetSetting<Vignette>();
+	}
 
     // Update is called once per frame
     void Update()
@@ -44,10 +48,22 @@ public class PlayerCam : MonoBehaviour
 		orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 	}
 
-	private void UpdateVignette()
+	private void UpdateVignetteDamaged(float damage)
     {
-		vignette = postProcessVolume.profile.GetSetting<Vignette>();
-		if (vignette.intensity <= 0.5f)
-			vignette.intensity.value += 0.1f;
+		float maxHealth = PlayerManager.Instance.MaxHealth;
+		float vignetteValue = (damage) / (maxHealth) * (maxVignetteIntesity);
+		if (vignette.intensity <= maxVignetteIntesity)
+        {
+			vignette.intensity.value += vignetteValue;
+		}	
     }
+
+	private void UpdateVignetteHealed(float amountHealed)
+	{
+		float maxHealth = PlayerManager.Instance.MaxHealth;
+		float maxVignetteIntesity = 0.5f;
+		float vignetteValue = (amountHealed) / (maxHealth) * (maxVignetteIntesity);
+		if (vignette.intensity > 0.0f)
+			vignette.intensity.value -= vignetteValue;
+	}
 }
