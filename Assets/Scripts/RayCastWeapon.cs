@@ -53,7 +53,6 @@ public class RayCastWeapon : MonoBehaviour
             if (target != null)
             {
                 target.DamagePlayer(this.damage);
-                Debug.Log("Hit Player, damage dealt: " + damage);
             }
             Destroy(tracer.gameObject, 0.5f);
         }

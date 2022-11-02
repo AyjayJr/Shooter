@@ -62,7 +62,6 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     {
         Health += healthRegenRate;
         Mathf.Clamp(Health, 0, maxHealth);
-        Debug.Log("REGEN, current health: " + Health);
         onPlayerRegen?.Invoke(healthRegenRate);
 
         if (Health >= maxHealth)
