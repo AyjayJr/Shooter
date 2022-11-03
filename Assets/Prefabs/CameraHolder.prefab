@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009118172125845386}
-  - component: {fileID: 2858513530313595170}
   m_Layer: 0
   m_Name: Limb
   m_TagString: Untagged
@@ -34,18 +33,6 @@ Transform:
   m_Father: {fileID: 3842508593609665504}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2858513530313595170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 495960046595475791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7d3f71e70b56f468ee2f5c85c0bb6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3193927725905456069
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,9 +44,8 @@ GameObject:
   - component: {fileID: 7657056814097690868}
   - component: {fileID: 3549836894044523446}
   - component: {fileID: 940218338}
-  - component: {fileID: 940218341}
   m_Layer: 0
-  m_Name: GunHolder
+  m_Name: PistolHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,32 +103,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3193927725905456069}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 281a0940518e43347b7f68923c08b6fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  pCamera: {fileID: 3842508593609665504}
-  gunTip: {fileID: 8956815983851244286}
-  whatIsGrappleable:
-    serializedVersion: 2
-    m_Bits: 2147483647
-  spring: 4.5
-  damper: 7
-  massScale: 4.5
-  pullForceValue: 30
-  cameraForceValue: 20
---- !u!114 &940218341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3193927725905456069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00391acbbf7c75f48b9a3ae7fc50f889, type: 3}
+  m_Script: {fileID: 11500000, guid: 281a0940518e43347b7f68923c08b6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
@@ -151,7 +114,7 @@ MonoBehaviour:
   hand: {fileID: 3510662024672508379}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 2147483647
   spring: 4.5
   damper: 7
   massScale: 4.5
@@ -605,10 +568,5 @@ Transform:
 --- !u!198 &5314496800406101347 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5551728686506616470, guid: f9508935197c3d74fba04d86d8267f2a, type: 3}
-  m_PrefabInstance: {fileID: 345459397036964853}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8956815983851244286 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8684718899709341963, guid: f9508935197c3d74fba04d86d8267f2a, type: 3}
   m_PrefabInstance: {fileID: 345459397036964853}
   m_PrefabAsset: {fileID: 0}

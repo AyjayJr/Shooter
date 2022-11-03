@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NewGrappling : MonoBehaviour
 {
+    /*
     public Rigidbody player;
     public Transform pCamera;
     public Transform limb;
@@ -159,4 +160,5 @@ public class NewGrappling : MonoBehaviour
             yield return null;
         }
     }
+    */
 }
