@@ -7,6 +7,8 @@ public class GaussCannon : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Camera cam; 
     [SerializeField] private float rateOfFire;
+    private float lastShot;
+    private float charge;
     [SerializeField] private float damage = 50f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 3f;
@@ -42,6 +44,7 @@ public class GaussCannon : MonoBehaviour
 
     void Start()
     {
+        lastShot = 0;
         pScript = player.gameObject.GetComponent<PlayerMovementAdvanced>();
     }
 
@@ -52,9 +55,16 @@ public class GaussCannon : MonoBehaviour
         CalculateIdleSway();
         WalkMovement();
 
+        // if(Input.GetMouseButton(0) && Time.time >= lastShot)
+        // {
+        //     charge += Time.deltaTime;
+
+        // }
+
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.time >= lastShot)
         {
+            lastShot = Time.time + rateOfFire;
             fired = true;
             Shoot();
         }
