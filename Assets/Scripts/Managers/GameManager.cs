@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,6 +11,16 @@ public class GameManager : Singleton<GameManager>
     private bool isPaused = true;
 
     public bool IsPaused { get => isPaused; }
+
+    public void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "Map MVP")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            isPaused = false;
+        }
+    }
 
     public void TogglePause(bool shouldShowPauseUI = false)
     {
@@ -23,6 +34,7 @@ public class GameManager : Singleton<GameManager>
     {
         isPaused = true;
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
+        ManageCursorState();
     }
 
     private void ManageCursorState()

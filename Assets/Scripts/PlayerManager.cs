@@ -1,71 +1,73 @@
-
 using UnityEngine;
 using Pixelplacement;
-using UnityEditor;
+using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PlayerManager : Singleton<PlayerManager>
+public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From Singleton Class
 {
-    #region Singleton
-       
-    public static PlayerManager Instance;
-    [SerializeField] private float Health = 100;
+    public GameObject player;
+    public Action<float> onPlayerDamaged;
+    public Action onPlayerDeath;
+    public Action<float> onPlayerRegen;
+
+    [SerializeField] private float Health;
     [SerializeField] private float lastDamageTaken = float.MaxValue;
     [SerializeField] private float healthRegenRate;
 
-    private float internalHealthCounter;
+    private float maxHealth;
 
+    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
 
     void Awake()
     {
-        Instance = this;
-        internalHealthCounter = Health;
+        maxHealth = Health;
     }
 
     public void LoseHealth(float damageReceived)
     {
-        if(Health < 0) return;
+        if (Health < 0) return;
 
-        StopAllCoroutines();
-        
+        StopCoroutine(HealthRegneration());
+
         Health -= damageReceived;
+        onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
     }
 
     void Update()
     {
-        if(Health <= 0f)
+        if (Health <= 0f)
         {
+            // Invoke tells subscribers to trigger listened functions (+=)
+            onPlayerDeath?.Invoke();
             SceneManager.LoadScene(0);
         }
 
-        if (Time.time >= lastDamageTaken)
+        if (Health >= maxHealth)
         {
-            lastDamageTaken = float.MaxValue;
+            StopCoroutine(HealthRegneration());
+            return;
+        }
+
+        if (Time.time >= lastDamageTaken && Health < maxHealth)
+        {
+            lastDamageTaken = Time.time + 2f;
             StartCoroutine(HealthRegneration());
         }
     }
 
     IEnumerator HealthRegneration()
     {
-        while(true)
+        Health += healthRegenRate;
+        Mathf.Clamp(Health, 0, maxHealth);
+        onPlayerRegen?.Invoke(healthRegenRate);
+
+        if (Health >= maxHealth)
         {
-            Health += healthRegenRate;
-            Mathf.Clamp(Health, 0, internalHealthCounter);
-
-            if(Health >= internalHealthCounter)
-            {
-                Health = internalHealthCounter;
-                break;
-            }
-
-            yield return null;
+            Health = maxHealth;
         }
+        yield return null;
     }
-
-    #endregion
-
-    public GameObject player;
 }
