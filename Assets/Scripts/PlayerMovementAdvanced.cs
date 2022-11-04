@@ -29,6 +29,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
+    [Header("Recoil")]
+    [HideInInspector] public bool recoilFlag;
+    public float recoilMaxSpeed = 15;
+    private float recoilPlaceHolder;
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
@@ -61,13 +66,15 @@ public class PlayerMovementAdvanced : MonoBehaviour
         sprinting,
         crouching,
         sliding,
-        air
+        air,
+        recoil
     }
 
     public bool sliding;
 
     private void Start()
     {
+        recoilPlaceHolder = recoilMaxSpeed;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -172,14 +179,24 @@ public class PlayerMovementAdvanced : MonoBehaviour
             desiredMoveSpeed = walkSpeed;
         }
 
+        else if (recoilFlag)
+        {
+            state = MovementState.recoil;
+            desiredMoveSpeed = recoilMaxSpeed;
+        }
+
         // Mode - Air
         else
         {
             state = MovementState.air;
         }
 
+        if(recoilFlag)
+        {
+            return;
+        }
         // check if desiredMoveSpeed has changed drastically
-        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
+        else if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -252,6 +269,32 @@ public class PlayerMovementAdvanced : MonoBehaviour
         {
             if (rb.velocity.magnitude > moveSpeed)
                 rb.velocity = rb.velocity.normalized * moveSpeed;
+        }
+        //KEEP WORKING ON THIS: TRY TO HAVE HORIZONTAL FORCE EXCEED MAX SPRINT SPEED (Try to get the horizontal force to add up to 15 max, similar to vertical)
+        else if(recoilFlag)
+        {
+            if(grounded)
+            {
+                recoilFlag = false;
+                return;
+            }
+
+            if(rb.velocity.y > 15)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, 0, 15), rb.velocity.z);
+            }
+
+            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+            recoilPlaceHolder -= Time.deltaTime;
+            recoilPlaceHolder = Mathf.Clamp(recoilPlaceHolder, 10, recoilMaxSpeed);
+
+            // limit velocity if needed
+            if (flatVel.magnitude > recoilPlaceHolder)
+            {
+                Vector3 limitedVel = flatVel.normalized * recoilPlaceHolder;
+                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            }
         }
 
         // limiting speed on ground or in air

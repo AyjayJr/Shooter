@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrapplingScript : MonoBehaviour
+public class NewGrappling : MonoBehaviour
 {
+    /*
     public Rigidbody player;
     public Transform pCamera;
     public Transform limb;
@@ -159,4 +160,5 @@ public class GrapplingScript : MonoBehaviour
             yield return null;
         }
     }
+    */
 }
