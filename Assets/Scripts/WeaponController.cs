@@ -65,6 +65,8 @@ public class WeaponController : MonoBehaviour
 
             Target target = hit.transform.GetComponent<Target>();
             EnemyController enemy = hit.transform.GetComponent<EnemyController>();
+            ExploderController exploder = hit.transform.GetComponent<ExploderController>();
+
 
             if (target != null)
             {
@@ -73,6 +75,10 @@ public class WeaponController : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+            }
+            if (exploder != null)
+            {
+                exploder.TakeDamage(damage);
             }
             if (hit.rigidbody != null)
             {

@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public bool isDead = false;
     public AiStateMachine stateMachine;
     public AiStateId initialState = AiStateId.Idle;
+    public float armingRange = 6.0f;
     RayCastWeapon weapon;
     RigBuilder rigs;
     // Start is called before the first frame update
