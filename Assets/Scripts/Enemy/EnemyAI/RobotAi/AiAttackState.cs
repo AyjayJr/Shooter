@@ -32,6 +32,5 @@ public class AiAttackState : AiState
             enemyController.stateMachine.ChangeState(AiStateId.Chase);
         }
 
-
     }
 }
