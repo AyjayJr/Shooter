@@ -9,6 +9,7 @@ public class GaussCannon : MonoBehaviour
     [SerializeField] private float rateOfFire;
     private float lastShot;
     private float charge;
+    private bool charging;
     [SerializeField] private float damage = 50f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 3f;
@@ -17,7 +18,9 @@ public class GaussCannon : MonoBehaviour
     [SerializeField] private float recoilForce;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
-    
+
+    [Header("ChargeMeter")]
+    [SerializeField] private Transform chargeMeter;    
 
     [Header("Weapon Sway")]
     [SerializeField] private float smooth;
@@ -44,6 +47,7 @@ public class GaussCannon : MonoBehaviour
 
     void Start()
     {
+        chargeMeter.localScale = new Vector3(1, 0, 1);
         lastShot = 0;
         pScript = player.gameObject.GetComponent<PlayerMovementAdvanced>();
     }
@@ -55,18 +59,23 @@ public class GaussCannon : MonoBehaviour
         CalculateIdleSway();
         WalkMovement();
 
-        // if(Input.GetMouseButton(0) && Time.time >= lastShot)
-        // {
-        //     charge += Time.deltaTime;
-
-        // }
+        if(Input.GetMouseButton(0) && Time.time >= lastShot)
+        {
+            charging = true;
+            charge += Time.deltaTime;
+            charge = Mathf.Clamp(charge, 0, 1.5f);
+            chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+        }
 
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0) && Time.time >= lastShot)
+        if (Input.GetMouseButtonUp(0) && charging)
         {
+            charging = false;
             lastShot = Time.time + rateOfFire;
             fired = true;
             Shoot();
+            StartCoroutine(DeCharge());
+            //chargeMeter.localScale = new Vector3(1, 0, 1);
         }
 
     }
@@ -76,7 +85,8 @@ public class GaussCannon : MonoBehaviour
         if(fired)
         {
             pScript.recoilFlag = true;
-            player.AddForce(cam.transform.forward * -(recoilForce), ForceMode.Force);
+            player.AddForce(cam.transform.forward * -(recoilForce * (charge/1.5f)), ForceMode.Force);
+            //charge = 0;
             fired = false;
         }
     }
@@ -150,41 +160,58 @@ public class GaussCannon : MonoBehaviour
         return new Vector3(Mathf.Sin(Time), A * Mathf.Sin(B * Time + Mathf.PI));
     }
 
-    private float AdjustRecoilStrength()
+    IEnumerator DeCharge()
     {
-        float temp = cam.transform.eulerAngles.x;
-        //print(temp);
+        while(true)
+        {
+            if(Mathf.Approximately(chargeMeter.localScale.y, 0))
+            {
+                break;
+            }
 
-        if((temp <= 30f && temp >= 0f) || (temp >= 330f && temp <= 360f))
-        {
-            //print("Horizontalish");
-            return recoilForce * 1.3f;
-        }
-        else
-        {
-            return recoilForce * 0.7f;
+            charge -= Time.deltaTime;
+            charge = Mathf.Clamp(charge, 0, 1.5f);
+            chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+
+            yield return null;
         }
     }
 
-    //STILL NEEDS MORE WORK
-    private Vector3 Adjust()
-    {
-        Vector3 recoil = cam.transform.forward * -(recoilForce);
+    // private float AdjustRecoilStrength()
+    // {
+    //     float temp = cam.transform.eulerAngles.x;
+    //     //print(temp);
 
-        //gets recoil X angle
-        float angleInRadians = Mathf.Abs(180 + cam.transform.eulerAngles.x);
+    //     if((temp <= 30f && temp >= 0f) || (temp >= 330f && temp <= 360f))
+    //     {
+    //         //print("Horizontalish");
+    //         return recoilForce * 1.3f;
+    //     }
+    //     else
+    //     {
+    //         return recoilForce * 0.7f;
+    //     }
+    // }
 
-        float recoilX = recoil.z * Mathf.Cos(Mathf.Deg2Rad * angleInRadians);
-        float recoilY = recoil.z * Mathf.Sin(Mathf.Deg2Rad * angleInRadians);
+    // //STILL NEEDS MORE WORK
+    // private Vector3 Adjust()
+    // {
+    //     Vector3 recoil = cam.transform.forward * -(recoilForce);
 
-        print("Original: " + recoil + ". Angle, XCom and YCom of Z: " + angleInRadians + " " + recoilX + " " + recoilY);
+    //     //gets recoil X angle
+    //     float angleInRadians = Mathf.Abs(180 + cam.transform.eulerAngles.x);
 
-        recoilY = recoilY * 0.7f;
-        recoilX = recoilX * 1.3f;
+    //     float recoilX = recoil.z * Mathf.Cos(Mathf.Deg2Rad * angleInRadians);
+    //     float recoilY = recoil.z * Mathf.Sin(Mathf.Deg2Rad * angleInRadians);
 
-        float newXForce = Mathf.Sqrt(Mathf.Pow(recoilX, 2) + Mathf.Pow(recoilY, 2));
+    //     print("Original: " + recoil + ". Angle, XCom and YCom of Z: " + angleInRadians + " " + recoilX + " " + recoilY);
 
-        Debug.Log(new Vector3(recoil.x, recoilY, recoilX));
-        return new Vector3(recoil.x, recoil.y - recoilY, -recoilX);
-    }
+    //     recoilY = recoilY * 0.7f;
+    //     recoilX = recoilX * 1.3f;
+
+    //     float newXForce = Mathf.Sqrt(Mathf.Pow(recoilX, 2) + Mathf.Pow(recoilY, 2));
+
+    //     Debug.Log(new Vector3(recoil.x, recoilY, recoilX));
+    //     return new Vector3(recoil.x, recoil.y - recoilY, -recoilX);
+    // }
 }
