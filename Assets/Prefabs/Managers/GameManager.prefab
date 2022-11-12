@@ -58,4 +58,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  isPaused: 0
+  loseScreen: {fileID: 1596109784730437788, guid: 4e3d2b3d298f14d42a5148f096677b3e,
+    type: 3}

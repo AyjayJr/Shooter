@@ -26,7 +26,12 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     public void LoseHealth(float damageReceived)
     {
-        if (Health < 0) return;
+        if (Health <= 0)
+        {
+            // Invoke tells subscribers to trigger listened functions (+=)
+            onPlayerDeath?.Invoke(); 
+            return;
+        }
 
         StopCoroutine(HealthRegneration());
 
@@ -38,13 +43,6 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     void Update()
     {
-        if (Health <= 0f)
-        {
-            // Invoke tells subscribers to trigger listened functions (+=)
-            onPlayerDeath?.Invoke();
-            SceneManager.LoadScene(0);
-        }
-
         if (Health >= maxHealth)
         {
             StopCoroutine(HealthRegneration());
