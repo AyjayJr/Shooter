@@ -43,7 +43,7 @@ public class WeaponController : MonoBehaviour
         WalkMovement();
 
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsPaused)
         {
             Shoot();
         }
