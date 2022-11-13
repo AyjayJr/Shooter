@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class SoundManager : Singleton<SoundManager>
 {
     public SoundAudioClip[] audioClipArray;
-    public SoundAudioClip[] footstepClipArray;
+    public AudioClip[] footstepClipArray;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
@@ -70,6 +70,11 @@ public class SoundManager : Singleton<SoundManager>
         sfxAudioSource.PlayOneShot(GetAudioClip(sound));
     }
 
+    public void PlayRandomFootstepConcrete()
+    {
+        sfxAudioSource.PlayOneShot(GetRandomAudioClip());
+    }
+
     public void StopAndPlaySFXOnce(AudioClip audioClip)
     {
         sfxAudioSource.Stop();
@@ -124,22 +129,10 @@ public class SoundManager : Singleton<SoundManager>
         return null;
     }
 
-    private AudioClip GetRandomAudioClip(GameSounds sound)
+    private AudioClip GetRandomAudioClip()
     {
-        int count = 0;
-        while (true)
-        {
-            count++;
-            int rand = Random.Range(0, footstepClipArray.Length);
-            if (footstepClipArray[rand].sound == sound)
-            {
-                return footstepClipArray[rand].audioClip;
-            }
-
-            if (count >= 8) break;
-        }
-        Debug.LogError("Sound " + sound + " not found!");
-        return null;
+        int rand = Random.Range(0, footstepClipArray.Length);
+        return footstepClipArray[rand];
     }
 
     [System.Serializable]

@@ -17,6 +17,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float slopeIncreaseMultiplier;
 
     public float groundDrag;
+    public float footstepThreshold;
+    [Range(1.5f, 3)]
+    public float timeBetweenFootsteps = 2.4f;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -58,6 +61,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    private float footstepTimer;
 
     public MovementState state;
     public enum MovementState
@@ -257,6 +261,16 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+
+        if ((rb.velocity.magnitude > moveSpeed / footstepThreshold) && grounded && !sliding && footstepTimer <= 0)
+        {
+            SoundManager.Instance.PlayRandomFootstepConcrete();
+            footstepTimer = timeBetweenFootsteps / moveSpeed;
+        } 
+        else
+        {
+            footstepTimer -= Time.fixedDeltaTime;
+        }
 
         // turn gravity off while on slope
         rb.useGravity = !OnSlope();
