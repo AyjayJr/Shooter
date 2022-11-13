@@ -90,11 +90,15 @@ MonoBehaviour:
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 7
+  footstepThreshold: 2
+  timeBetweenFootsteps: 2.4
   jumpForce: 7
   jumpCooldown: 0.25
   airMultiplier: 0.25
   crouchSpeed: 3.5
   crouchYScale: 0.5
+  recoilFlag: 0
+  recoilMaxSpeed: 15
   jumpKey: 32
   sprintKey: 304
   crouchKey: 306
