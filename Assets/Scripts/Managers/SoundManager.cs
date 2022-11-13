@@ -22,7 +22,8 @@ public class SoundManager : Singleton<SoundManager>
         MenuPlaySound,
         MenuMusicSlider,
         MenuSFXSlider,
-        MenuMasterSlider
+        MenuMasterSlider,
+        PlayerPistolShoot
     }
 
     private List<AudioSource> audioSources;
@@ -72,7 +73,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayRandomFootstepConcrete()
     {
-        sfxAudioSource.PlayOneShot(GetRandomAudioClip());
+        sfxAudioSource.PlayOneShot(GetRandomAudioClip(footstepClipArray));
     }
 
     public void StopAndPlaySFXOnce(AudioClip audioClip)
@@ -83,6 +84,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayMusicLoop(AudioClip audioClip)
     {
+        musicAudioSource.Stop();
         musicAudioSource.loop = true;
         musicAudioSource.clip = audioClip;
         musicAudioSource.Play();
@@ -129,10 +131,10 @@ public class SoundManager : Singleton<SoundManager>
         return null;
     }
 
-    private AudioClip GetRandomAudioClip()
+    private AudioClip GetRandomAudioClip(AudioClip[] audioClips)
     {
-        int rand = Random.Range(0, footstepClipArray.Length);
-        return footstepClipArray[rand];
+        int rand = Random.Range(0, audioClips.Length);
+        return audioClips[rand];
     }
 
     [System.Serializable]

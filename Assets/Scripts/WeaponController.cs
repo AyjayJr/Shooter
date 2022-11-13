@@ -57,6 +57,7 @@ public class WeaponController : MonoBehaviour
     void Shoot()
     {
         muzzleFlash.Play();
+        SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))

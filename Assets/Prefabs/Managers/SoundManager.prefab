@@ -75,6 +75,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
   - sound: 6
     audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
+  - sound: 7
+    audioClip: {fileID: 8300000, guid: e660243c4dd9e5d4188254091aa9d59b, type: 3}
   footstepClipArray:
   - {fileID: 8300000, guid: 8beb6a965d2464242956f3798f011459, type: 3}
   - {fileID: 8300000, guid: 6382cc592ae19f24fb132ab35b4144d0, type: 3}
