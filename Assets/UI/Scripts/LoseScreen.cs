@@ -12,7 +12,10 @@ public class LoseScreen : MonoBehaviour
 
     void Start()
     {
-        restartButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
+        restartButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(1);
+            GameManager.Instance.TogglePause();
+        }); ;
         exitButton.onClick.AddListener(() => SceneManager.LoadScene(0));
     }
 }

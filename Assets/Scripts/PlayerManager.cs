@@ -28,6 +28,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     {
         if (Health <= 0)
         {
+            
             // Invoke tells subscribers to trigger listened functions (+=)
             onPlayerDeath?.Invoke(); 
             return;

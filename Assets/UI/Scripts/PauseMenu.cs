@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private StateMachine stateMachineUI;
 
     [SerializeField] private Button resumeButton;
+    [SerializeField] private Button restartButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button yesButton;
@@ -30,6 +31,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         SoundManager.Instance.AddButtonSounds(resumeButton, SoundManager.GameSounds.MenuPlaySound);
+        SoundManager.Instance.AddButtonSounds(restartButton, SoundManager.GameSounds.MenuBackSound);
         SoundManager.Instance.AddButtonSounds(settingsButton, SoundManager.GameSounds.MenuInputSound);
         SoundManager.Instance.AddButtonSounds(backButton, SoundManager.GameSounds.MenuBackSound);
         SoundManager.Instance.AddButtonSounds(quitButton, SoundManager.GameSounds.MenuBackSound);
@@ -38,6 +40,10 @@ public class PauseMenu : MonoBehaviour
         SoundManager.Instance.AddSliderSounds(masterSlider, SoundManager.GameSounds.MenuMasterSlider, false);
 
         resumeButton.onClick.AddListener(ResumeGame);
+        restartButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(1);
+            GameManager.Instance.TogglePause();
+        });
         settingsButton.onClick.AddListener(ShowSettings);
         backButton.onClick.AddListener(ShowPauseMenu);
         quitButton.onClick.AddListener(ShowConfirmQuit);
@@ -45,6 +51,11 @@ public class PauseMenu : MonoBehaviour
         // actually quit
         yesButton.onClick.AddListener(QuitToMainMenu);
         noButton.onClick.AddListener(ShowPauseMenu);
+
+        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        SoundManager.Instance.StopAll();
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
