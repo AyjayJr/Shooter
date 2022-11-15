@@ -12,6 +12,7 @@ public class Goal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameObject.Instantiate(winScreen, null);
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.WinSound);
             GameManager.Instance.WinScreen();
         }
     }
