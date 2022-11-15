@@ -43,7 +43,7 @@ public class WeaponController : MonoBehaviour
         WalkMovement();
 
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsPaused)
         {
             Shoot();
         }
@@ -57,6 +57,7 @@ public class WeaponController : MonoBehaviour
     void Shoot()
     {
         muzzleFlash.Play();
+        SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))

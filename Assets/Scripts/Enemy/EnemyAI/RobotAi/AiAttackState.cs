@@ -6,6 +6,7 @@ public class AiAttackState : AiState
 {
     void AiState.Enter(EnemyController enemyController)
     {
+        // glitchy
         enemyController.Attack();
         enemyController.Aim();
     }

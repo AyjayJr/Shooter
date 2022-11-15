@@ -39,6 +39,7 @@ public class RayCastWeapon : MonoBehaviour
     void FireBullet()
     {
         muzzleFlash.Emit(1);
+        GetComponent<AudioSource>().Play();
         var tracer = Instantiate(tracerEffect, ray.origin, Quaternion.identity);
         tracer.AddPosition(ray.origin);
 
