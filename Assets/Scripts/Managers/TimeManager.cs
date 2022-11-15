@@ -51,6 +51,11 @@ public class TimeManager : Singleton<TimeManager>
         StartCoroutine(UpdateTimer());
     }
 
+    public float GetCurrentTimeInSeconds()
+    {
+        return elapsedTime;
+    }
+
     public void EndTimer()
     {
         timerActive = false;

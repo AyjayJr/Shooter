@@ -10,7 +10,7 @@ public class WinScreen : MonoBehaviour
 {
     [SerializeField] private Button nextButton;
     [SerializeField] private Button restartButton;
-    [SerializeField] private Sprite[] foodSprites;
+    [SerializeField] private LevelDataSO levelDataSO;
     [SerializeField] private Image foodImage;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI enemiesKilledText;
@@ -26,8 +26,9 @@ public class WinScreen : MonoBehaviour
         // temp go to main menu
         nextButton.onClick.AddListener(NextButtonClicked);
 
-        Tween.LocalScale(foodImage.transform, Vector3.zero, Vector3.one, duration, delay, tweenControl, Tween.LoopType.None);
         TimeManager.Instance.EndTimer();
+        Tween.LocalScale(foodImage.transform, Vector3.zero, Vector3.one, duration, delay, tweenControl, Tween.LoopType.None);
+        foodImage.sprite = DetermineFoodRank();
         timerText.text = TimeManager.Instance.TimerCounter.text;
     }
 
@@ -41,5 +42,20 @@ public class WinScreen : MonoBehaviour
     {
         GameManager.Instance.TogglePause();
         SceneManager.LoadScene(0);
+    }
+
+    private Sprite DetermineFoodRank()
+    {
+        float bestTime = 9999;
+        Sprite bestRank = null;
+        for (int i = 0; i < levelDataSO.levelTimes.Length; i++)
+        {
+            if (TimeManager.Instance.GetCurrentTimeInSeconds() <= levelDataSO.levelTimes[i].rankTimesInSeconds && bestTime > levelDataSO.levelTimes[i].rankTimesInSeconds)
+            {
+                bestTime = levelDataSO.levelTimes[i].rankTimesInSeconds;
+                bestRank = levelDataSO.levelTimes[i].rankImage;
+            }
+        }
+        return bestRank;
     }
 }
