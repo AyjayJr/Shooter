@@ -77,6 +77,12 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 6fb258415f3af9046b5465dbedf06eb4, type: 3}
   - sound: 7
     audioClip: {fileID: 8300000, guid: e660243c4dd9e5d4188254091aa9d59b, type: 3}
+  - sound: 8
+    audioClip: {fileID: 8300000, guid: e2828ddd7d8ab7944b66cc66df9107e1, type: 3}
+  - sound: 9
+    audioClip: {fileID: 8300000, guid: 2f703f6a6a9e0bf42b56b0966db1d573, type: 3}
+  - sound: 10
+    audioClip: {fileID: 8300000, guid: 90d9d13eff63d094f90968fcb7322423, type: 3}
   footstepClipArray:
   - {fileID: 8300000, guid: 8beb6a965d2464242956f3798f011459, type: 3}
   - {fileID: 8300000, guid: 6382cc592ae19f24fb132ab35b4144d0, type: 3}

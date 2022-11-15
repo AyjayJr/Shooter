@@ -29,6 +29,7 @@ public class GrapplingScript : MonoBehaviour
     void Awake()
     {
         lr = hand.GetComponent<LineRenderer>();
+        player = PlayerManager.Instance.player.GetComponent<Rigidbody>();
         grapplePull = player.GetComponent<ConstantForce>();
 
         Debug.Log(limb.gameObject.name + "   " + hand.gameObject.name);
@@ -73,6 +74,7 @@ public class GrapplingScript : MonoBehaviour
         {
             direction = pCamera.forward;
             isDeployed = true;
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.GrappleShoot);
 
             grapplePoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();

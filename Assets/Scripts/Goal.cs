@@ -14,6 +14,7 @@ public class Goal : MonoBehaviour
         {
             triggered = true;
             GameObject.Instantiate(winScreen, null);
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.WinSound);
             GameManager.Instance.WinScreen();
         }
     }

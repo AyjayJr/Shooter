@@ -23,7 +23,10 @@ public class SoundManager : Singleton<SoundManager>
         MenuMusicSlider,
         MenuSFXSlider,
         MenuMasterSlider,
-        PlayerPistolShoot
+        PlayerPistolShoot,
+        WinSound,
+        GrappleShoot,
+        GrappleImpact
     }
 
     private List<AudioSource> audioSources;
