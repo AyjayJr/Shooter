@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private Canvas loseScreen;
+
     public Action<bool> onPaused;
     private bool isPaused = true;
 
@@ -20,6 +22,7 @@ public class GameManager : Singleton<GameManager>
             Cursor.visible = false;
             isPaused = false;
         }
+        PlayerManager.Instance.onPlayerDeath += LoseScreen;
     }
 
     public void TogglePause(bool shouldShowPauseUI = false)
@@ -35,6 +38,13 @@ public class GameManager : Singleton<GameManager>
         isPaused = true;
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
         ManageCursorState();
+    }
+
+    private void LoseScreen()
+    {
+        Instantiate(loseScreen, null);
+        PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
+        TogglePause(false);
     }
 
     private void ManageCursorState()

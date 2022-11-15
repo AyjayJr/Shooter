@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class Goal : MonoBehaviour
 {
     [SerializeField] private GameObject winScreen;
+    private bool triggered;
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !triggered)
         {
+            triggered = true;
             GameObject.Instantiate(winScreen, null);
             GameManager.Instance.WinScreen();
         }
