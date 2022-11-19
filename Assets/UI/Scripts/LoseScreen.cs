@@ -14,6 +14,7 @@ public class LoseScreen : MonoBehaviour
     {
         restartButton.onClick.AddListener(() => {
             SceneManager.LoadScene(1);
+            TimeManager.Instance.BeginTimer();
             GameManager.Instance.TogglePause();
         }); ;
         exitButton.onClick.AddListener(() => SceneManager.LoadScene(0));

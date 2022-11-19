@@ -36,6 +36,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
             Debug.Log("player died");
             // Invoke tells subscribers to trigger listened functions (+=)
             onPlayerDeath?.Invoke();
+            GameManager.Instance.LoseScreen();
             isAlive = false;
             return;
         }
