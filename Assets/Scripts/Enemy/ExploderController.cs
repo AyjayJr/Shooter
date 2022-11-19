@@ -90,8 +90,8 @@ public class ExploderController : MonoBehaviour
         {
             Rigidbody rb = collider.GetComponent<Rigidbody>();
             EnemyController enemy = collider.GetComponent<EnemyController>();
-            Target target = collider.GetComponent<Target>();
-
+            PlayerTarget target = collider.GetComponent<PlayerTarget>();
+            
             if (enemy != null)
             {
                 enemy.TakeDamage(explosionDamage);
@@ -102,7 +102,7 @@ public class ExploderController : MonoBehaviour
             }
             if (target != null)
             {
-                target.TakeDamage(explosionDamage);
+                target.DamagePlayer(explosionDamage);
             }
           
         }
@@ -113,7 +113,9 @@ public class ExploderController : MonoBehaviour
     public WayPoint NextWayPoint(int currentWayPoint)
     {
         // find closest waypoints
+        Debug.Log("loading waypoint");
 
+        Debug.Log("way point system len" + wayPointSystem.wayPoints.Length);
         int randomIndex;
         if (rand.Next(3) == 0)
         {

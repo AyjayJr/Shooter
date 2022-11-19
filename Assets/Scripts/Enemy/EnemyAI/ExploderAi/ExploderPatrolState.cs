@@ -9,6 +9,7 @@ public class ExploderPatrolState : ExploderState
     void ExploderState.Enter(ExploderController enemyController)
     {
         wayPoint = enemyController.NextWayPoint(0);
+        Debug.Log("new waypoint first" + wayPoint.id);
         enemyController.agent.SetDestination(wayPoint.transform.position);
     }
 
@@ -25,16 +26,14 @@ public class ExploderPatrolState : ExploderState
     void ExploderState.Update(ExploderController enemyController)
     {
         float distance = Vector3.Distance(enemyController.transform.position, wayPoint.transform.position);
-        if (!enemyController.agent.hasPath)
+        if (!enemyController.agent.hasPath || distance < 2.2f)
         {
+            Debug.Log("Waypoint ID" + wayPoint.id);
             wayPoint = enemyController.NextWayPoint(wayPoint.id);
+            Debug.Log("new waypoint " + wayPoint.id);
             enemyController.agent.SetDestination(wayPoint.transform.position);
         }
-        if (distance < 2.2f)
-        {
-            wayPoint = enemyController.NextWayPoint(wayPoint.id);
-            enemyController.agent.SetDestination(wayPoint.transform.position);
-        }
+       
         Vector3 playerDirection = enemyController.target.transform.position - enemyController.transform.position;
         if (playerDirection.magnitude > enemyController.visionRadius)
         {

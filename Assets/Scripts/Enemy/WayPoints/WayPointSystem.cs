@@ -14,6 +14,7 @@ public class WayPointSystem : MonoBehaviour
         for (int i = 0; i < transforms.Length; i++)
         {
             wayPoints[i] = new WayPoint(transforms[i], i);
+            Debug.Log("Adding way point" + i);
         }
 
         foreach (WayPoint w in wayPoints)

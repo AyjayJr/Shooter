@@ -44,7 +44,8 @@ public class GameManager : Singleton<GameManager>
     {
         Instantiate(loseScreen, null);
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
-        TogglePause(false);
+        isPaused = true;
+        ManageCursorState();
     }
 
     private void ManageCursorState()
