@@ -22,7 +22,6 @@ public class GameManager : Singleton<GameManager>
             Cursor.visible = false;
             isPaused = false;
         }
-        PlayerManager.Instance.onPlayerDeath += LoseScreen;
     }
 
     public void TogglePause(bool shouldShowPauseUI = false)
@@ -40,9 +39,10 @@ public class GameManager : Singleton<GameManager>
         ManageCursorState();
     }
 
-    private void LoseScreen()
+    public void LoseScreen()
     {
         Instantiate(loseScreen, null);
+        TimeManager.Instance.EndTimer();
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
         isPaused = true;
         ManageCursorState();

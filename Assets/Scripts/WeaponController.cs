@@ -38,6 +38,8 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!PlayerManager.Instance.isAlive) return;
+
         WeaponSway();
         CalculateIdleSway();
         WalkMovement();

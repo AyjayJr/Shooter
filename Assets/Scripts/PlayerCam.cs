@@ -54,7 +54,7 @@ public class PlayerCam : MonoBehaviour
 		float vignetteValue = (damage) / (maxHealth) * (maxVignetteIntesity);
 		if (vignette.intensity <= maxVignetteIntesity)
         {
-			vignette.intensity.value += vignetteValue;
+			vignette.intensity.value += Mathf.Clamp(vignetteValue, 0.0f, 0.5f);
 		}	
     }
 
