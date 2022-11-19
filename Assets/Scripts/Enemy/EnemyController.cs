@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        
+        animator.SetFloat("Speed", 0);
         setRigidbodyState(true);
         setColliderState(false);
         stateMachine = new AiStateMachine(this);
@@ -36,7 +36,9 @@ public class EnemyController : MonoBehaviour
         stateMachine.RegisterState(new AiDeathState());
         stateMachine.RegisterState(new AiIdleState());
         stateMachine.RegisterState(new AiAttackState());
-        
+        stateMachine.RegisterState(new AIPlayerDeathState());
+
+
 
         stateMachine.ChangeState(initialState);
     }
@@ -45,12 +47,15 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
-        
+        if (!PlayerManager.Instance.isAlive)
+        {
+            stateMachine.ChangeState(AiStateId.PlayerDeath);
+        }
         if (isDead)
         {
             return;
         }
-       
+
         if (agent.hasPath)
         {
             animator.SetFloat("Speed", agent.velocity.magnitude);

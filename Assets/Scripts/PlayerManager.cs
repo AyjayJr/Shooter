@@ -10,11 +10,11 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     public Action<float> onPlayerDamaged;
     public Action onPlayerDeath;
     public Action<float> onPlayerRegen;
-
+    public bool isAlive = true;
     [SerializeField] private float Health;
     [SerializeField] private float lastDamageTaken = float.MaxValue;
     [SerializeField] private float healthRegenRate;
-
+    
     private float maxHealth;
 
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
@@ -23,23 +23,24 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     {
         maxHealth = Health;
     }
-
+    
     public void LoseHealth(float damageReceived)
     {
-        if (Health <= 0)
-        {
-            
-            // Invoke tells subscribers to trigger listened functions (+=)
-            onPlayerDeath?.Invoke(); 
-            return;
-        }
-
-        StopCoroutine(HealthRegneration());
 
         Health -= damageReceived;
         onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
+        if (Health <= 0)
+        {
+            Debug.Log("player died");
+            // Invoke tells subscribers to trigger listened functions (+=)
+            onPlayerDeath?.Invoke();
+            isAlive = false;
+            return;
+        }
+
+        StopCoroutine(HealthRegneration());
     }
 
     void Update()

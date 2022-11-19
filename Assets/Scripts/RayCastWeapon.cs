@@ -11,8 +11,8 @@ public class RayCastWeapon : MonoBehaviour
     RaycastHit hit;
     public TrailRenderer tracerEffect;
     float accumulatedTime;
-    float damage = 5.0f;
-    public float inaccuracy = 0.8f;
+    float damage = 7.0f;
+    public float inaccuracy = 0.0f;
     public float fireRate = 1.0f;
 
     // Start is called before the first frame update
@@ -45,12 +45,12 @@ public class RayCastWeapon : MonoBehaviour
 
         ray.origin = rayCastOrigin.position;
         ray.direction = rayCastOrigin.forward;
-        Vector3 randomVar = Random.insideUnitSphere / 2 * inaccuracy;
-        ray.direction += randomVar;
+       /* Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
+        ray.direction += randomVar;*/
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
-            Target target = hit.transform.GetComponent<Target>();
+            PlayerTarget target = hit.transform.GetComponent<PlayerTarget>();
             if (target != null)
             {
                 target.DamagePlayer(this.damage);
