@@ -86,6 +86,9 @@ MonoBehaviour:
   muzzleFlash: {fileID: 5314496800406101347}
   impactEffect: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b,
     type: 3}
+  shootableLayerMask:
+    serializedVersion: 2
+    m_Bits: 1847
   smooth: 10
   multiplier: 4
   gunBobAmtX: 0
@@ -115,7 +118,7 @@ MonoBehaviour:
   hand: {fileID: 3510662024672508379}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 1847
   spring: 4.5
   damper: 7
   massScale: 4.5
