@@ -21,7 +21,15 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             isPaused = false;
+            SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (SceneManager.GetActiveScene().name == "Map MVP")
+            SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
     }
 
     public void TogglePause(bool shouldShowPauseUI = false)

@@ -47,8 +47,17 @@ public class TimeManager : Singleton<TimeManager>
     {
         elapsedTime = 0f;
         timerActive = true;
+    }
 
-        StartCoroutine(UpdateTimer());
+    private void Update()
+    {
+        if (timerActive)
+        {
+            elapsedTime += Time.deltaTime;
+            timePlaying = TimeSpan.FromSeconds(elapsedTime);
+            string timePlayingString = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
+            timerCounter.text = timePlayingString;
+        }
     }
 
     public float GetCurrentTimeInSeconds()
@@ -59,23 +68,5 @@ public class TimeManager : Singleton<TimeManager>
     public void EndTimer()
     {
         timerActive = false;
-    }
-
-    private IEnumerator UpdateTimer()
-    {
-        while (timerActive)
-        {
-            elapsedTime += Time.deltaTime;
-            timePlaying = TimeSpan.FromSeconds(elapsedTime);
-            string timePlayingString = "Time: " + timePlaying.ToString("mm':'ss'.'ff");
-            timerCounter.text = timePlayingString;
-
-            yield return null;
-        }
-    }
-
-    private void OnDisable()
-    {
-        StopCoroutine(UpdateTimer());
     }
 }

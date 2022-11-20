@@ -10,6 +10,7 @@ public class SoundManager : Singleton<SoundManager>
 {
     public SoundAudioClip[] audioClipArray;
     public AudioClip[] footstepClipArray;
+    public MusicAudioClip[] musicClipArray;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
@@ -29,18 +30,19 @@ public class SoundManager : Singleton<SoundManager>
         GrappleImpact
     }
 
-    private List<AudioSource> audioSources;
+    public enum MusicTracks
+    {
+        MainMenu,
+        GameplayDNB,
+        GameplayBass,
+        Victory
+    }
 
     public void Start()
     {
         SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
         SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
-    }
-
-    public void AddAudioSource(AudioSource audioSource)
-    {
-        audioSources.Add(audioSource);
     }
 
     public void AddButtonSounds(Button button, GameSounds onClickSound)
@@ -85,11 +87,14 @@ public class SoundManager : Singleton<SoundManager>
         sfxAudioSource.PlayOneShot(audioClip);
     }
 
-    public void PlayMusicLoop(AudioClip audioClip)
+    public void PlayMusicLoop(MusicTracks audioClip, bool pickRandomGameplayTrack = false)
     {
         musicAudioSource.Stop();
         musicAudioSource.loop = true;
-        musicAudioSource.clip = audioClip;
+        if (pickRandomGameplayTrack)
+            musicAudioSource.clip = GetRandomMusicAudioClip();
+        else
+            musicAudioSource.clip = GetMusicAudioClip(audioClip);
         musicAudioSource.Play();
     }
 
@@ -134,6 +139,25 @@ public class SoundManager : Singleton<SoundManager>
         return null;
     }
 
+    private AudioClip GetMusicAudioClip(MusicTracks sound)
+    {
+        foreach (MusicAudioClip audioClip in musicClipArray)
+        {
+            if (audioClip.sound == sound)
+            {
+                return audioClip.audioClip;
+            }
+        }
+        Debug.LogError("Sound " + sound + " not found!");
+        return null;
+    }
+
+    private AudioClip GetRandomMusicAudioClip()
+    {
+        int rand = Random.Range(1, musicClipArray.Length);
+        return musicClipArray[rand].audioClip;
+    }
+
     private AudioClip GetRandomAudioClip(AudioClip[] audioClips)
     {
         int rand = Random.Range(0, audioClips.Length);
@@ -144,6 +168,13 @@ public class SoundManager : Singleton<SoundManager>
     public class SoundAudioClip
     {
         public SoundManager.GameSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class MusicAudioClip
+    {
+        public SoundManager.MusicTracks sound;
         public AudioClip audioClip;
     }
 }
