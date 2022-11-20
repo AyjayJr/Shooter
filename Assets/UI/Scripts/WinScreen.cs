@@ -35,6 +35,7 @@ public class WinScreen : MonoBehaviour
         Tween.LocalScale(foodImage.transform, Vector3.zero, Vector3.one, duration, delay, tweenControl, Tween.LoopType.None, completeCallback: UpdateText);
         foodImage.sprite = DetermineFoodRank();
         timerText.text = TimeManager.Instance.TimerCounter.text;
+        SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Victory);
     }
 
     private void Restart()

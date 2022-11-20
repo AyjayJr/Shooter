@@ -81,8 +81,6 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: e2828ddd7d8ab7944b66cc66df9107e1, type: 3}
   - sound: 9
     audioClip: {fileID: 8300000, guid: 2f703f6a6a9e0bf42b56b0966db1d573, type: 3}
-  - sound: 10
-    audioClip: {fileID: 8300000, guid: 90d9d13eff63d094f90968fcb7322423, type: 3}
   footstepClipArray:
   - {fileID: 8300000, guid: 8beb6a965d2464242956f3798f011459, type: 3}
   - {fileID: 8300000, guid: 6382cc592ae19f24fb132ab35b4144d0, type: 3}
@@ -94,6 +92,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9907ffd13447cbf4fb6893f9f04f5039, type: 3}
   - {fileID: 8300000, guid: 22c7ebdf321dd9b488634eb81afa2ef5, type: 3}
   - {fileID: 8300000, guid: 2b4a0cfae0f73224389eacb7346475af, type: 3}
+  musicClipArray:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: a968e3a1d92fb904f8364f3cc2ec98b2, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: af51dadc40a14f74ba3231b730262d76, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: ef6837665661e364eab10fad5570c0a0, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 0fdeaa9b67047814da5794146c424b3a, type: 3}
   audioMixer: {fileID: 24100000, guid: df5804cb9362ad24db4100ad71a3f372, type: 2}
   musicAudioSource: {fileID: 4242037835644976522}
   sfxAudioSource: {fileID: 7240574404738154731}

@@ -47,6 +47,7 @@ public class MainMenuController : MonoBehaviour
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
         sfxSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetSFXVolume(x));
         SoundManager.Instance.StopAll();
+        SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.MainMenu);
     }
 
     private void PlayGame()
