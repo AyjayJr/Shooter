@@ -11,6 +11,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float impactForce = 3f;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
+    [SerializeField] private LayerMask shootableLayerMask;
     
 
     [Header("Weapon Sway")]
@@ -62,13 +63,12 @@ public class WeaponController : MonoBehaviour
         SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
 
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, shootableLayerMask))
         {
-            Debug.Log(hit.transform.name);
-
             Target target = hit.transform.GetComponent<Target>();
             EnemyController enemy = hit.transform.GetComponent<EnemyController>();
             ExploderController exploder = hit.transform.GetComponent<ExploderController>();
+            ScoutDroidController flyEnemy = hit.transform.GetComponent<ScoutDroidController>();
 
 
             if (target != null)
@@ -82,6 +82,10 @@ public class WeaponController : MonoBehaviour
             if (exploder != null)
             {
                 exploder.TakeDamage(damage);
+            }
+            if (flyEnemy != null)
+            {
+                flyEnemy.TakeDamage(damage);
             }
             if (hit.rigidbody != null)
             {

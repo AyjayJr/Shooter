@@ -7348,7 +7348,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!136 &1731409852635934650
 CapsuleCollider:
@@ -7360,7 +7360,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.1865353
+  m_Radius: 0.4
   m_Height: 1.6451037
   m_Direction: 1
   m_Center: {x: 0.0034113226, y: -0.2559899, z: 7.96951e-11}
@@ -8280,7 +8280,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 1609268838514038325}
   rayCastOrigin: {fileID: 6066025154608952830}
   tracerEffect: {fileID: 9197705030335444293}
-  inaccuracy: 0.4
+  inaccuracy: 0.3
   fireRate: 1
 --- !u!4 &5078662334778851442 stripped
 Transform:

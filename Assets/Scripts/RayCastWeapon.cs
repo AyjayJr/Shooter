@@ -15,25 +15,23 @@ public class RayCastWeapon : MonoBehaviour
     public float inaccuracy = 0.0f;
     public float fireRate = 1.0f;
 
-    // Start is called before the first frame update
     public void UpdateFiring(float deltaTime)
     {
         
         float fireInterval =  1.0f / fireRate;
         accumulatedTime -= deltaTime;
 
-        if (accumulatedTime <= 0.0f)
+        if (accumulatedTime <= 0.0f  && accumulatedTime >= -0.01f && isFiring && PlayerManager.Instance.isAlive)
         {
-            FireBullet();            
-            accumulatedTime += fireInterval;
+            accumulatedTime = fireInterval;
+            FireBullet();
         }
     }
 
     public void StartFiring()
     {
         isFiring = true;
-        accumulatedTime = 0f;
-        FireBullet();
+        accumulatedTime = 0.5f;
     }
 
     void FireBullet()
@@ -45,8 +43,8 @@ public class RayCastWeapon : MonoBehaviour
 
         ray.origin = rayCastOrigin.position;
         ray.direction = rayCastOrigin.forward;
-       /* Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
-        ray.direction += randomVar;*/
+        Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
+        ray.direction += randomVar;
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
@@ -60,10 +58,9 @@ public class RayCastWeapon : MonoBehaviour
 
     }
 
-
-    // Update is called once per frame
     public void StopFiring()
     {
         isFiring = false;
+        accumulatedTime = 999f;
     }
 }
