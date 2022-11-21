@@ -16,15 +16,17 @@ public class GrapplingScript : MonoBehaviour
     public float massScale;
         
     private Vector3 grapplePoint;
-    private LineRenderer lr;
-    private SpringJoint joint;
+    [HideInInspector] public LineRenderer lr;
+    [HideInInspector] public SpringJoint joint;
     private Vector3 direction;
     private ConstantForce grapplePull;
-    private bool isDeployed = false;
+    [HideInInspector] public bool isDeployed = false;
     
     public float pullForceValue;
     public float cameraForceValue;
 
+    [HideInInspector] public Coroutine pull;
+    [HideInInspector] public Coroutine rotate; 
 
     void Awake()
     {
@@ -90,17 +92,17 @@ public class GrapplingScript : MonoBehaviour
 
             lr.positionCount = 2;
 
-            StartCoroutine(PullTowards(joint.minDistance));
+            pull = StartCoroutine(PullTowards(joint.minDistance));
         }
     }
 
     public void EndGrapple()
     {
-        StopCoroutine(PullTowards(1));
+        StopCoroutine(pull);
         isDeployed = false;
         grapplePull.force = Vector3.zero;
         Destroy(joint);
-        StartCoroutine(RotateGun());
+        rotate = StartCoroutine(RotateGun());
     }
 
     void DrawGrapple()
@@ -145,7 +147,7 @@ public class GrapplingScript : MonoBehaviour
         isDeployed = false;
         grapplePull.force = Vector3.zero;
 
-        StartCoroutine(RotateGun());
+        rotate = StartCoroutine(RotateGun());
     }
 
     IEnumerator RotateGun()
