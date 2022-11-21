@@ -8,8 +8,8 @@ public class GaussCannon : MonoBehaviour
     [SerializeField] private Camera cam; 
     [SerializeField] private float rateOfFire;
     private float lastShot;
-    private float charge;
-    private bool charging;
+    [HideInInspector] public float charge;
+    [HideInInspector] public bool charging;
     [SerializeField] private float damage = 50f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 3f;
@@ -18,9 +18,11 @@ public class GaussCannon : MonoBehaviour
     [SerializeField] private float recoilForce;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
+    [SerializeField] public LineRenderer laser;
+    //[SerializeField] private float lifetime = 0.5f;
 
     [Header("ChargeMeter")]
-    [SerializeField] private Transform chargeMeter;    
+    [SerializeField] public Transform chargeMeter;    
 
     [Header("Weapon Sway")]
     [SerializeField] private float smooth;
@@ -44,6 +46,9 @@ public class GaussCannon : MonoBehaviour
     [SerializeField] private Vector3 swayPosition;
     
     private bool fired = false;
+
+    [HideInInspector] public Coroutine uncharge;
+    [HideInInspector] public Coroutine laserShot;
 
     void Start()
     {
@@ -74,8 +79,7 @@ public class GaussCannon : MonoBehaviour
             lastShot = Time.time + rateOfFire;
             fired = true;
             Shoot();
-            StartCoroutine(DeCharge());
-            //chargeMeter.localScale = new Vector3(1, 0, 1);
+            uncharge = StartCoroutine(DeCharge());
         }
 
     }
@@ -85,6 +89,10 @@ public class GaussCannon : MonoBehaviour
         if(fired)
         {
             pScript.recoilFlag = true;
+            
+            laserShot = StartCoroutine(LaserBeam());
+            //StartCoroutine(LaserBeam());
+
             player.AddForce(cam.transform.forward * -(recoilForce * (charge/1.5f)), ForceMode.Force);
             //charge = 0;
             fired = false;
@@ -98,12 +106,7 @@ public class GaussCannon : MonoBehaviour
     void Shoot()
     {
         muzzleFlash.Play();
-        //print(cam.transform.forward * -recoilForce);
-
-        //player.AddForce(cam.transform.forward * -(recoilForce), ForceMode.Impulse);
-
-        //player.AddForce(cam.GetComponent<Transform>().forward * -(AdjustRecoilStrength()), ForceMode.Impulse);
-        //player.AddForce(Adjust(), ForceMode.Impulse);
+        //GameObject shot = Instantiate(laserPrefab, transform.position, transform.rotation);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
@@ -177,41 +180,24 @@ public class GaussCannon : MonoBehaviour
         }
     }
 
-    // private float AdjustRecoilStrength()
-    // {
-    //     float temp = cam.transform.eulerAngles.x;
-    //     //print(temp);
+    IEnumerator LaserBeam()
+    {
+        Vector3 startDestination = laser.transform.position;
+        Vector3 finalDestination = (laser.transform.forward * range + laser.transform.position);
 
-    //     if((temp <= 30f && temp >= 0f) || (temp >= 330f && temp <= 360f))
-    //     {
-    //         //print("Horizontalish");
-    //         return recoilForce * 1.3f;
-    //     }
-    //     else
-    //     {
-    //         return recoilForce * 0.7f;
-    //     }
-    // }
+        laser.positionCount = 2;
+        laser.SetPosition(0, startDestination);
+        laser.SetPosition(1, finalDestination);
 
-    // //STILL NEEDS MORE WORK
-    // private Vector3 Adjust()
-    // {
-    //     Vector3 recoil = cam.transform.forward * -(recoilForce);
+        while(Vector3.Distance(startDestination, finalDestination) >= 2f)
+        {
+            startDestination = Vector3.Lerp(startDestination, finalDestination, 0.05f);
 
-    //     //gets recoil X angle
-    //     float angleInRadians = Mathf.Abs(180 + cam.transform.eulerAngles.x);
+            laser.SetPosition(0, startDestination);
 
-    //     float recoilX = recoil.z * Mathf.Cos(Mathf.Deg2Rad * angleInRadians);
-    //     float recoilY = recoil.z * Mathf.Sin(Mathf.Deg2Rad * angleInRadians);
+            yield return null;
+        }
 
-    //     print("Original: " + recoil + ". Angle, XCom and YCom of Z: " + angleInRadians + " " + recoilX + " " + recoilY);
-
-    //     recoilY = recoilY * 0.7f;
-    //     recoilX = recoilX * 1.3f;
-
-    //     float newXForce = Mathf.Sqrt(Mathf.Pow(recoilX, 2) + Mathf.Pow(recoilY, 2));
-
-    //     Debug.Log(new Vector3(recoil.x, recoilY, recoilX));
-    //     return new Vector3(recoil.x, recoil.y - recoilY, -recoilX);
-    // }
+        laser.positionCount = 0;
+    }
 }
