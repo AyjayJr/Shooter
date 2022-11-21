@@ -26,7 +26,7 @@ public class SwapTemp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(3))
+        if(Input.GetKeyDown(KeyCode.E))
         {
             SwapGuns();
         }
