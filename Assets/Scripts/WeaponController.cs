@@ -13,27 +13,43 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
     
-
-    [Header("Weapon Sway")]
-    [SerializeField] private float smooth;
-    [SerializeField] private float multiplier;
-
     [Header("Weapon Bob")]
-    [SerializeField] private float gunBobAmtX;
-    [SerializeField] private float gunBobAmtY;
-    private float currentBobX;
-    private float currentBobY;
-
-    [Header("Idle Sway")]
     [SerializeField] private Transform weapon;
+    [System.Serializable]
+    public struct BobOverride
+    {
+        public float minSpeed;
+        public float maxSpeed;
 
-    [SerializeField] private float idleA = 1;
-    [SerializeField] private float idleB = 2;
-    [SerializeField] private float swayScale = 600;
-    [SerializeField] private float swayLerpSpeed = 14;
+        [Header("X Settings")]
+        public float speedX;
+        public float intenstityX;
+        public AnimationCurve bobX;
 
-    [SerializeField] private float swayTime;
-    [SerializeField] private Vector3 swayPosition;
+        [Header("Y Settings")]
+        public float speedY;
+        public float intenstityY;
+        public AnimationCurve bobY;
+    }
+
+    public BobOverride[] bobOverrides;
+    private float currentTimeX;
+    private float currentTimeY;
+    private float xPos;
+    private float yPos;
+    private Vector3 smoothV;
+    public float swayIntensityX;
+    public float swayIntensityY;
+    public float maxSway;
+    public float minSway;
+    public float currentSpeed;
+
+    void FixedUpdate()
+    {
+        Vector3 target = new Vector3(xPos, yPos, 0);
+        Vector3 desiredPos = Vector3.SmoothDamp(weapon.localPosition, target, ref smoothV, 0.1f);
+        weapon.localPosition = desiredPos;
+    }
     
 
     // Update is called once per frame
@@ -41,9 +57,7 @@ public class WeaponController : MonoBehaviour
     {
         if (!PlayerManager.Instance.isAlive) return;
 
-        WeaponSway();
-        CalculateIdleSway();
-        WalkMovement();
+        Gunbob();
 
         // primary mouse button, maybe change this later
         if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsPaused)
@@ -53,8 +67,30 @@ public class WeaponController : MonoBehaviour
 
     }
 
-    void WalkMovement()
+    void Gunbob()
     {
+        foreach (BobOverride bob in bobOverrides)
+        {
+            if (currentSpeed >= bob.minSpeed && currentSpeed <= bob.maxSpeed)
+            {
+                float bobMultiplier = (currentSpeed == 0) ? 1 : currentSpeed;
+
+                currentTimeX += bob.speedX / 10 * Time.deltaTime * bobMultiplier;
+                currentTimeY += bob.speedY / 10 * Time.deltaTime * bobMultiplier;
+
+                xPos = bob.bobX.Evaluate(currentTimeX) * bob.intenstityX;
+                yPos = bob.bobY.Evaluate(currentTimeY) * bob.intenstityY;
+            }
+        }
+
+        float xSway = -Input.GetAxis("Mouse X") * swayIntensityX;
+        float ySway = -Input.GetAxis("Mouse Y") * swayIntensityY;
+
+        xSway = Mathf.Clamp(xSway, minSway, maxSway);
+        ySway = Mathf.Clamp(ySway, minSway, maxSway);
+
+        xPos += xSway;
+        yPos += ySway;
     }
 
     void Shoot()
@@ -97,34 +133,4 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    void WeaponSway()
-    {
-       float mouseX = Input.GetAxisRaw("Mouse X") * multiplier; 
-       float mouseY = Input.GetAxisRaw("Mouse Y") * multiplier; 
-
-       Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
-       Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
-       Quaternion targetRotation = rotationX * rotationY;
-
-       transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
-    }
-
-    void CalculateIdleSway()
-    {
-        var targetPosition = LissajousCurve(swayTime, idleA, idleB) / swayScale;
-        swayPosition = Vector3.Lerp(swayPosition, targetPosition, Time.smoothDeltaTime * swayLerpSpeed);
-        swayTime += Time.deltaTime;
-
-        if (swayTime > 6.3f)
-        {
-            swayTime = 0;
-        }
-
-        weapon.localPosition = swayPosition;
-    }
-
-    Vector3 LissajousCurve(float Time, float A, float B)
-    {
-        return new Vector3(Mathf.Sin(Time), A * Mathf.Sin(B * Time + Mathf.PI));
-    }
 }

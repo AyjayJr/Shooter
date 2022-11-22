@@ -47,6 +47,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Gunbob")]
+    public WeaponController weaponController;
+
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
@@ -103,6 +106,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+
+        // handle weapon bob
+        weaponController.currentSpeed = AllowGunbob() ? moveSpeed : 0;
     }
 
     private void FixedUpdate()
@@ -355,5 +361,18 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+
+    private bool AllowGunbob()
+    {
+        if (horizontalInput != 0 || verticalInput != 0)
+        {
+            if (grounded)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
