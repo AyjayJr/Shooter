@@ -112,7 +112,9 @@ public class GaussCannon : MonoBehaviour
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
         {
             Target target = hit.transform.GetComponent<Target>();
+            ExploderController exploder = hit.transform.GetComponent<ExploderController>();
             EnemyController enemy = hit.transform.GetComponent<EnemyController>();
+            ScoutDroidController flyEnemy = hit.transform.GetComponent<ScoutDroidController>();
 
             if (target != null)
             {
@@ -121,6 +123,14 @@ public class GaussCannon : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+            }
+            if (exploder != null)
+            {
+                exploder.TakeDamage(damage);
+            }
+            if (flyEnemy != null)
+            {
+                flyEnemy.TakeDamage(damage);
             }
             if (hit.rigidbody != null)
             {
