@@ -2351,7 +2351,7 @@ GameObject:
   - component: {fileID: 859750770}
   - component: {fileID: 859750769}
   - component: {fileID: 859750768}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5626,6 +5626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638715768238506870, guid: b3c77e511d500fa42bc420915e644953,
+        type: 3}
+      propertyPath: whatIsGround.m_Bits
+      value: 576
       objectReference: {fileID: 0}
     - target: {fileID: 1638715768535765184, guid: b3c77e511d500fa42bc420915e644953,
         type: 3}
