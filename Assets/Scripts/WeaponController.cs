@@ -12,10 +12,10 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
-    public int selectedWeapon = 0;
+    public int selectedWeapon = 1;
     
-    [Header("Weapon Bob")]
-    [SerializeField] private Transform weapon;
+    [Header("Gun Bob")]
+    [SerializeField] private Transform gun;
     
     [System.Serializable]
     public struct BobOverride
@@ -72,8 +72,8 @@ public class WeaponController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 target = new Vector3(xPos, yPos, 0);
-        Vector3 desiredPos = Vector3.SmoothDamp(weapon.localPosition, target, ref smoothV, 0.1f);
-        weapon.localPosition = desiredPos;
+        Vector3 desiredPos = Vector3.SmoothDamp(gun.localPosition, target, ref smoothV, 0.1f);
+        gun.localPosition = desiredPos;
 
         if(fired)
         {
@@ -257,6 +257,7 @@ public class WeaponController : MonoBehaviour
             if (i == selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);
+                gun = weapon;
             } else {
                 weapon.gameObject.SetActive(false);
             }
