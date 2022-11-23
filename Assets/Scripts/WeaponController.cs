@@ -15,7 +15,7 @@ public class WeaponController : MonoBehaviour
     public int selectedWeapon = 1;
     
     [Header("Gun Bob")]
-    [SerializeField] private Transform gun;
+    [SerializeField] private Transform weaponHolder;
     
     [System.Serializable]
     public struct BobOverride
@@ -72,8 +72,8 @@ public class WeaponController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 target = new Vector3(xPos, yPos, 0);
-        Vector3 desiredPos = Vector3.SmoothDamp(gun.localPosition, target, ref smoothV, 0.1f);
-        gun.localPosition = desiredPos;
+        Vector3 desiredPos = Vector3.SmoothDamp(weaponHolder.localPosition, target, ref smoothV, 0.1f);
+        weaponHolder.localPosition = desiredPos;
 
         if(fired)
         {
@@ -135,7 +135,7 @@ public class WeaponController : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            if (selectedWeapon <= transform.childCount - 1)
+            if (selectedWeapon <= 0)
             {
                 selectedWeapon = transform.childCount - 1;
             } else {
@@ -257,7 +257,6 @@ public class WeaponController : MonoBehaviour
             if (i == selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);
-                gun = weapon;
             } else {
                 weapon.gameObject.SetActive(false);
             }
