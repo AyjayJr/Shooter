@@ -152,6 +152,10 @@ public class WeaponController : MonoBehaviour
         {
             selectedWeapon = 1;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 2)
+        {
+            selectedWeapon = 2;
+        }
 
         if (previousSelectedWeapon != selectedWeapon)
         {
