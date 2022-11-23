@@ -4482,6 +4482,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955549205}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1982743059 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 646775035936888892, guid: b75b5ab996f65554fbc0206b569ba81f,
+    type: 3}
+  m_PrefabInstance: {fileID: 646775035064925907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab921f86839789c45a784623f17eb96a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2031083787
 GameObject:
   m_ObjectHideFlags: 0
@@ -5429,6 +5441,11 @@ PrefabInstance:
       propertyPath: weaponController
       value: 
       objectReference: {fileID: 1709239694}
+    - target: {fileID: 646775035981945844, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1982743059}
     - target: {fileID: 930299649199160227, guid: b75b5ab996f65554fbc0206b569ba81f,
         type: 3}
       propertyPath: maxSway
@@ -6098,6 +6115,31 @@ PrefabInstance:
         type: 3}
       propertyPath: bobOverrides.Array.data[0].bobX.m_Curve.Array.data[1].tangentMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199504287784774883, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: m_HDR
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199504287784774883, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: m_Depth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199504287784774883, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199504287784774883, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199504287784774883, guid: b75b5ab996f65554fbc0206b569ba81f,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b75b5ab996f65554fbc0206b569ba81f, type: 3}
