@@ -12,7 +12,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
-    public int selectedWeapon = 1;
+    [SerializeField] private GrapplingScript grapple;
+    public int selectedWeapon = 0;
+    public int previousSelectedWeapon = 0;
     
     [Header("Gun Bob")]
     [SerializeField] private Transform weaponHolder;
@@ -89,7 +91,7 @@ public class WeaponController : MonoBehaviour
     {
         if (!PlayerManager.Instance.isAlive) return;
         
-        int previousSelectedWeapon = selectedWeapon;
+        previousSelectedWeapon = selectedWeapon;
 
         // primary mouse button, maybe change this later
         if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
@@ -253,6 +255,8 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+
+    // When we get here selected weapon is the new weapon and previousSelectedWeapon 
     void SelectWeapon()
     {
         int i = 0;
@@ -265,6 +269,45 @@ public class WeaponController : MonoBehaviour
                 weapon.gameObject.SetActive(false);
             }
             i++;
+        }
+
+        // if previous weapon was pistol, cancel pistol coroutines
+        if (previousSelectedWeapon == 0)
+        {
+            if(grapple.pull != null)
+            {
+                StopCoroutine(grapple.pull);
+
+                Destroy(grapple.joint);
+                grapple.isDeployed = false;
+                grapple.lr.positionCount = 0;
+                grapple.player.GetComponent<ConstantForce>().force = Vector3.zero;
+
+                grapple.limb.rotation = grapple.pCamera.rotation;
+            }
+            else if(grapple.rotate != null)
+            {
+                StopCoroutine(grapple.rotate);
+
+                grapple.limb.rotation = grapple.pCamera.rotation;
+            }
+        }
+        else if (previousSelectedWeapon == 1)
+        {
+            if(uncharge != null)
+            {
+                StopCoroutine(uncharge);
+
+                charge = 0;
+                charging = false;
+                chargeMeter.localScale = new Vector3(1, 0, 1);
+            }
+            else if(laserShot != null)
+            {
+                StopCoroutine(laserShot);
+
+                laser.enabled = false;
+            }
         }
     }
     
