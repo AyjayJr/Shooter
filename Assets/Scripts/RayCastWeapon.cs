@@ -21,7 +21,7 @@ public class RayCastWeapon : MonoBehaviour
         float fireInterval =  1.0f / fireRate;
         accumulatedTime -= deltaTime;
 
-        if (accumulatedTime <= 0.0f  && accumulatedTime >= -0.01f && isFiring && PlayerManager.Instance.isAlive)
+        if (accumulatedTime <= 0.0f && isFiring && PlayerManager.Instance.isAlive)
         {
             accumulatedTime = fireInterval;
             FireBullet();
@@ -31,7 +31,7 @@ public class RayCastWeapon : MonoBehaviour
     public void StartFiring()
     {
         isFiring = true;
-        accumulatedTime = 0.5f;
+        accumulatedTime = 2f;
     }
 
     void FireBullet()
