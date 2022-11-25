@@ -12,9 +12,11 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
+    public int selectedWeapon = 1;
     
-    [Header("Weapon Bob")]
-    [SerializeField] private Transform weapon;
+    [Header("Gun Bob")]
+    [SerializeField] private Transform weaponHolder;
+    
     [System.Serializable]
     public struct BobOverride
     {
@@ -44,27 +46,124 @@ public class WeaponController : MonoBehaviour
     public float minSway;
     public float currentSpeed;
 
+    // gauss cannon variables
+    private float lastShot;
+    [HideInInspector] public float charge;
+    [HideInInspector] public bool charging;
+    [SerializeField] private Rigidbody player;
+    private PlayerMovementAdvanced pScript;
+    [SerializeField] private float recoilForce;
+    [SerializeField] public LineRenderer laser;
+    private float rateOfFire = 2;
+    [Header("ChargeMeter")]
+    [SerializeField] public Transform chargeMeter;    
+    private bool fired = false;
+    [HideInInspector] public Coroutine uncharge;
+    [HideInInspector] public Coroutine laserShot;
+
+    void Start()
+    {
+        SelectWeapon();
+        chargeMeter.localScale = new Vector3(1, 0, 1);
+        lastShot = 0;
+        pScript = player.gameObject.GetComponent<PlayerMovementAdvanced>();
+    }
+
     void FixedUpdate()
     {
         Vector3 target = new Vector3(xPos, yPos, 0);
-        Vector3 desiredPos = Vector3.SmoothDamp(weapon.localPosition, target, ref smoothV, 0.1f);
-        weapon.localPosition = desiredPos;
+        Vector3 desiredPos = Vector3.SmoothDamp(weaponHolder.localPosition, target, ref smoothV, 0.1f);
+        weaponHolder.localPosition = desiredPos;
+
+        if(fired)
+        {
+            pScript.recoilFlag = true;
+            laserShot = StartCoroutine(LaserBeam());
+            player.AddForce(cam.transform.forward * -(recoilForce * (charge/1.5f)), ForceMode.Force);
+            fired = false;
+        }
     }
     
-
     // Update is called once per frame
     void Update()
     {
         if (!PlayerManager.Instance.isAlive) return;
-
-        Gunbob();
+        
+        int previousSelectedWeapon = selectedWeapon;
 
         // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsPaused)
+        if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
         {
-            Shoot();
+            // pistol shooting
+            if (Input.GetMouseButtonDown(0))
+            {
+                Shoot();
+            }
         }
 
+        if (selectedWeapon == 1 && !GameManager.Instance.IsPaused)
+        {
+            if(Input.GetMouseButton(0) && Time.time >= lastShot)
+            {
+                charging = true;
+                charge += Time.deltaTime;
+                charge = Mathf.Clamp(charge, 0, 1.5f);
+                chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+            }
+
+            // primary mouse button, maybe change this later
+            if (Input.GetMouseButtonUp(0) && charging)
+            {
+                charging = false;
+                lastShot = Time.time + rateOfFire;
+                fired = true;
+                Shoot();
+                uncharge = StartCoroutine(DeCharge());
+            }
+        }
+
+		// these next two ifs make the mouse wheel scroll loop through weapon selections
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            if (selectedWeapon >= transform.childCount - 1)
+            {
+                selectedWeapon = 0;
+            } else {
+                selectedWeapon++;
+            }
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            if (selectedWeapon <= 0)
+            {
+                selectedWeapon = transform.childCount - 1;
+            } else {
+                selectedWeapon--;
+            }
+        }
+		
+        // map weapons to num keys 1 and 2 with the possibility for more
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedWeapon = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
+        {
+            selectedWeapon = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 2)
+        {
+            selectedWeapon = 2;
+        }
+
+        if (previousSelectedWeapon != selectedWeapon)
+        {
+            SelectWeapon();
+        }
+        
+        // Weapon sway and bob
+        Gunbob();
     }
 
     void Gunbob()
@@ -133,4 +232,77 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    void ShootGauss()
+    {
+        if(Input.GetMouseButton(0) && Time.time >= lastShot)
+        {
+            charging = true;
+            charge += Time.deltaTime;
+            charge = Mathf.Clamp(charge, 0, 1.5f);
+            chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+        }
+
+        // primary mouse button, maybe change this later
+        if (Input.GetMouseButtonUp(0) && charging)
+        {
+            charging = false;
+            lastShot = Time.time + rateOfFire;
+            fired = true;
+            Shoot();
+            uncharge = StartCoroutine(DeCharge());
+        }
+    }
+
+    void SelectWeapon()
+    {
+        int i = 0;
+        foreach (Transform weapon in transform)
+        {
+            if (i == selectedWeapon)
+            {
+                weapon.gameObject.SetActive(true);
+            } else {
+                weapon.gameObject.SetActive(false);
+            }
+            i++;
+        }
+    }
+    
+    IEnumerator DeCharge()
+    {
+        while(true)
+        {
+            if(Mathf.Approximately(chargeMeter.localScale.y, 0))
+            {
+                break;
+            }
+
+            charge -= Time.deltaTime;
+            charge = Mathf.Clamp(charge, 0, 1.5f);
+            chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+
+            yield return null;
+        }
+    }
+
+    IEnumerator LaserBeam()
+    {
+        Vector3 startDestination = laser.transform.position;
+        Vector3 finalDestination = (laser.transform.forward * range + laser.transform.position);
+
+        laser.positionCount = 2;
+        laser.SetPosition(0, startDestination);
+        laser.SetPosition(1, finalDestination);
+
+        while(Vector3.Distance(startDestination, finalDestination) >= 2f)
+        {
+            startDestination = Vector3.Lerp(startDestination, finalDestination, 0.05f);
+
+            laser.SetPosition(0, startDestination);
+
+            yield return null;
+        }
+
+        laser.positionCount = 0;
+    }
 }

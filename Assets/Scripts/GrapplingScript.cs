@@ -33,8 +33,6 @@ public class GrapplingScript : MonoBehaviour
         lr = hand.GetComponent<LineRenderer>();
         player = PlayerManager.Instance.player.GetComponent<Rigidbody>();
         grapplePull = player.GetComponent<ConstantForce>();
-
-        Debug.Log(limb.gameObject.name + "   " + hand.gameObject.name);
     }
 
     void Update()
@@ -51,9 +49,6 @@ public class GrapplingScript : MonoBehaviour
         if(isDeployed)
         {
             grapplePull.force = (pCamera.forward * cameraForceValue) + (Vector3.Normalize(grapplePoint - hand.position) * (pullForceValue));
-            //grapplePull.force = Vector3.Normalize(grapplePoint - limb.position) * 40f;
-            //grapplePull.relativeForce = pCamera.forward * cameraForceValue;
-
             checkIfFacingGrapple();
         }
     }
@@ -135,20 +130,15 @@ public class GrapplingScript : MonoBehaviour
 
     IEnumerator PullTowards(float minDistance)
     {
-        while(Vector3.Distance(hand.position, grapplePoint) >= 2f && isDeployed)
+        while(Vector3.Distance(hand.position, grapplePoint) >= 0.1f && isDeployed)
         {
-            //player.AddForce(direction * 5f, ForceMode.Acceleration);
-
-            //transform.LookAt(grapplePoint);
             limb.LookAt(grapplePoint);
             joint.maxDistance = Vector3.Distance(grapplePoint, player.gameObject.transform.position);
-
-           yield return null;
+            yield return null;
         }
 
         isDeployed = false;
         grapplePull.force = Vector3.zero;
-
         rotate = StartCoroutine(RotateGun());
     }
 
@@ -156,10 +146,7 @@ public class GrapplingScript : MonoBehaviour
     {
         while(limb.rotation != pCamera.rotation)
         {
-            
-            //transform.rotation = Quaternion.Lerp(transform.rotation, pCamera.rotation, 0.06f);
             limb.rotation = Quaternion.Lerp(limb.rotation, pCamera.rotation, 0.06f);
-
             yield return null;
         }
     }
