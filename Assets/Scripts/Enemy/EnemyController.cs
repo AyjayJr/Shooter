@@ -1,4 +1,6 @@
 
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -8,27 +10,43 @@ public class EnemyController : MonoBehaviour
     public float visionRadius = 10f;
     public float shootingRange = 6f;
     public Transform target;
+    public Transform targetOrientation;
     public NavMeshAgent agent;
     public Animator animator;
     public float health = 50f;
     public bool isDead = false;
     public AiStateMachine stateMachine;
     public AiStateId initialState = AiStateId.Idle;
+    public float chaseSpeed = 8.0f;
+    public float strafeSpeed = 4.5f;
+
     public float armingRange = 6.0f;
     RayCastWeapon weapon;
     RigBuilder rigs;
+
+    private Vector2 velocity = Vector2.zero;
+    private Vector2 smoothDeltaPos = Vector2.zero;
+
+   
+
     // Start is called before the first frame update
     void Start()
     {
         target = PlayerManager.Instance.player.transform;
+        targetOrientation = PlayerManager.Instance.orientation;
+
         rigs = GetComponent<RigBuilder>();
 
         weapon = GetComponentInChildren<RayCastWeapon>();
         SetRigBuilder();
 
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = 6f;
+        agent.updatePosition = true;
+        agent.updateRotation = false;
         animator = GetComponent<Animator>();
-        animator.SetFloat("Speed", 0);
+        animator.applyRootMotion = false;
+   
         setRigidbodyState(true);
         setColliderState(false);
         stateMachine = new AiStateMachine(this);
@@ -46,6 +64,9 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
+
         stateMachine.Update();
         if (!PlayerManager.Instance.isAlive)
         {
@@ -55,15 +76,17 @@ public class EnemyController : MonoBehaviour
         {
             return;
         }
+        bool shouldMove = (agent.velocity.magnitude > 0.5f
+           && agent.remainingDistance > agent.stoppingDistance);
+        animator.SetBool("Moving", shouldMove);
+     
+    
+        animator.SetFloat("speed_x", agent.velocity.x);
+        animator.SetFloat("speed_y", agent.velocity.z);
 
-        if (agent.hasPath)
-        {
-            animator.SetFloat("Speed", agent.velocity.magnitude);
-        }
-        else
-        {
-            animator.SetFloat("Speed", 0);
-        }
+       
+
+
     }
 
     private void LateUpdate()
@@ -84,7 +107,7 @@ public class EnemyController : MonoBehaviour
             rigidbody.isKinematic = state;
         }
 
-        GetComponent<Rigidbody>().isKinematic = !state;
+        GetComponent<Rigidbody>().isKinematic = true;
 
     }
 
@@ -150,6 +173,7 @@ public class EnemyController : MonoBehaviour
     public void Die()
     {
         stateMachine.ChangeState(AiStateId.Death);
+        animator.enabled = false;
         Destroy(agent);
 
     }
@@ -163,4 +187,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+
+    public IEnumerator moveToPoint(Vector3 waypoint)
+    {
+        agent.enabled = true;
+        agent.isStopped = false;
+        WaitForSeconds Wait = new WaitForSeconds(3);
+        while (true)
+        {
+            agent.SetDestination(
+                waypoint
+            );
+
+            yield return null;
+            yield return new WaitUntil(() => agent.remainingDistance <= agent.stoppingDistance);
+            yield return Wait;
+        }
+    }
 }
