@@ -5431,6 +5431,11 @@ PrefabInstance:
       objectReference: {fileID: 1841537814}
     - target: {fileID: 4239235101244032540, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
         type: 3}
+      propertyPath: selectedWeapon
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239235101244032540, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
+        type: 3}
       propertyPath: bobOverrides.Array.data[0].maxSpeed
       value: 10
       objectReference: {fileID: 0}
