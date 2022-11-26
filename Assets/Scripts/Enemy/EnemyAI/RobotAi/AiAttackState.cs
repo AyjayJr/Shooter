@@ -13,10 +13,15 @@ public class AiAttackState : AiState
 
 
     const float ROLL_COOL_DOWN = 3f;
+    const float GRENADE_COOL_DOWN = 5f;
+    float grenadeTimer = GRENADE_COOL_DOWN;
+
     float rollTimer = ROLL_COOL_DOWN;
     float strafeTimer = STRAFE_COOL_DOWN;
     float waitTimer = STRAFE_COOL_DOWN;
     bool waitActive = false;
+    bool grenadeActive = true;
+
     bool strafeActive = true;
 
     void AiState.Enter(EnemyController enemyController)
@@ -48,6 +53,14 @@ public class AiAttackState : AiState
         Vector3 playerForward = enemyController.targetOrientation.forward;
         Vector3 toEnemy = enemyController.transform.position - enemyController.target.transform.position;
         float angle = Vector3.Angle(playerForward, toEnemy);
+        if (enemyController.grenades > 0 && grenadeActive)
+        {
+            if (Random.Range(0, 3) == 1)
+            {
+                enemyController.animator.SetTrigger("ThrowGrenade");
+            }
+            grenadeActive = false;
+        }
 
         if (!rollActive)
         {
@@ -55,6 +68,26 @@ public class AiAttackState : AiState
             if (rollTimer < 0)
             {
                 rollTimer = 10;
+                rollActive = true;
+            }
+        }
+
+        if (!grenadeActive)
+        {
+            grenadeTimer -= Time.deltaTime;
+            if (grenadeTimer < 0)
+            {
+                grenadeTimer = GRENADE_COOL_DOWN;
+                grenadeActive = true;
+            }
+        }
+
+        if (!rollActive)
+        {
+            rollTimer -= Time.deltaTime;
+            if (rollTimer < 0)
+            {
+                rollTimer = ROLL_COOL_DOWN;
                 rollActive = true;
             }
         }
