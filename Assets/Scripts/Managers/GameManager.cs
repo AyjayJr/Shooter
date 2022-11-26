@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Map MVP")
+        if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (SceneManager.GetActiveScene().name == "Map MVP")
+        if (SceneManager.GetActiveScene().name != "MainMenu")
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
     }
 
