@@ -12,7 +12,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
-    public int selectedWeapon = 1;
+    [SerializeField] private GrapplingScript grapple;
+    public int selectedWeapon = 0;
+    public int previousSelectedWeapon;
     
     [Header("Gun Bob")]
     [SerializeField] private Transform weaponHolder;
@@ -89,7 +91,7 @@ public class WeaponController : MonoBehaviour
     {
         if (!PlayerManager.Instance.isAlive) return;
         
-        int previousSelectedWeapon = selectedWeapon;
+        previousSelectedWeapon = selectedWeapon;
 
         // primary mouse button, maybe change this later
         if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
@@ -232,27 +234,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    void ShootGauss()
-    {
-        if(Input.GetMouseButton(0) && Time.time >= lastShot)
-        {
-            charging = true;
-            charge += Time.deltaTime;
-            charge = Mathf.Clamp(charge, 0, 1.5f);
-            chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
-        }
-
-        // primary mouse button, maybe change this later
-        if (Input.GetMouseButtonUp(0) && charging)
-        {
-            charging = false;
-            lastShot = Time.time + rateOfFire;
-            fired = true;
-            Shoot();
-            uncharge = StartCoroutine(DeCharge());
-        }
-    }
-
+    // When we get here selected weapon is the new weapon and previousSelectedWeapon 
     void SelectWeapon()
     {
         int i = 0;
@@ -265,6 +247,42 @@ public class WeaponController : MonoBehaviour
                 weapon.gameObject.SetActive(false);
             }
             i++;
+        }
+
+        // cancel grapple coroutines if they're active
+        if(grapple.pull != null)
+        {
+            StopCoroutine(grapple.pull);
+            Destroy(grapple.joint);
+            grapple.isDeployed = false;
+            grapple.lr.positionCount = 0;
+            grapple.player.GetComponent<ConstantForce>().force = Vector3.zero;
+            grapple.limb.rotation = grapple.pCamera.rotation;
+        }
+        else if(grapple.rotate != null)
+        {
+            StopCoroutine(grapple.rotate);
+            grapple.limb.rotation = grapple.pCamera.rotation;
+        }
+
+        // cancel gauss coroutines if they're active
+        if(uncharge != null)
+        {
+            StopCoroutine(uncharge);
+            charge = 0;
+            charging = false;
+            chargeMeter.localScale = new Vector3(1, 0, 1);
+        }
+        else if(laserShot != null)
+        {
+            StopCoroutine(laserShot);
+            laser.enabled = false;
+        }
+        else if (charge > 0)
+        {
+            charge = 0;
+            charging = false;
+            chargeMeter.localScale = new Vector3(1, 0, 1);
         }
     }
     
