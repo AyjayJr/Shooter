@@ -93,8 +93,10 @@ public class WeaponController : MonoBehaviour
         
         previousSelectedWeapon = selectedWeapon;
 
+        if (GameManager.Instance.IsPaused) return;
+
         // primary mouse button, maybe change this later
-        if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
+        if (selectedWeapon == 0)
         {
             // pistol shooting
             if (Input.GetMouseButtonDown(0))
@@ -103,7 +105,7 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        if (selectedWeapon == 1 && !GameManager.Instance.IsPaused)
+        if (selectedWeapon == 1)
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
