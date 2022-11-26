@@ -6,7 +6,9 @@ public class WeaponController : MonoBehaviour
 {
     [Header("Shooting")]
     [SerializeField] private Camera cam; 
+    [SerializeField] private float fireRate;
     [SerializeField] private float damage = 10f;
+    [SerializeField] private float nextTimeToFire = 0f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 3f;
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -96,14 +98,15 @@ public class WeaponController : MonoBehaviour
         // primary mouse button, maybe change this later
         if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
         {
+            fireRate = 3f;
             // pistol shooting
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire)
             {
+                nextTimeToFire = Time.time + 1f / fireRate;
                 Shoot();
             }
         }
-
-        if (selectedWeapon == 1 && !GameManager.Instance.IsPaused)
+        else if (selectedWeapon == 1 && !GameManager.Instance.IsPaused)
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
@@ -121,6 +124,16 @@ public class WeaponController : MonoBehaviour
                 fired = true;
                 Shoot();
                 uncharge = StartCoroutine(DeCharge());
+            }
+        }
+        else if (selectedWeapon == 2 && !GameManager.Instance.IsPaused)
+        {
+            fireRate = 10f;
+            // pistol shooting
+            if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire)
+            {
+                nextTimeToFire = Time.time + 1f / fireRate;
+                Shoot();
             }
         }
 
