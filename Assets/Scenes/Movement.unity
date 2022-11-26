@@ -4179,6 +4179,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1841537814 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 677120906684194384, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4239235101016087002}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281a0940518e43347b7f68923c08b6fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1886506112
 GameObject:
   m_ObjectHideFlags: 0
@@ -5410,6 +5422,16 @@ PrefabInstance:
     - target: {fileID: 4239235100428087233, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239235101244032540, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
+        type: 3}
+      propertyPath: grapple
+      value: 
+      objectReference: {fileID: 1841537814}
+    - target: {fileID: 4239235101244032540, guid: 880a96cf09f3ac2409dc61f162f1aa3b,
+        type: 3}
+      propertyPath: selectedWeapon
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4239235101244032540, guid: 880a96cf09f3ac2409dc61f162f1aa3b,

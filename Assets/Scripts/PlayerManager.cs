@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From Singleton Class
 {
     public GameObject player;
+    public Transform orientation;
+
     public Action<float> onPlayerDamaged;
     public Action onPlayerDeath;
     public Action<float> onPlayerRegen;
