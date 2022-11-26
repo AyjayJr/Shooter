@@ -95,8 +95,10 @@ public class WeaponController : MonoBehaviour
         
         previousSelectedWeapon = selectedWeapon;
 
+        if (GameManager.Instance.IsPaused) return;
+
         // primary mouse button, maybe change this later
-        if (selectedWeapon == 0 && !GameManager.Instance.IsPaused)
+        if (selectedWeapon == 0)
         {
             fireRate = 3f;
             // pistol shooting
@@ -106,7 +108,8 @@ public class WeaponController : MonoBehaviour
                 Shoot();
             }
         }
-        else if (selectedWeapon == 1 && !GameManager.Instance.IsPaused)
+
+        if (selectedWeapon == 1)
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
@@ -126,7 +129,7 @@ public class WeaponController : MonoBehaviour
                 uncharge = StartCoroutine(DeCharge());
             }
         }
-        else if (selectedWeapon == 2 && !GameManager.Instance.IsPaused)
+        else if (selectedWeapon == 2)
         {
             fireRate = 10f;
             // pistol shooting
