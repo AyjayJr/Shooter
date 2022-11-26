@@ -5987,7 +5987,9 @@ MonoBehaviour:
   shootableLayerMask:
     serializedVersion: 2
     m_Bits: 1847
+  grapple: {fileID: 0}
   selectedWeapon: 1
+  previousSelectedWeapon: 0
   weaponHolder: {fileID: 4239235101244032543}
   bobOverrides:
   - minSpeed: 6
@@ -6423,6 +6425,8 @@ GameObject:
   - component: {fileID: 4239235102289641258}
   - component: {fileID: 4239235102289641269}
   - component: {fileID: 3200135818436361281}
+  - component: {fileID: 8561078886112129570}
+  - component: {fileID: 7204245944989629148}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -6534,6 +6538,32 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!114 &8561078886112129570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239235102289641265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cbecc3b236f714da813c6982049f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &7204245944989629148
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239235102289641265}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4403614553230141872
 GameObject:
   m_ObjectHideFlags: 0
@@ -6747,6 +6777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   player: {fileID: 4239235102289641265}
+  orientation: {fileID: 4239235101453511811}
   isAlive: 1
   Health: 200
   lastDamageTaken: 3.4028235e+38
