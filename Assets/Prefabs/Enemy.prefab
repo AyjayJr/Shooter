@@ -412,6 +412,37 @@ Transform:
   m_Father: {fileID: 2912012003066108537}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 248.462, y: -15.522003, z: -145.89099}
+--- !u!1 &3417513390365946325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5373003071274631323}
+  m_Layer: 0
+  m_Name: GrenadeThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5373003071274631323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3417513390365946325}
+  m_LocalRotation: {x: -0.24132736, y: -0, z: -0, w: 0.9704438}
+  m_LocalPosition: {x: 0.236, y: 1.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8163535376256650432}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -27.93, y: 0, z: 0}
 --- !u!1 &3586894178373283648
 GameObject:
   m_ObjectHideFlags: 0
@@ -8462,7 +8493,13 @@ MonoBehaviour:
   initialState: 0
   chaseSpeed: 6.5
   strafeSpeed: 3.2
+  grenades: 2
+  throwForce: 55
+  maxThrowForce: 800
+  grenadeObject: {fileID: 4146174199402912764, guid: d9422f51c04550544a4cc153eb8da8c5,
+    type: 3}
   armingRange: 6
+  grenadeThrowPoint: {fileID: 5373003071274631323}
 --- !u!114 &537179537460887055
 MonoBehaviour:
   m_ObjectHideFlags: 0
