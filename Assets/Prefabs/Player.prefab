@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1638715768238506857}
   - component: {fileID: 1638715768238506870}
   - component: {fileID: 6057076637064656613}
+  - component: {fileID: 3999404263581479564}
+  - component: {fileID: 4092274579836060294}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -106,6 +108,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 576
+  weaponController: {fileID: 0}
   maxSlopeAngle: 70
   inputEnabled: 1
   orientation: {fileID: 1638715768535765184}
@@ -123,6 +126,32 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!114 &3999404263581479564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638715768238506866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cbecc3b236f714da813c6982049f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &4092274579836060294
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638715768238506866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1638715768454647044
 GameObject:
   m_ObjectHideFlags: 0
