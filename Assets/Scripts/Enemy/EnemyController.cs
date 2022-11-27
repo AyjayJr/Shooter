@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
     public int grenades = 2;
     public float throwForce = 50f;
     public float maxThrowForce = 1000f;
-
+    public float autoAlertRadius = 2.5f;
     public GameObject grenadeObject;
     public float armingRange = 6.0f;
     public Transform grenadeThrowPoint;
@@ -213,6 +213,10 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void PlayerShootingAlert()
+    {
+        stateMachine.ChangeState(AiStateId.Chase);
+    }
 
     public IEnumerator moveToPoint(Vector3 waypoint)
     {

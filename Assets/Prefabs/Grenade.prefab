@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4146174199402912761}
   - component: {fileID: 4146174199402912762}
   - component: {fileID: 4146174199402912763}
+  - component: {fileID: -2817480751109272713}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -147,3 +148,16 @@ MonoBehaviour:
   explosionDamage: 35
   explosionRadius: 5
   explosionForce: 400
+--- !u!114 &-2817480751109272713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146174199402912764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c1c0edca2ae9e4599903eeff4a5697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
