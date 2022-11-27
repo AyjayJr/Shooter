@@ -50,6 +50,7 @@ public class GameManager : Singleton<GameManager>
     public void LoseScreen()
     {
         Instantiate(loseScreen, null);
+        SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Death);
         TimeManager.Instance.EndTimer();
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
         isPaused = true;
