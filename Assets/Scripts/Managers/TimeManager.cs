@@ -22,7 +22,7 @@ public class TimeManager : Singleton<TimeManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnGameSceneLoaded;
-        if (SceneManager.GetActiveScene().name == "Map MVP")
+        if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             InitializeTimer();
         }
