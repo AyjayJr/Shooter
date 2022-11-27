@@ -11,17 +11,22 @@ public class grenade : MonoBehaviour
     public float explosionDamage = 60f;
     public float explosionRadius = 10f;
     public float explosionForce = 400f;
-
+    Target target;
 
     // Start is called before the first frame update
     void Start()
     {
         countDown = delay;
+        target = GetComponent<Target>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (target.health <= 0)
+        {
+            Explode();
+        }
         countDown -= Time.deltaTime;
         if (countDown < 0f && !hasExploded)
         {
