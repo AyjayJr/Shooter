@@ -10,7 +10,6 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     public Transform orientation;
 
     public Action<float> onPlayerDamaged;
-    public Action onPlayerDeath;
     public Action<float> onPlayerRegen;
     public bool isAlive = true;
     [SerializeField] private float Health;
@@ -37,9 +36,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
         {
             Debug.Log("player died");
             // Invoke tells subscribers to trigger listened functions (+=)
-            onPlayerDeath?.Invoke();
             GameManager.Instance.LoseScreen();
-            isAlive = false;
             return;
         }
 
