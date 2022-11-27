@@ -33,6 +33,7 @@ public class PauseMenu : MonoBehaviour
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        qualityDropdown.value = PlayerPrefs.GetInt("Graphics");
 
         SoundManager.Instance.AddButtonSounds(resumeButton, SoundManager.GameSounds.MenuPlaySound);
         SoundManager.Instance.AddButtonSounds(restartButton, SoundManager.GameSounds.MenuBackSound);
@@ -51,6 +52,7 @@ public class PauseMenu : MonoBehaviour
         settingsButton.onClick.AddListener(ShowSettings);
         backButton.onClick.AddListener(ShowPauseMenu);
         quitButton.onClick.AddListener(ShowConfirmQuit);
+        qualityDropdown.onValueChanged.AddListener(SetQualityLevel);
 
         // actually quit
         yesButton.onClick.AddListener(QuitToMainMenu);
@@ -91,6 +93,12 @@ public class PauseMenu : MonoBehaviour
         stateMachineUI.ChangeState(main);
     }
 
+    private void SetQualityLevel(int index)
+    {
+        QualitySettings.SetQualityLevel(index, true);
+        PlayerPrefs.SetInt("Graphics", index);
+    }
+
     private void ShowConfirmQuit()
     {
         title.text = "Are you sure you want to quit?";
@@ -100,6 +108,7 @@ public class PauseMenu : MonoBehaviour
     private void QuitToMainMenu()
     {
         title.text = "Paused";
+        this.gameObject.SetActive(false);
         SceneManager.LoadScene(0);
     }
 }

@@ -52,6 +52,7 @@ public class PlayerCam : MonoBehaviour
     {
 		float maxHealth = PlayerManager.Instance.MaxHealth;
 		float vignetteValue = (damage) / (maxHealth) * (maxVignetteIntesity);
+		Debug.Log(vignetteValue);
 		if (vignette.intensity <= maxVignetteIntesity)
         {
 			vignette.intensity.value += Mathf.Clamp(vignetteValue, 0.0f, 0.5f);
@@ -63,6 +64,7 @@ public class PlayerCam : MonoBehaviour
 		float maxHealth = PlayerManager.Instance.MaxHealth;
 		float maxVignetteIntesity = 0.5f;
 		float vignetteValue = (amountHealed) / (maxHealth) * (maxVignetteIntesity);
+		Debug.Log("Heal: " + vignetteValue);
 		if (vignette.intensity > 0.0f)
 			vignette.intensity.value -= vignetteValue;
 	}
