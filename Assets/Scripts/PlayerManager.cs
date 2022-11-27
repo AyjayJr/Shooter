@@ -33,7 +33,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
         onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
-        if (Health <= 0)
+        if (Health <= 0 && isAlive)
         {
             Debug.Log("player died");
             // Invoke tells subscribers to trigger listened functions (+=)
