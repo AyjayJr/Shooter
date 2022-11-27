@@ -2735,7 +2735,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6794540041016030892, guid: df5804cb9362ad24db4100ad71a3f372,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 511509b0d90c10244b57736539e197f4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 690c5f164d05bd843bb74f17b343d251, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -10369,6 +10369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visionRadius: 20
   shootingRange: 8
+  YOffset: 2.5
   target: {fileID: 0}
   speed: 3
   health: 50
@@ -10384,6 +10385,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e05268630334f944eb4015db803989e0, type: 2}
   - {fileID: 2100000, guid: 7f62643fe690bc54da1f34494514b7d1, type: 2}
   sphereRef: {fileID: 901268909188248883}
+  isFlying: 0
+  isAboveTarget: 0
 --- !u!54 &5235201515949489834
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17656,7 +17659,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6794540041016030892, guid: df5804cb9362ad24db4100ad71a3f372,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 511509b0d90c10244b57736539e197f4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 690c5f164d05bd843bb74f17b343d251, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

@@ -7,6 +7,7 @@ public class ScoutDroidController : MonoBehaviour
 {
     public float visionRadius = 10f;
     public float shootingRange = 6f;
+    public float YOffset = 2.5f;
     [HideInInspector]
     public Transform target;
     public float speed = 2f;
@@ -19,6 +20,10 @@ public class ScoutDroidController : MonoBehaviour
     public RayCastWeapon pistol2;
     public Material[] eyeEmmisionMaterials;
     public MeshRenderer sphereRef;
+    [HideInInspector]
+    public bool isFlying;
+    [HideInInspector]
+    public bool isAboveTarget;
 
     void Start()
     {
@@ -37,6 +42,9 @@ public class ScoutDroidController : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
+        isFlying = !Physics.Raycast(transform.position, Vector3.down, YOffset);
+        if (target != null)
+            isAboveTarget = !Physics.Raycast(target.position, Vector3.down, YOffset);
     }
 
     private void LateUpdate()
