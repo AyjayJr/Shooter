@@ -45,7 +45,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     void Update()
     {
-        if (Health >= maxHealth)
+        if (Health >= maxHealth || !isAlive)
         {
             StopCoroutine(HealthRegneration());
             return;

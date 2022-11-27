@@ -32,7 +32,8 @@ public class AiFlyChaseState : FlyState
         {
             //enemyController.agent.SetDestination(enemyController.target.position);
             enemyController.FaceTarget();
-            enemyController.transform.position = Vector3.MoveTowards(enemyController.transform.position, enemyController.target.position, enemyController.speed * Time.deltaTime);
+            Vector3 targetPos = new Vector3(enemyController.target.position.x, enemyController.target.position.y + enemyController.YOffset, enemyController.target.position.z);
+            enemyController.transform.position = Vector3.MoveTowards(enemyController.transform.position, targetPos, enemyController.speed * Time.deltaTime);
         }
 
         if (playerDirection.magnitude < enemyController.shootingRange)

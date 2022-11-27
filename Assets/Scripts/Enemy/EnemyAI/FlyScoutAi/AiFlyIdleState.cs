@@ -24,6 +24,9 @@ public class AiFlyIdleState : FlyState
 
     public void Update(ScoutDroidController enemyController)
     {
+        if (!enemyController.isFlying)
+            enemyController.transform.position = Vector3.MoveTowards(enemyController.transform.position, 
+                new Vector3(enemyController.transform.position.x, enemyController.transform.position.y + enemyController.YOffset, enemyController.transform.position.z), enemyController.speed * Time.deltaTime);
         Vector3 playerDirection = enemyController.target.transform.position - enemyController.transform.position;
         if (playerDirection.magnitude > enemyController.visionRadius)
         {

@@ -42,6 +42,9 @@ public class MainMenuController : MonoBehaviour
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        qualityDropdown.value = PlayerPrefs.GetInt("Graphics");
+        if (!PlayerPrefs.HasKey("Graphics"))
+            PlayerPrefs.SetInt("Graphics", 3);
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));
@@ -68,6 +71,7 @@ public class MainMenuController : MonoBehaviour
 
     public void SetQualityLevel(int index)
     {
-        QualitySettings.SetQualityLevel(index, false);
+        QualitySettings.SetQualityLevel(index, true);
+        PlayerPrefs.SetInt("Graphics", index);
     }
 }
