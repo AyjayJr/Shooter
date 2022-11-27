@@ -70,8 +70,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
 
-
-
         stateMachine.Update();
         if (!PlayerManager.Instance.isAlive)
         {

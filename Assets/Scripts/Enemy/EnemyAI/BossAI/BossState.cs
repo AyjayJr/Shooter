@@ -5,6 +5,7 @@ using UnityEngine;
 public enum BossStateID
 {
     Attack,
+    PlayerDeath,
 } 
 
 public interface BossState
