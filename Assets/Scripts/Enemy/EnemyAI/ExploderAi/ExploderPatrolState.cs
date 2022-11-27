@@ -9,7 +9,6 @@ public class ExploderPatrolState : ExploderState
     void ExploderState.Enter(ExploderController enemyController)
     {
         wayPoint = enemyController.NextWayPoint(0);
-        Debug.Log("new waypoint first" + wayPoint.id);
         enemyController.agent.SetDestination(wayPoint.transform.position);
     }
 
@@ -28,9 +27,7 @@ public class ExploderPatrolState : ExploderState
         float distance = Vector3.Distance(enemyController.transform.position, wayPoint.transform.position);
         if (!enemyController.agent.hasPath || distance < 2.2f)
         {
-            Debug.Log("Waypoint ID" + wayPoint.id);
             wayPoint = enemyController.NextWayPoint(wayPoint.id);
-            Debug.Log("new waypoint " + wayPoint.id);
             enemyController.agent.SetDestination(wayPoint.transform.position);
         }
        
