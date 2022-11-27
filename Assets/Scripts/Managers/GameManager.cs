@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Canvas loseScreen;
 
     public Action<bool> onPaused;
+    public Action onLose;
     private bool isPaused = true;
 
     public bool IsPaused { get => isPaused; }
@@ -50,9 +51,12 @@ public class GameManager : Singleton<GameManager>
     public void LoseScreen()
     {
         Instantiate(loseScreen, null);
+        onLose?.Invoke();
         SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Death);
         TimeManager.Instance.EndTimer();
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
+        PlayerManager.Instance.isAlive = false;
+        PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = true;
         isPaused = true;
         ManageCursorState();
     }
