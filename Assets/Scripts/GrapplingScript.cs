@@ -25,7 +25,6 @@ public class GrapplingScript : MonoBehaviour
     public float pullForceValue;
     public float cameraForceValue;
 
-    [HideInInspector] public Coroutine pull;
     [HideInInspector] public Coroutine rotate; 
 
     void Awake()
@@ -89,13 +88,13 @@ public class GrapplingScript : MonoBehaviour
 
             lr.positionCount = 2;
 
-            pull = StartCoroutine(PullTowards(joint.minDistance));
+            StartCoroutine(PullTowards());
         }
     }
 
     public void EndGrapple()
     {
-        StopCoroutine(pull);
+        StopCoroutine(PullTowards());
         isDeployed = false;
         grapplePull.force = Vector3.zero;
         Destroy(joint);
@@ -128,7 +127,7 @@ public class GrapplingScript : MonoBehaviour
         }
     }
 
-    IEnumerator PullTowards(float minDistance)
+    public IEnumerator PullTowards()
     {
         while(Vector3.Distance(hand.position, grapplePoint) >= 0.1f && isDeployed)
         {

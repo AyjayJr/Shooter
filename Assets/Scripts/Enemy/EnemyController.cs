@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class EnemyController : MonoBehaviour
 
     private Vector2 velocity = Vector2.zero;
     private Vector2 smoothDeltaPos = Vector2.zero;
-
+    
 
 
     // Start is called before the first frame update
@@ -61,9 +62,8 @@ public class EnemyController : MonoBehaviour
         stateMachine.RegisterState(new AiAttackState());
         stateMachine.RegisterState(new AIPlayerDeathState());
 
-
-
         stateMachine.ChangeState(initialState);
+
     }
 
     // Update is called once per frame

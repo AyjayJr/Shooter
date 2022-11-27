@@ -6049,7 +6049,7 @@ MonoBehaviour:
     type: 3}
   shootableLayerMask:
     serializedVersion: 2
-    m_Bits: 1847
+    m_Bits: 5943
   grapple: {fileID: 677120906684194384}
   soundRadius: 10
   weaponHolder: {fileID: 4239235101244032543}
@@ -6413,7 +6413,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 7991
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

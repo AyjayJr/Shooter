@@ -244,7 +244,7 @@ public class WeaponController : MonoBehaviour
             EnemyController enemy = hit.transform.GetComponent<EnemyController>();
             ExploderController exploder = hit.transform.GetComponent<ExploderController>();
             ScoutDroidController flyEnemy = hit.transform.GetComponent<ScoutDroidController>();
-
+            BossController bossController = hit.transform.GetComponent<BossController>();
 
             if (target != null)
             {
@@ -253,6 +253,10 @@ public class WeaponController : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+            }
+            if (bossController != null)
+            {
+                bossController.TakeDamage(damage);
             }
             if (exploder != null)
             {
@@ -288,9 +292,9 @@ public class WeaponController : MonoBehaviour
         }
 
         // cancel grapple coroutines if they're active
-        if(grapple.pull != null)
+        if(grapple.PullTowards() != null)
         {
-            StopCoroutine(grapple.pull);
+            StopCoroutine(grapple.PullTowards());
             Destroy(grapple.joint);
             grapple.isDeployed = false;
             grapple.lr.positionCount = 0;
