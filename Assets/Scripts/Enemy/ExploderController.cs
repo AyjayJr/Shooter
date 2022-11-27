@@ -113,9 +113,6 @@ public class ExploderController : MonoBehaviour
     public WayPoint NextWayPoint(int currentWayPoint)
     {
         // find closest waypoints
-        Debug.Log("loading waypoint");
-
-        Debug.Log("way point system len" + wayPointSystem.wayPoints.Length);
         int randomIndex;
         if (rand.Next(3) == 0)
         {

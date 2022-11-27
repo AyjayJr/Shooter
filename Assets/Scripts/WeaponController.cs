@@ -15,7 +15,8 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GrapplingScript grapple;
     public int selectedWeapon = 0;
     public int previousSelectedWeapon;
-    
+    public float soundRadius = 10;
+
     [Header("Gun Bob")]
     [SerializeField] private Transform weaponHolder;
     
@@ -193,9 +194,23 @@ public class WeaponController : MonoBehaviour
         xPos += xSway;
         yPos += ySway;
     }
+    void AlertEnemies()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, soundRadius);
+        foreach (Collider collider in colliders)
+        {
+            EnemyController enemy = collider.GetComponent<EnemyController>();
 
+            if (enemy != null)
+            {
+                enemy.PlayerShootingAlert();
+            }
+
+        }     
+    }
     void Shoot()
     {
+        AlertEnemies();
         muzzleFlash.Play();
         SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
 

@@ -7,12 +7,12 @@ public class AiChaseState : AiState
     void AiState.Enter(EnemyController enemyController)
     {
         enemyController.Aim();
+        enemyController.agent.speed = enemyController.chaseSpeed;
     }
 
     void AiState.Exit(EnemyController enemyController)
     {
         enemyController.agent.SetDestination(enemyController.transform.position);
-        enemyController.StopAim();
     }
 
     AiStateId AiState.GetId()
