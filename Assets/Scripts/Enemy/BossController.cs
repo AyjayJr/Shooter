@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
@@ -26,11 +27,15 @@ public class BossController : MonoBehaviour
 
     public GameObject ovenObject;
     public Transform ovenThrowPoint;
+    public Canvas bossHealthPrefab;
+    private Slider bossHealthBar;
+    private float maxHealth;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        maxHealth = health;
         target = PlayerManager.Instance.player.transform;
         targetOrientation = PlayerManager.Instance.orientation;
 
@@ -45,7 +50,7 @@ public class BossController : MonoBehaviour
 
 
 
-
+        bossHealthBar = Instantiate(bossHealthPrefab, null).transform.GetChild(0).GetComponent<Slider>();
 
         stateMachine.ChangeState(initialState);
     }
@@ -120,6 +125,23 @@ public class BossController : MonoBehaviour
 
         rb.velocity = initialVelocity;
 
+    }
+
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        bossHealthBar.value = health / maxHealth;
+        if (health <= 0f)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        stateMachine.ChangeState(BossStateID.Death);
+        animator.enabled = false;
+        Destroy(agent);
     }
 
 }

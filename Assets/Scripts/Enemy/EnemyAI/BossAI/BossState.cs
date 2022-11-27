@@ -6,6 +6,7 @@ public enum BossStateID
 {
     Attack,
     PlayerDeath,
+    Death
 } 
 
 public interface BossState
