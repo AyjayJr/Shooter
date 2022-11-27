@@ -585,6 +585,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!1 &5170335902796147950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2483914482857096177}
+  m_Layer: 0
+  m_Name: HeadColider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2483914482857096177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5170335902796147950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8163535376256650432}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5850157748999345117
 GameObject:
   m_ObjectHideFlags: 0
@@ -8488,7 +8519,7 @@ MonoBehaviour:
   targetOrientation: {fileID: 0}
   agent: {fileID: 429787417}
   animator: {fileID: 6870623843780753078}
-  health: 50
+  health: 30
   isDead: 0
   initialState: 0
   chaseSpeed: 6.5
@@ -8496,6 +8527,7 @@ MonoBehaviour:
   grenades: 2
   throwForce: 55
   maxThrowForce: 800
+  autoAlertRadius: 2.5
   grenadeObject: {fileID: 4146174199402912764, guid: d9422f51c04550544a4cc153eb8da8c5,
     type: 3}
   armingRange: 6

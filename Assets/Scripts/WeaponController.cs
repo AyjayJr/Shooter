@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    private enum Weapons
+    {
+        Pistol,
+        Gauss,
+        Rifle
+    }
+
     [Header("Shooting")]
     [SerializeField] private Camera cam; 
     [SerializeField] private float fireRate;
@@ -15,9 +22,10 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
     [SerializeField] private GrapplingScript grapple;
-    public int selectedWeapon = 0;
-    public int previousSelectedWeapon;
-    
+    private Weapons selectedWeapon;
+    private Weapons previousSelectedWeapon;
+    public float soundRadius = 10;
+
     [Header("Gun Bob")]
     [SerializeField] private Transform weaponHolder;
     
@@ -98,7 +106,7 @@ public class WeaponController : MonoBehaviour
         if (GameManager.Instance.IsPaused) return;
 
         // primary mouse button, maybe change this later
-        if (selectedWeapon == 0)
+        if (selectedWeapon == Weapons.Pistol)
         {
             fireRate = 3f;
             // pistol shooting
@@ -109,7 +117,7 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        if (selectedWeapon == 1)
+        if (selectedWeapon == Weapons.Gauss)
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
@@ -129,7 +137,7 @@ public class WeaponController : MonoBehaviour
                 uncharge = StartCoroutine(DeCharge());
             }
         }
-        else if (selectedWeapon == 2)
+        else if (selectedWeapon == Weapons.Rifle)
         {
             fireRate = 10f;
             // pistol shooting
@@ -143,9 +151,9 @@ public class WeaponController : MonoBehaviour
 		// these next two ifs make the mouse wheel scroll loop through weapon selections
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            if (selectedWeapon >= transform.childCount - 1)
+            if ((int)selectedWeapon >= transform.childCount - 1)
             {
-                selectedWeapon = 0;
+                selectedWeapon = Weapons.Pistol;
             } else {
                 selectedWeapon++;
             }
@@ -155,7 +163,7 @@ public class WeaponController : MonoBehaviour
         {
             if (selectedWeapon <= 0)
             {
-                selectedWeapon = transform.childCount - 1;
+                selectedWeapon = Weapons.Rifle;
             } else {
                 selectedWeapon--;
             }
@@ -164,15 +172,15 @@ public class WeaponController : MonoBehaviour
         // map weapons to num keys 1 and 2 with the possibility for more
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selectedWeapon = 0;
+            selectedWeapon = Weapons.Pistol;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
         {
-            selectedWeapon = 1;
+            selectedWeapon = Weapons.Gauss;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 2)
         {
-            selectedWeapon = 2;
+            selectedWeapon = Weapons.Rifle;
         }
 
         if (previousSelectedWeapon != selectedWeapon)
@@ -209,9 +217,23 @@ public class WeaponController : MonoBehaviour
         xPos += xSway;
         yPos += ySway;
     }
+    void AlertEnemies()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, soundRadius);
+        foreach (Collider collider in colliders)
+        {
+            EnemyController enemy = collider.GetComponent<EnemyController>();
 
+            if (enemy != null)
+            {
+                enemy.PlayerShootingAlert();
+            }
+
+        }     
+    }
     void Shoot()
     {
+        AlertEnemies();
         muzzleFlash.Play();
         SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
 
@@ -256,7 +278,7 @@ public class WeaponController : MonoBehaviour
         int i = 0;
         foreach (Transform weapon in transform)
         {
-            if (i == selectedWeapon)
+            if (i == (int)selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);
             } else {

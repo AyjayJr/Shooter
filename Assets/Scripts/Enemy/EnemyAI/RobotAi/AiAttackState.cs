@@ -37,8 +37,6 @@ public class AiAttackState : AiState
     void AiState.Exit(EnemyController enemyController)
     {
         enemyController.StopAttack();
-        enemyController.StopAim();
-        enemyController.agent.speed = enemyController.chaseSpeed;
     }
 
     AiStateId AiState.GetId()

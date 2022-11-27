@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class AiIdleState : AiState
 {
-    public void Enter(EnemyController agent)
+    public void Enter(EnemyController enemyController)
     {
-        return;
+        enemyController.StopAim();  
     }
 
-    public void Exit(EnemyController agent)
+    public void Exit(EnemyController enemyController)
     {
         return;
     }
@@ -26,7 +26,10 @@ public class AiIdleState : AiState
         {
             return;
         }
-
+        if (playerDirection.magnitude < enemyController.autoAlertRadius)
+        {
+            enemyController.stateMachine.ChangeState(AiStateId.Chase);
+        }
         Vector3 agentDirection = enemyController.transform.forward;
         playerDirection.Normalize();
         float dotProduct = Vector3.Dot(playerDirection, agentDirection);
