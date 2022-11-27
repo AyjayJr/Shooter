@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 373881360428482402}
   - component: {fileID: 8086570409221997686}
   - component: {fileID: 1434558616661735707}
+  - component: {fileID: -1019028249823746843}
   m_Layer: 0
   m_Name: StoveWeapon
   m_TagString: Untagged
@@ -225,8 +226,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3155210d59d964fb6880f2871d931c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionRadius: 6
+  explosionForce: 2000
+  explosionDamage: 30
   explosionEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3,
     type: 3}
+--- !u!114 &-1019028249823746843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6267303429212916027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c1c0edca2ae9e4599903eeff4a5697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
 --- !u!1 &6501094026216307614
 GameObject:
   m_ObjectHideFlags: 0

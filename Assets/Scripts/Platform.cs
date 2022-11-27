@@ -3,22 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Platform : MonoBehaviour
-{
+{   
+    public bool hasExploded = false;
+    public const float PLATFORM_REGEN = 10f;
+    float regenTimer = PLATFORM_REGEN;
+
     public GameObject explosionEffect;
 
-    private void OnCollisionEnter(Collision collision)
+    void Update()
     {
-        StoveWeapon stove = collision.collider.GetComponent<StoveWeapon>();
-        if (stove != null)
+        if (hasExploded)
         {
-            Explode();
-            stove.Explode();
+            regenTimer -= Time.deltaTime;
+            if (regenTimer < 0)
+            {
+                regenTimer = PLATFORM_REGEN;
+                hasExploded = false;
+                gameObject.SetActive(true);
+            }
         }
-
     }
+
     public void Explode()
     {
         Instantiate(explosionEffect, transform.position, transform.rotation);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        hasExploded = false;
     }
 }

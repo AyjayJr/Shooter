@@ -14,11 +14,13 @@ public class BossController : MonoBehaviour
     public Animator animator;
     public float health = 50f;
     public bool isDead = false;
-
+    public GameObject forceField;
     public BossStateMachine stateMachine;
     public BossStateID initialState = BossStateID.Attack;
 
- 
+    public const float FORCE_FIELD_REGEN = 5f;
+    bool forceFieldActive = true;
+    float forceFieldTimer = FORCE_FIELD_REGEN;
     public float throwForce = 50f;
     public float maxThrowForce = 1000f;
 
@@ -39,6 +41,8 @@ public class BossController : MonoBehaviour
         animator.applyRootMotion = false;
         stateMachine = new BossStateMachine(this);
         stateMachine.RegisterState(new BossAttackState());
+        stateMachine.RegisterState(new BossPlayerDeathState());
+
 
 
 
@@ -49,18 +53,26 @@ public class BossController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (!forceFieldActive)
+        {
+            forceFieldTimer -= Time.deltaTime;
+            if (forceFieldTimer < 0)
+            {
+                forceFieldTimer = FORCE_FIELD_REGEN;
+                forceField.SetActive(true);
+                forceFieldActive = true;
+            }
+        }
         stateMachine.Update();
 
-        /*
-                if (!PlayerManager.Instance.isAlive)
-                {
-                    stateMachine.ChangeState(AiStateId.PlayerDeath);
-                }
-                if (isDead)
-                {
-                    return;
-                }*/
+        if (!PlayerManager.Instance.isAlive)
+        {
+            stateMachine.ChangeState(BossStateID.PlayerDeath);
+        }
+        if (isDead)
+        {
+            return;
+        }
 
 
 
@@ -78,6 +90,8 @@ public class BossController : MonoBehaviour
     public void ThrowOven()
     {
 
+        forceField.SetActive(false);
+        forceFieldActive = false;
 
         Vector3 displacement = new Vector3(
               target.position.x,
