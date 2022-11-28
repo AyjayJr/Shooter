@@ -108,8 +108,8 @@ public class WeaponController : MonoBehaviour
         // primary mouse button, maybe change this later
         if (selectedWeapon == Weapons.Pistol)
         {
+            damage = 5f;
             fireRate = 3f;
-            // pistol shooting
             if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire)
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
@@ -140,8 +140,8 @@ public class WeaponController : MonoBehaviour
         }
         else if (selectedWeapon == Weapons.Rifle)
         {
+            damage = 5f;
             fireRate = 10f;
-            // pistol shooting
             if (Input.GetMouseButton(0) && Time.time >= nextTimeToFire)
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
