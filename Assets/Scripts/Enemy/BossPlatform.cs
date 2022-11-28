@@ -6,21 +6,20 @@ public class BossPlatform : MonoBehaviour
 {
     public float damage = 4f;
     bool playerOn = false;
+    bool damageActive = true;
 
     void Update()
     {
-        if (playerOn)
+        if (playerOn && damageActive)
         {
             PlayerManager.Instance.LoseHealth(damage * Time.deltaTime);
         }
     }
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("colis");
         PlayerTarget player = collision.collider.GetComponent<PlayerTarget>();
         if (player != null)
         {
-            Debug.Log("player on");
             playerOn = true;
         }
     }
@@ -30,9 +29,13 @@ public class BossPlatform : MonoBehaviour
         PlayerTarget player = collision.collider.GetComponent<PlayerTarget>();
         if (player != null)
         {
-            Debug.Log("player off");
             playerOn = false;
         
         }
+    }
+
+    public void DamageOff()
+    {
+        damageActive = false;
     }
 }

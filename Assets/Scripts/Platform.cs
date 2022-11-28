@@ -28,6 +28,6 @@ public class Platform : MonoBehaviour
     {
         Instantiate(explosionEffect, transform.position, transform.rotation);
         gameObject.SetActive(false);
-        hasExploded = false;
+        hasExploded = true;
     }
 }
