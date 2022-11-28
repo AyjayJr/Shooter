@@ -328,7 +328,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }
+            Debug.Log("moveSpeed = " + flatVel.magnitude);
         }
+
     }
 
     private void Jump()

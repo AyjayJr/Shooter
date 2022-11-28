@@ -14,7 +14,7 @@ public class WeaponController : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Camera cam; 
     [SerializeField] private float fireRate;
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float damage = 5f;
     [SerializeField] private float nextTimeToFire = 0f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float impactForce = 3f;
@@ -125,6 +125,7 @@ public class WeaponController : MonoBehaviour
                 charge += Time.deltaTime;
                 charge = Mathf.Clamp(charge, 0, 1.5f);
                 chargeMeter.localScale = new Vector3(1, charge/1.5f, 1);
+                damage = 100f * charge;
             }
 
             // primary mouse button, maybe change this later
