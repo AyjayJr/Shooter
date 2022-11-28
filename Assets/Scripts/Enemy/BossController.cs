@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
-  
+    public GameObject explosionEffect;
+    public GameObject victoryStove;
+
     public Transform target;
     public Transform targetOrientation;
     public NavMeshAgent agent;
@@ -18,6 +20,7 @@ public class BossController : MonoBehaviour
     public GameObject forceField;
     public BossStateMachine stateMachine;
     public BossStateID initialState = BossStateID.Attack;
+    public BossPlatform bossPlatform;
 
     public const float FORCE_FIELD_REGEN = 5f;
     bool forceFieldActive = true;
@@ -141,7 +144,11 @@ public class BossController : MonoBehaviour
     {
         stateMachine.ChangeState(BossStateID.Death);
         animator.enabled = false;
-        Destroy(agent);
+        Destroy(gameObject);
+        Instantiate(explosionEffect, transform.position, transform.rotation);
+        Instantiate(victoryStove, transform.position, transform.rotation);
+        forceField.SetActive(false);
+        bossPlatform.DamageOff();
     }
 
 }
