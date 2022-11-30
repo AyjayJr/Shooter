@@ -107,7 +107,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 94032959ad0ac7b47a1f08f22ca0ad9e, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 94032959ad0ac7b47a1f08f22ca0ad9e,
+      type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 67b50ae3c0d72534493cb01746f4383e, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: 94032959ad0ac7b47a1f08f22ca0ad9e, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: b7f3f1a2f9cff6e4488c5dead2a2d7cd, type: 3}
@@ -157,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00027752, y: -0.00022221}
+  m_AnchoredPosition: {x: 0.0002746582, y: -0.00022125244}
   m_SizeDelta: {x: -0.00045776, y: -0.00048828}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2829335383018186977
@@ -191,7 +192,8 @@ MonoBehaviour:
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09663a5e4845de24abe37d80f7e5fc2d, type: 2}
-  m_sharedMaterial: {fileID: -1989125285029861193, guid: 09663a5e4845de24abe37d80f7e5fc2d, type: 2}
+  m_sharedMaterial: {fileID: -1989125285029861193, guid: 09663a5e4845de24abe37d80f7e5fc2d,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
