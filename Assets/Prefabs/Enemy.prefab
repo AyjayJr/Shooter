@@ -8519,7 +8519,7 @@ MonoBehaviour:
   targetOrientation: {fileID: 0}
   agent: {fileID: 429787417}
   animator: {fileID: 6870623843780753078}
-  health: 30
+  health: 25
   isDead: 0
   initialState: 0
   chaseSpeed: 6.5
