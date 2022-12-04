@@ -25,8 +25,15 @@ public class ScoutDroidController : MonoBehaviour
     [HideInInspector]
     public bool isAboveTarget;
 
+    private Vector3 startingPos;
+    private Quaternion startingRot;
+    private float maxHealth;
+
     void Start()
     {
+        startingPos = this.transform.localPosition;
+        startingRot = this.transform.localRotation;
+        maxHealth = health;
         target = PlayerManager.Instance.player.transform;
 
         stateMachine = new FlyStateMachine(this);
@@ -36,6 +43,8 @@ public class ScoutDroidController : MonoBehaviour
         stateMachine.RegisterState(new AiFlyAttackState());
 
         stateMachine.ChangeState(initialState);
+
+        GameManager.Instance.onRespawn += ResetAi;
     }
 
     // Update is called once per frame
@@ -59,6 +68,31 @@ public class ScoutDroidController : MonoBehaviour
         }
     }
 
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.onRespawn -= ResetAi;
+    }
+
+    private void ResetAi()
+    {
+        transform.localPosition = startingPos;
+        transform.localRotation = startingRot;
+        health = maxHealth;
+        isDead = false;
+        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().drag = 10f;
+        target = PlayerManager.Instance.player.transform;
+
+        stateMachine = new FlyStateMachine(this);
+        stateMachine.RegisterState(new AiFlyChaseState());
+        stateMachine.RegisterState(new AiFlyDeathState());
+        stateMachine.RegisterState(new AiFlyIdleState());
+        stateMachine.RegisterState(new AiFlyAttackState());
+
+        stateMachine.ChangeState(initialState);
+    }
 
     public void setColliderState(bool state)
     {
@@ -99,13 +133,15 @@ public class ScoutDroidController : MonoBehaviour
 
     public void Die()
     {
+        if (isDead) return;
         GameObject explosion = Instantiate(explosionEffect, this.transform);
         GetComponent<AudioSource>().Play();
         explosion.transform.parent = null;
         GetComponent<Rigidbody>().drag = 1f;
         stateMachine.ChangeState(AiFlyStateId.Death);
         Destroy(explosion, 1.5f);
-        Destroy(this);
+        isDead = true;
+        this.enabled = false;
     }
 
     public void TakeDamage(float amount)

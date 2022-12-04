@@ -6,6 +6,7 @@ public class AiFlyIdleState : FlyState
 {
     public void Enter(ScoutDroidController enemyController)
     {
+        enemyController.enabled = true;
         Material[] materials = enemyController.sphereRef.materials;
         materials[3] = enemyController.eyeEmmisionMaterials[0];
         materials[4] = enemyController.eyeEmmisionMaterials[1];

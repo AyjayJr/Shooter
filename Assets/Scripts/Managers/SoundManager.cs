@@ -71,6 +71,11 @@ public class SoundManager : Singleton<SoundManager>
         sfxAudioSource.PlayOneShot(GetAudioClip(sound));
     }
 
+    public void PlaySFXOnce(AudioClip sound)
+    {
+        sfxAudioSource.PlayOneShot(sound);
+    }
+
     public void PlaySFXOnceNoInterrupt(GameSounds sound)
     {
         if (sfxAudioSource.isPlaying) return;

@@ -6,6 +6,7 @@ public class ExploderDeathState : ExploderState
 {
     void ExploderState.Enter(ExploderController enemyController)
     {
+        enemyController.isDead = true;
         enemyController.Explode();
     }
 

@@ -22,18 +22,68 @@ public class ExploderController : MonoBehaviour
     public float activationRadius = 2.0f;
     public float explosionForce = 2000.0f;
     public float explosionDamage = 100.0f;
+    public bool isDead = false;
 
     public GameObject explosionEffect;
+    public SkinnedMeshRenderer meshRenderer;
+    private BoxCollider boxCollider;
     public float health = 15.0f;
     float accumulatedTime;
     bool isBlinking = false;
-
+    private Vector3 startingPos;
+    private Quaternion startingRot;
+    private float maxHealth;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        startingPos = transform.localPosition;
+        startingRot = transform.localRotation;
+        maxHealth = health;
+        target = PlayerManager.Instance.player.transform;
+
+        boxCollider = GetComponent<BoxCollider>();
+        agent = GetComponent<NavMeshAgent>();
+        armedLight = GetComponentInChildren<Light>();
+        armedLight.enabled = false;
+        stateMachine = new ExploderStateMachine(this);
+        stateMachine.RegisterState(new ExploderChaseState());
+        stateMachine.RegisterState(new ExploderPatrolState());
+        stateMachine.RegisterState(new ExploderArmedState());
+        stateMachine.RegisterState(new ExploderDeathState());
+
+
+        stateMachine.ChangeState(initialState);
+
+        GameManager.Instance.onRespawn += ResetAi;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        stateMachine.Update();
+        if (isBlinking)
+        {
+            BlinkLight(Time.deltaTime);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.onRespawn -= ResetAi;
+    }
+
+    private void ResetAi()
+    {
+        startingPos = transform.localPosition;
+        startingRot = transform.localRotation;
+        health = maxHealth;
+        isDead = false;
+
+        meshRenderer.enabled = true;
+        boxCollider.enabled = true;
+        armedLight.enabled = true;
         target = PlayerManager.Instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         armedLight = GetComponentInChildren<Light>();
@@ -48,15 +98,6 @@ public class ExploderController : MonoBehaviour
         stateMachine.ChangeState(initialState);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        stateMachine.Update();
-        if (isBlinking)
-        {
-            BlinkLight(Time.deltaTime);
-        }
-    }
     public void StartBlinking()
     {
         accumulatedTime = 0;
@@ -107,14 +148,18 @@ public class ExploderController : MonoBehaviour
           
         }
         Instantiate(explosionEffect, transform.position, transform.rotation);
-        Destroy(gameObject);
+        this.enabled = false;
+        meshRenderer.enabled = false;
+        boxCollider.enabled = false;
+        armedLight.enabled = false;
+        isBlinking = false;
     }
 
     public WayPoint NextWayPoint(int currentWayPoint)
     {
         // find closest waypoints
         int randomIndex;
-        if (rand.Next(3) == 0)
+        if (rand.Next(3) == 0 && wayPointSystem.wayPoints != null)
         {
             randomIndex = rand.Next(wayPointSystem.wayPoints.Length);
             return wayPointSystem.wayPoints[randomIndex];

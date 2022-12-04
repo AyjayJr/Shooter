@@ -10372,7 +10372,7 @@ MonoBehaviour:
   YOffset: 2.5
   target: {fileID: 0}
   speed: 3
-  health: 50
+  health: 30
   isDead: 0
   initialState: 0
   explosionEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c,

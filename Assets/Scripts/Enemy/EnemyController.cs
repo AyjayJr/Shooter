@@ -32,18 +32,27 @@ public class EnemyController : MonoBehaviour
 
     private Vector2 velocity = Vector2.zero;
     private Vector2 smoothDeltaPos = Vector2.zero;
-    
+    private float maxHealth;
+    private Vector3 startingPos;
+    private Quaternion startingRot;
+    private Vector3 wStartingPos;
+    private Quaternion wStartingRot;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        startingPos = transform.localPosition;
+        startingRot = transform.localRotation;
+        maxHealth = health;
         target = PlayerManager.Instance.player.transform;
         targetOrientation = PlayerManager.Instance.orientation;
 
         rigs = GetComponent<RigBuilder>();
 
         weapon = GetComponentInChildren<RayCastWeapon>();
+        wStartingPos = weapon.transform.localPosition;
+        wStartingRot = weapon.transform.localRotation;
         SetRigBuilder();
 
         agent = GetComponent<NavMeshAgent>();
@@ -64,6 +73,7 @@ public class EnemyController : MonoBehaviour
 
         stateMachine.ChangeState(initialState);
 
+        GameManager.Instance.onRespawn += ResetAi;
     }
 
     // Update is called once per frame
@@ -98,6 +108,46 @@ public class EnemyController : MonoBehaviour
         {
             weapon.UpdateFiring(Time.deltaTime);
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.onRespawn -= ResetAi;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.onRespawn -= ResetAi;
+    }
+
+    private void ResetAi()
+    {
+        transform.localPosition = startingPos;
+        transform.localRotation = startingRot;
+        weapon.transform.localPosition = wStartingPos;
+        weapon.transform.localRotation = wStartingRot;
+        health = maxHealth;
+        isDead = false;
+        target = PlayerManager.Instance.player.transform;
+        targetOrientation = PlayerManager.Instance.orientation;
+
+        agent.enabled = true;
+        agent.speed = 6f;
+        agent.updatePosition = true;
+        agent.updateRotation = false;
+        animator.applyRootMotion = false;
+        animator.enabled = true;
+
+        setRigidbodyState(true);
+        setColliderState(false);
+        stateMachine = new AiStateMachine(this);
+        stateMachine.RegisterState(new AiChaseState());
+        stateMachine.RegisterState(new AiDeathState());
+        stateMachine.RegisterState(new AiIdleState());
+        stateMachine.RegisterState(new AiAttackState());
+        stateMachine.RegisterState(new AIPlayerDeathState());
+
+        stateMachine.ChangeState(initialState);
     }
 
     public void setRigidbodyState(bool state)
@@ -177,7 +227,7 @@ public class EnemyController : MonoBehaviour
     {
         stateMachine.ChangeState(AiStateId.Death);
         animator.enabled = false;
-        Destroy(agent);
+        agent.enabled = false;
 
     }
 

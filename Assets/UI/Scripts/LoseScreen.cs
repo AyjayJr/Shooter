@@ -13,10 +13,10 @@ public class LoseScreen : MonoBehaviour
     void Start()
     {
         restartButton.onClick.AddListener(() => {
-            SceneManager.LoadScene(1);
-            TimeManager.Instance.BeginTimer();
-            GameManager.Instance.TogglePause();
-        }); ;
+            GameManager.Instance.RespawnPlayer();
+        });
         exitButton.onClick.AddListener(() => SceneManager.LoadScene(0));
     }
+
+    
 }

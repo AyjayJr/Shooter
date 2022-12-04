@@ -7,7 +7,6 @@ public class AiFlyDeathState : FlyState
     public void Enter(ScoutDroidController enemyController)
     {
         enemyController.GetComponent<Rigidbody>().useGravity = true;
-        enemyController.isDead = true;
     }
 
     public void Exit(ScoutDroidController agent)
