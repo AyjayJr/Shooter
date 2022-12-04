@@ -5890,7 +5890,6 @@ GameObject:
   - component: {fileID: 4239235101207295866}
   - component: {fileID: 4239235101207295813}
   - component: {fileID: 4239235101207295812}
-  - component: {fileID: 7444588836074397814}
   m_Layer: 11
   m_Name: PlayerObj
   m_TagString: Player
@@ -5972,20 +5971,6 @@ CapsuleCollider:
   m_GameObject: {fileID: 4239235101207295814}
   m_Material: {fileID: 13400000, guid: 2ed5951c5e012a641b138850b3cf965e, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &7444588836074397814
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4239235101207295814}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
