@@ -158,7 +158,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcf7beb518a549479dd516b57a9f6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: Guass Cannon
+  pickedUpType: 0
   pickupSFX: {fileID: 8300000, guid: d22ad972ddad41d43a547a775e9927a2, type: 3}
+  tutVideo: {fileID: 32900000, guid: 28bc45d9ccf62634fbc8f62a41a82e74, type: 3}
+  renderTexture: {fileID: 8400000, guid: d544831af57ec7e44b05cf875579f44e, type: 2}
+  description: "The Gauss Cannon is a powerful charged weapon that shoots you back
+    when you fire. Be sure to Jump before shooting to get the max distance. \nThe
+    longer you charge, the farther you fly!\n\nYou can switch weapons by using the
+    scroll wheel or num keys 1, 2, and 3"
 --- !u!1 &809376748743196879
 GameObject:
   m_ObjectHideFlags: 0

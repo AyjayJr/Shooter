@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &754769395329904869
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8033257561949669440}
+  m_Layer: 11
+  m_Name: SpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8033257561949669440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754769395329904869}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.125071, y: 0.22260779, z: 0.4226908}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8392054053527330535}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1086527006472217750
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +42,7 @@ GameObject:
   - component: {fileID: 1402808428970511665}
   - component: {fileID: 3691051057017274336}
   - component: {fileID: 162411495263950665}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fridge_arm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +125,7 @@ GameObject:
   - component: {fileID: 7191259640809525774}
   - component: {fileID: 4703954718074812392}
   - component: {fileID: 3834868993829350563}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fridge_door2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +209,7 @@ GameObject:
   - component: {fileID: 8456509114301183530}
   - component: {fileID: 6539925242451234885}
   - component: {fileID: 2685071780880999610}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fridge_arm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +292,7 @@ GameObject:
   - component: {fileID: 2792727220861583068}
   - component: {fileID: 50035945393494222}
   - component: {fileID: 5133273371807060018}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fridge_door1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +376,7 @@ GameObject:
   - component: {fileID: 1565011943103177468}
   - component: {fileID: 1225803205625995113}
   - component: {fileID: 877483273647372672}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fridge_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +458,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8392054053527330535}
-  m_Layer: 0
+  - component: {fileID: 8753182223859244592}
+  - component: {fileID: 5302756247510136481}
+  - component: {fileID: 468779972870874735}
+  m_Layer: 11
   m_Name: Fridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,12 +477,63 @@ Transform:
   m_GameObject: {fileID: 9168554915179512925}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 4.221}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1565011943103177468}
   - {fileID: 2792727220861583068}
   - {fileID: 7191259640809525774}
+  - {fileID: 8033257561949669440}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8753182223859244592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9168554915179512925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6661c32c943e6c445b7a397f187f3d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objToSpawn: {fileID: 5800597773222135100, guid: e48a98f51e1c6874d82f73bc5d116f9d,
+    type: 3}
+  spawnedObjEndPos: {fileID: 8033257561949669440}
+  animator: {fileID: 468779972870874735}
+  finalScale: 0.015
+--- !u!135 &5302756247510136481
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9168554915179512925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &468779972870874735
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9168554915179512925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b92a371d8a72e564190f164e4f7e5d1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

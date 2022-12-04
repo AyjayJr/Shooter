@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 404416}
   - component: {fileID: 3333792}
   - component: {fileID: 2374088}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 449696}
   - component: {fileID: 3340558}
   - component: {fileID: 2334286}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 433684}
   - component: {fileID: 3347888}
   - component: {fileID: 2304610}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1578442242104619448}
   - component: {fileID: 3098063332567683375}
   - component: {fileID: 6670762679120361317}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: microwave_Unity (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +321,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 25
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3098063332567683375
 MonoBehaviour:
@@ -339,6 +339,7 @@ MonoBehaviour:
     type: 3}
   spawnedObjEndPos: {fileID: 6079114897948439405}
   animator: {fileID: 9514022}
+  finalScale: 0.2
 --- !u!82 &6670762679120361317
 AudioSource:
   m_ObjectHideFlags: 0
@@ -361,9 +362,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 200
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -371,23 +372,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.005
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -5.205477
+      outSlope: -5.205477
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.06644802
+    - serializedVersion: 3
+      time: 0.5585301
+      value: 0.32306892
+      inSlope: -0.60972595
+      outSlope: -0.60972595
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.16693088
+      outWeight: 0.2599477
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -1.0050251
+      outSlope: -1.0050251
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -447,7 +457,7 @@ GameObject:
   - component: {fileID: 495260}
   - component: {fileID: 3377884}
   - component: {fileID: 2399068}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +541,7 @@ GameObject:
   - component: {fileID: 487646}
   - component: {fileID: 3381482}
   - component: {fileID: 2395774}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,7 +622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432104}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hemi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6079114897948439405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
