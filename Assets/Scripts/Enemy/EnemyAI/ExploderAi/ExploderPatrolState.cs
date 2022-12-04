@@ -8,6 +8,7 @@ public class ExploderPatrolState : ExploderState
 
     void ExploderState.Enter(ExploderController enemyController)
     {
+        enemyController.enabled = true;
         wayPoint = enemyController.NextWayPoint(0);
         enemyController.agent.SetDestination(wayPoint.transform.position);
     }
@@ -24,7 +25,11 @@ public class ExploderPatrolState : ExploderState
 
     void ExploderState.Update(ExploderController enemyController)
     {
-        float distance = Vector3.Distance(enemyController.transform.position, wayPoint.transform.position);
+        float distance = 99;
+        if (wayPoint != null)
+            distance = Vector3.Distance(enemyController.transform.position, wayPoint.transform.position);
+        else
+            wayPoint = enemyController.NextWayPoint(0);
         if (!enemyController.agent.hasPath || distance < 2.2f)
         {
             wayPoint = enemyController.NextWayPoint(wayPoint.id);

@@ -6,7 +6,8 @@ public class AiIdleState : AiState
 {
     public void Enter(EnemyController enemyController)
     {
-        enemyController.StopAim();  
+        enemyController.StopAim();
+        enemyController.animator.SetBool("PlayerDead", false);
     }
 
     public void Exit(EnemyController enemyController)

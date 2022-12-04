@@ -845,8 +845,13 @@ MonoBehaviour:
   armedLight: {fileID: 0}
   armingRange: 6
   explosionRadius: 2
+  activationRadius: 2
+  explosionForce: 2000
+  explosionDamage: 100
+  isDead: 0
   explosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
+  meshRenderer: {fileID: 2774835256830505955}
   health: 15
 --- !u!1 &2774835256825233125
 GameObject:
