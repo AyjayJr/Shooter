@@ -30,7 +30,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void OnGameSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.name == "Map MVP")
+        if (scene.name != "Main Menu")
         {
             InitializeTimer();
         }
