@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WeaponController : MonoBehaviour
 {
@@ -73,12 +74,24 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public Coroutine uncharge;
     [HideInInspector] public Coroutine laserShot;
 
+    private bool unlockedGauss = false;
+    private bool unlockedARfile = false;
+    private AudioSource chargeSFX;
+    private bool isPlayingCharge = false;
+
     void Start()
     {
+        chargeSFX = GetComponent<AudioSource>();
         SelectWeapon();
         chargeMeter.localScale = new Vector3(1, 0, 1);
         lastShot = 0;
         pScript = player.gameObject.GetComponent<PlayerMovementAdvanced>();
+        Pickup.onPickup += UnlockedWeapon;
+        if (SceneManager.GetActiveScene().name != "Tutorial")
+        {
+            unlockedARfile = true;
+            unlockedGauss = true;
+        }
     }
 
     void FixedUpdate()
@@ -121,6 +134,11 @@ public class WeaponController : MonoBehaviour
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
+                if (!isPlayingCharge)
+                {
+                    chargeSFX.Play();
+                    isPlayingCharge = true;
+                }
                 charging = true;
                 charge += Time.deltaTime;
                 charge = Mathf.Clamp(charge, 0, 1.5f);
@@ -150,7 +168,7 @@ public class WeaponController : MonoBehaviour
         }
 
 		// these next two ifs make the mouse wheel scroll loop through weapon selections
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && (unlockedGauss || unlockedARfile))
         {
             if ((int)selectedWeapon >= transform.childCount - 1)
             {
@@ -158,16 +176,20 @@ public class WeaponController : MonoBehaviour
             } else {
                 selectedWeapon++;
             }
+            if (selectedWeapon == Weapons.Rifle && !unlockedARfile)
+                selectedWeapon = Weapons.Gauss;
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f && (unlockedGauss || unlockedARfile))
         {
-            if (selectedWeapon <= 0)
+            if (selectedWeapon <= 0 && unlockedARfile)
             {
                 selectedWeapon = Weapons.Rifle;
             } else {
                 selectedWeapon--;
             }
+            if ((int)selectedWeapon == -1 && !unlockedARfile)
+                selectedWeapon = Weapons.Pistol;
         }
 		
         // map weapons to num keys 1 and 2 with the possibility for more
@@ -175,11 +197,11 @@ public class WeaponController : MonoBehaviour
         {
             selectedWeapon = Weapons.Pistol;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2 && unlockedGauss)
         {
             selectedWeapon = Weapons.Gauss;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 2)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 2 && unlockedARfile)
         {
             selectedWeapon = Weapons.Rifle;
         }
@@ -236,7 +258,10 @@ public class WeaponController : MonoBehaviour
     {
         AlertEnemies();
         muzzleFlash.Play();
-        SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
+        if (selectedWeapon == Weapons.Pistol)
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
+        if (selectedWeapon == Weapons.Gauss)
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.FireGauss);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, shootableLayerMask))
@@ -331,6 +356,11 @@ public class WeaponController : MonoBehaviour
     
     IEnumerator DeCharge()
     {
+        if (isPlayingCharge)
+        {
+            chargeSFX.Stop();
+            isPlayingCharge = false;
+        }
         while(true)
         {
             if(Mathf.Approximately(chargeMeter.localScale.y, 0))
@@ -365,5 +395,22 @@ public class WeaponController : MonoBehaviour
         }
 
         laser.positionCount = 0;
+    }
+
+    private void UnlockedWeapon(Pickup.PickedUpType pickedUpType)
+    {
+        switch (pickedUpType)
+        {
+            case Pickup.PickedUpType.GuassCannon:
+                {
+                    unlockedGauss = true;
+                    break;
+                }
+            case Pickup.PickedUpType.AssaultRifle:
+                {
+                    unlockedARfile = true;
+                    break;
+                }
+        }
     }
 }

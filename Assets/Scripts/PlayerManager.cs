@@ -24,7 +24,12 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     {
         maxHealth = Health;
     }
-    
+
+    private void Start()
+    {
+        GameManager.Instance.onRespawn += () => Health = maxHealth - 1;
+    }
+
     public void LoseHealth(float damageReceived)
     {
 

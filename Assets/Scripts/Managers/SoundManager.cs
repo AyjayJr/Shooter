@@ -27,7 +27,8 @@ public class SoundManager : Singleton<SoundManager>
         PlayerPistolShoot,
         WinSound,
         GrappleShoot,
-        GrappleImpact
+        GrappleImpact,
+        FireGauss
     }
 
     public enum MusicTracks
@@ -69,6 +70,11 @@ public class SoundManager : Singleton<SoundManager>
     public void PlaySFXOnce(GameSounds sound)
     {
         sfxAudioSource.PlayOneShot(GetAudioClip(sound));
+    }
+
+    public void PlaySFXOnce(AudioClip sound)
+    {
+        sfxAudioSource.PlayOneShot(sound);
     }
 
     public void PlaySFXOnceNoInterrupt(GameSounds sound)

@@ -120,7 +120,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MyInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !UIManager.Instance.IsPopupActive())
         {
             GameManager.Instance.TogglePause(!GameManager.Instance.IsPaused);
         }
@@ -328,7 +328,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }
-            Debug.Log("moveSpeed = " + flatVel.magnitude);
+            //Debug.Log("moveSpeed = " + flatVel.magnitude);
         }
 
     }

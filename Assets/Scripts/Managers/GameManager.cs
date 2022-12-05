@@ -10,10 +10,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Canvas loseScreen;
 
     public Action<bool> onPaused;
+    public Action onRespawn;
     public Action onLose;
     private bool isPaused = true;
 
     public bool IsPaused { get => isPaused; }
+    private Transform respawnLocation;
+    private Canvas loseScreenSpawned;
 
     public void Start()
     {
@@ -25,6 +28,7 @@ public class GameManager : Singleton<GameManager>
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
+        Checkpoint.onCheckpointReached += (cp) => respawnLocation = cp;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -59,6 +63,25 @@ public class GameManager : Singleton<GameManager>
         PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = true;
         isPaused = true;
         ManageCursorState();
+    }
+
+    public void RespawnPlayer()
+    {
+        // Find is bad but the deadline is soon so rip
+        LoseScreen[] screens = FindObjectsOfType<LoseScreen>();
+        foreach (LoseScreen s in screens)
+            Destroy(s.gameObject);
+        PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = true;
+        SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
+        PlayerManager.Instance.isAlive = true;
+        PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = false;
+        TimeManager.Instance.BeginTimer();
+        onRespawn?.Invoke();
+        TogglePause();
+        if (respawnLocation)
+            PlayerManager.Instance.player.transform.position = respawnLocation.position;
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void ManageCursorState()
