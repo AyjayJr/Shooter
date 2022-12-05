@@ -12,16 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09d95651bdb49f428696c4a2bfb78f2, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
-  levelTimes:
-  - rankName: S
-    rankTimesInSeconds: 60
-    rankImage: {fileID: 21300000, guid: df0bc7c335faedb4e8c07b6e2e954d19, type: 3}
-  - rankName: A
-    rankTimesInSeconds: 80
-    rankImage: {fileID: 21300000, guid: 30dc3842ad7039d4abdda3cf6071dd67, type: 3}
-  - rankName: C
-    rankTimesInSeconds: 100
-    rankImage: {fileID: 21300000, guid: a2c72d0bcec4edf4b8fb7335abce583b, type: 3}
-  - rankName: F
-    rankTimesInSeconds: 9999
-    rankImage: {fileID: 21300000, guid: 7f9cac1be8fb74841a17fb160fc69d61, type: 3}
+  levels:
+  - scene:
+      sceneAsset: {fileID: 102900000, guid: 874a827515c4c1a4fad1ab6d9b50662c, type: 3}
+      scenePath: Assets/Scenes/Tutorial.unity
+    levelTimes:
+    - rankName: S
+      rankTimesInSeconds: 60
+      rankImage: {fileID: 21300000, guid: df0bc7c335faedb4e8c07b6e2e954d19, type: 3}
+      foodFlavorText: Amazing!
+    - rankName: A
+      rankTimesInSeconds: 80
+      rankImage: {fileID: 21300000, guid: 30dc3842ad7039d4abdda3cf6071dd67, type: 3}
+      foodFlavorText: Great Job!
+    - rankName: C
+      rankTimesInSeconds: 100
+      rankImage: {fileID: 21300000, guid: a2c72d0bcec4edf4b8fb7335abce583b, type: 3}
+      foodFlavorText: Decent...
+    - rankName: F
+      rankTimesInSeconds: 9999
+      rankImage: {fileID: 21300000, guid: 7f9cac1be8fb74841a17fb160fc69d61, type: 3}
+      foodFlavorText: Ugh, Try Again!
+  - scene:
+      sceneAsset: {fileID: 102900000, guid: 38ce355518f5afb45aadc24e6f19c58c, type: 3}
+      scenePath: Assets/Scenes/Skyscraper Level/Skyscraper.unity
+    levelTimes:
+    - rankName: S
+      rankTimesInSeconds: 10
+      rankImage: {fileID: 21300000, guid: df0bc7c335faedb4e8c07b6e2e954d19, type: 3}
+      foodFlavorText: Amazing!
+    - rankName: A
+      rankTimesInSeconds: 20
+      rankImage: {fileID: 21300000, guid: 30dc3842ad7039d4abdda3cf6071dd67, type: 3}
+      foodFlavorText: Great Job!
+    - rankName: C
+      rankTimesInSeconds: 30
+      rankImage: {fileID: 21300000, guid: a2c72d0bcec4edf4b8fb7335abce583b, type: 3}
+      foodFlavorText: Decent...
+    - rankName: F
+      rankTimesInSeconds: 9999
+      rankImage: {fileID: 21300000, guid: 7f9cac1be8fb74841a17fb160fc69d61, type: 3}
+      foodFlavorText: Ugh, Try Again!
