@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 874a827515c4c1a4fad1ab6d9b50662c
+  - enabled: 1
+    path: Assets/Scenes/Skyscraper Level/Skyscraper.unity
+    guid: 38ce355518f5afb45aadc24e6f19c58c
   m_configObjects: {}
