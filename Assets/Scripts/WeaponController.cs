@@ -76,9 +76,12 @@ public class WeaponController : MonoBehaviour
 
     private bool unlockedGauss = false;
     private bool unlockedARfile = false;
+    private AudioSource chargeSFX;
+    private bool isPlayingCharge = false;
 
     void Start()
     {
+        chargeSFX = GetComponent<AudioSource>();
         SelectWeapon();
         chargeMeter.localScale = new Vector3(1, 0, 1);
         lastShot = 0;
@@ -131,6 +134,11 @@ public class WeaponController : MonoBehaviour
         {
             if(Input.GetMouseButton(0) && Time.time >= lastShot)
             {
+                if (!isPlayingCharge)
+                {
+                    chargeSFX.Play();
+                    isPlayingCharge = true;
+                }
                 charging = true;
                 charge += Time.deltaTime;
                 charge = Mathf.Clamp(charge, 0, 1.5f);
@@ -250,7 +258,10 @@ public class WeaponController : MonoBehaviour
     {
         AlertEnemies();
         muzzleFlash.Play();
-        SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
+        if (selectedWeapon == Weapons.Pistol)
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
+        if (selectedWeapon == Weapons.Gauss)
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.FireGauss);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, shootableLayerMask))
@@ -345,6 +356,11 @@ public class WeaponController : MonoBehaviour
     
     IEnumerator DeCharge()
     {
+        if (isPlayingCharge)
+        {
+            chargeSFX.Stop();
+            isPlayingCharge = false;
+        }
         while(true)
         {
             if(Mathf.Approximately(chargeMeter.localScale.y, 0))
