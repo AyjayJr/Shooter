@@ -50,6 +50,12 @@ public class GrapplingScript : MonoBehaviour
             grapplePull.force = (pCamera.forward * cameraForceValue) + (Vector3.Normalize(grapplePoint - hand.position) * (pullForceValue));
             checkIfFacingGrapple();
         }
+
+        //to fix when joint isnt deleted
+        if(!isDeployed && joint != null)
+        {
+            Destroy(joint);
+        }
     }
 
     public bool Deployed()
