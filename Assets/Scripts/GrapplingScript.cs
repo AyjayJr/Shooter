@@ -9,6 +9,7 @@ public class GrapplingScript : MonoBehaviour
     public Transform limb;
     public Transform hand;
     public LayerMask whatIsGrappleable;
+    public float range = 20;
 
     [Header("Values of Joint")]
     public float spring;
@@ -72,7 +73,7 @@ public class GrapplingScript : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(Physics.Raycast(pCamera.position, pCamera.forward, out hit, 30, whatIsGrappleable))
+        if(Physics.Raycast(pCamera.position, pCamera.forward, out hit, range, whatIsGrappleable))
         {
             direction = pCamera.forward;
             isDeployed = true;
