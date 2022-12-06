@@ -18,15 +18,15 @@ MonoBehaviour:
       scenePath: Assets/Scenes/Tutorial.unity
     levelTimes:
     - rankName: S
-      rankTimesInSeconds: 300
+      rankTimesInSeconds: 140
       rankImage: {fileID: 21300000, guid: df0bc7c335faedb4e8c07b6e2e954d19, type: 3}
       foodFlavorText: Amazing!
     - rankName: A
-      rankTimesInSeconds: 400
+      rankTimesInSeconds: 250
       rankImage: {fileID: 21300000, guid: 30dc3842ad7039d4abdda3cf6071dd67, type: 3}
       foodFlavorText: Great Job!
     - rankName: C
-      rankTimesInSeconds: 550
+      rankTimesInSeconds: 450
       rankImage: {fileID: 21300000, guid: a2c72d0bcec4edf4b8fb7335abce583b, type: 3}
       foodFlavorText: Decent...
     - rankName: F
