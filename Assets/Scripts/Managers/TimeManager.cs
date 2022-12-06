@@ -22,7 +22,7 @@ public class TimeManager : Singleton<TimeManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnGameSceneLoaded;
-        if (SceneManager.GetActiveScene().name != "MainMenu")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
         {
             InitializeTimer();
         }
@@ -30,7 +30,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void OnGameSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.name != "Main Menu")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
         {
             InitializeTimer();
         }
@@ -65,6 +65,15 @@ public class TimeManager : Singleton<TimeManager>
         return elapsedTime;
     }
 
+
+    public void PauseTimer()
+    {
+        timerActive = false;
+    }
+    public void ResumeTimer()
+    {
+        timerActive = true;
+    }
     public void EndTimer()
     {
         timerActive = false;

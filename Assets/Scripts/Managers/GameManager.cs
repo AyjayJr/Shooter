@@ -16,11 +16,10 @@ public class GameManager : Singleton<GameManager>
 
     public bool IsPaused { get => isPaused; }
     private Transform respawnLocation;
-    private Canvas loseScreenSpawned;
 
     public void Start()
     {
-        if (SceneManager.GetActiveScene().name != "MainMenu")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -33,7 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (SceneManager.GetActiveScene().name != "MainMenu")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
     }
 
@@ -57,7 +56,7 @@ public class GameManager : Singleton<GameManager>
         Instantiate(loseScreen, null);
         onLose?.Invoke();
         SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Death);
-        TimeManager.Instance.EndTimer();
+        TimeManager.Instance.PauseTimer();
         PlayerManager.Instance.player.GetComponent<PlayerMovementAdvanced>().inputEnabled = false;
         PlayerManager.Instance.isAlive = false;
         PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = true;
@@ -75,7 +74,7 @@ public class GameManager : Singleton<GameManager>
         SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         PlayerManager.Instance.isAlive = true;
         PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = false;
-        TimeManager.Instance.BeginTimer();
+        TimeManager.Instance.ResumeTimer();
         onRespawn?.Invoke();
         TogglePause();
         if (respawnLocation)
