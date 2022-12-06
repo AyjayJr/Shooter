@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Pixelplacement;
+using System;
 
 public class WinScreen : MonoBehaviour
 {
@@ -13,21 +14,28 @@ public class WinScreen : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private LevelDataSO levelDataSO;
     [SerializeField] private Image foodImage;
+    [SerializeField] private TextMeshProUGUI foodText;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private TextMeshProUGUI enemiesKilledText;
+    [SerializeField] private TextMeshProUGUI timeNextRank;
 
     [Header("Animation Controls")]
     [SerializeField] private AnimationCurve tweenControl;
     [SerializeField] private float duration;
     [SerializeField] private float delay;
 
+    private Scene currentScene;
+    private LevelDataSO.Level currentLevel;
     private LevelDataSO.LevelRanks playerRank;
 
     void Start()
     {
         restartButton.onClick.AddListener(Restart);
-        // temp go to main menu
-        nextButton.onClick.AddListener(NextButtonClicked);
+        nextButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.TogglePause();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        });
+        currentScene = SceneManager.GetActiveScene();
         nextButton.interactable = false;
         nextText.text = "...";
 
@@ -35,6 +43,7 @@ public class WinScreen : MonoBehaviour
         Tween.LocalScale(foodImage.transform, Vector3.zero, Vector3.one, duration, delay, tweenControl, Tween.LoopType.None, completeCallback: UpdateText);
         foodImage.sprite = DetermineFoodRank();
         timerText.text = TimeManager.Instance.TimerCounter.text;
+        PlayerManager.Instance.isAlive = false;
         SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Victory);
     }
 
@@ -55,13 +64,29 @@ public class WinScreen : MonoBehaviour
         float bestTime = 9999;
         Sprite bestRank = null;
         string rankName = "";
-        for (int i = 0; i < levelDataSO.levelTimes.Length; i++)
+        foreach (LevelDataSO.Level level in levelDataSO.levels)
         {
-            if (TimeManager.Instance.GetCurrentTimeInSeconds() <= levelDataSO.levelTimes[i].rankTimesInSeconds && bestTime > levelDataSO.levelTimes[i].rankTimesInSeconds)
+            if (level.scene.ScenePath == currentScene.path)
+                currentLevel = level;
+        }
+        for (int i = 0; i < currentLevel.levelTimes.Length; i++)
+        {
+            if (TimeManager.Instance.GetCurrentTimeInSeconds() <= currentLevel.levelTimes[i].rankTimesInSeconds && bestTime > currentLevel.levelTimes[i].rankTimesInSeconds)
             {
-                bestTime = levelDataSO.levelTimes[i].rankTimesInSeconds;
-                bestRank = levelDataSO.levelTimes[i].rankImage;
-                rankName = levelDataSO.levelTimes[i].rankName;
+                bestTime = currentLevel.levelTimes[i].rankTimesInSeconds;
+                bestRank = currentLevel.levelTimes[i].rankImage;
+                rankName = currentLevel.levelTimes[i].rankName;
+                foodText.text = currentLevel.levelTimes[i].foodFlavorText;
+                try
+                {
+                    var time = TimeSpan.FromSeconds(currentLevel.levelTimes[i - 1].rankTimesInSeconds);
+                    timeNextRank.text = "Time To Next Rank: " + time.ToString("mm':'ss'.'ff");
+                }
+                catch (System.IndexOutOfRangeException ex)
+                {
+                    Debug.LogWarning("No Better Time Found");
+                    timeNextRank.text = "Best Rank Achieved!";
+                }
             }
         }
         playerRank = new LevelDataSO.LevelRanks();
