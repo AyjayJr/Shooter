@@ -10,6 +10,7 @@ public class SoundManager : Singleton<SoundManager>
 {
     public SoundAudioClip[] audioClipArray;
     public AudioClip[] footstepClipArray;
+    public AudioClip[] hurtClipArray;
     public MusicAudioClip[] musicClipArray;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioSource musicAudioSource;
@@ -87,6 +88,11 @@ public class SoundManager : Singleton<SoundManager>
     public void PlayRandomFootstepConcrete()
     {
         sfxAudioSource.PlayOneShot(GetRandomAudioClip(footstepClipArray));
+    }
+
+    public void PlayRandomPlayerHurt()
+    {
+        sfxAudioSource.PlayOneShot(GetRandomAudioClip(hurtClipArray));
     }
 
     public void StopAndPlaySFXOnce(AudioClip audioClip)

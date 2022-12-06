@@ -96,6 +96,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9907ffd13447cbf4fb6893f9f04f5039, type: 3}
   - {fileID: 8300000, guid: 22c7ebdf321dd9b488634eb81afa2ef5, type: 3}
   - {fileID: 8300000, guid: 2b4a0cfae0f73224389eacb7346475af, type: 3}
+  hurtClipArray:
+  - {fileID: 8300000, guid: 6d6e51254f0a8fb45b81157dde5f2bf9, type: 3}
+  - {fileID: 8300000, guid: 09bd3e12c3b05914ea9f467927a9291c, type: 3}
+  - {fileID: 8300000, guid: 30ea7abd41280774cb21071309d15548, type: 3}
+  - {fileID: 8300000, guid: a75b90d901572b74b9a93b42c85f92e0, type: 3}
+  - {fileID: 8300000, guid: a4dd7fca165837e42830d910d754a33f, type: 3}
+  - {fileID: 8300000, guid: a9ffe28cd92348c4c99eb4b58669f460, type: 3}
   musicClipArray:
   - sound: 0
     audioClip: {fileID: 8300000, guid: a968e3a1d92fb904f8364f3cc2ec98b2, type: 3}

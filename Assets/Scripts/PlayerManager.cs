@@ -34,6 +34,7 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     {
 
         Health -= damageReceived;
+        SoundManager.Instance.PlayRandomPlayerHurt();
         onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
