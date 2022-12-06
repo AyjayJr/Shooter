@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private Canvas loseScreen;
+    [Header("Settings")]
+    public bool toggleSprint;
+    public bool disableScrollWheel;
 
     public Action<bool> onPaused;
     public Action onRespawn;
@@ -26,6 +29,8 @@ public class GameManager : Singleton<GameManager>
             isPaused = false;
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         }
+        toggleSprint = PlayerPrefs.GetInt("ToggleSprint") == 0 ? false : true;
+        disableScrollWheel = PlayerPrefs.GetInt("DisableScrollWheel") == 0 ? false : true;
         SceneManager.sceneLoaded += OnSceneLoaded;
         Checkpoint.onCheckpointReached += (cp) => respawnLocation = cp;
     }
