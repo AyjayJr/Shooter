@@ -270,6 +270,8 @@ public class WeaponController : MonoBehaviour
             SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.PlayerPistolShoot);
         if (selectedWeapon == Weapons.Gauss)
             SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.FireGauss);
+        if (selectedWeapon == Weapons.Rifle)
+            SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.FireARifle);
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, shootableLayerMask))
