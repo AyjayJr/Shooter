@@ -62,7 +62,7 @@ public class PauseMenu : MonoBehaviour
 
     private void ShowSettings()
     {
-        title.text = "Settings";
+        title.text = "";
         stateMachineUI.ChangeState(settingsPanel);
     }
 

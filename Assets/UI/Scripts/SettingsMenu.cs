@@ -13,6 +13,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private TMP_Dropdown qualityDropdown;
     [SerializeField] private Toggle fullscreenToggle;
+    [SerializeField] private Toggle toggleSprint;
+    [SerializeField] private Toggle disableScrollWheel;
     [SerializeField] private Button resLeft;
     [SerializeField] private Button resRight;
     [SerializeField] private TextMeshProUGUI resoLabel;
@@ -27,6 +29,8 @@ public class SettingsMenu : MonoBehaviour
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
         qualityDropdown.value = PlayerPrefs.GetInt("Graphics");
+        toggleSprint.isOn = PlayerPrefs.GetInt("ToggleSprint") == 0 ? false : true;
+        disableScrollWheel.isOn = PlayerPrefs.GetInt("DisableScrollWheel") == 0 ? false : true;
         if (!PlayerPrefs.HasKey("Graphics"))
             PlayerPrefs.SetInt("Graphics", 3);
 
@@ -40,6 +44,16 @@ public class SettingsMenu : MonoBehaviour
         apply.onClick.AddListener(ApplyVideoSettings);
         fullscreenToggle.isOn = Screen.fullScreen;
         InitResolution();
+        toggleSprint.onValueChanged.AddListener((x) =>
+        {
+            GameManager.Instance.toggleSprint = x;
+            PlayerPrefs.SetInt("ToggleSprint", x == false ? 0 : 1);
+        });
+        disableScrollWheel.onValueChanged.AddListener((x) => 
+        { 
+            GameManager.Instance.disableScrollWheel = x;
+            PlayerPrefs.SetInt("DisableScrollWheel", x == false ? 0 : 1);
+        });
 
         masterSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMasterVolume(x));
         musicSlider.onValueChanged.AddListener((x) => SoundManager.Instance.SetMusicVolume(x));

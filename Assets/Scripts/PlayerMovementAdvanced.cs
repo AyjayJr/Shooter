@@ -58,6 +58,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public bool inputEnabled = true;
     public Transform orientation;
 
+    private bool sprinting = false;
+
     float horizontalInput;
     float verticalInput;
 
@@ -180,10 +182,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
+            if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
+                sprinting = !sprinting;
+            if (!GameManager.Instance.toggleSprint)
+                sprinting = false;
         }
 
         // Mode - Walking
-        else if (grounded)
+        else if (grounded && !sprinting)
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
