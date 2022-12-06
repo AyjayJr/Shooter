@@ -28,7 +28,8 @@ public class SoundManager : Singleton<SoundManager>
         WinSound,
         GrappleShoot,
         GrappleImpact,
-        FireGauss
+        FireGauss,
+        FireARifle
     }
 
     public enum MusicTracks
