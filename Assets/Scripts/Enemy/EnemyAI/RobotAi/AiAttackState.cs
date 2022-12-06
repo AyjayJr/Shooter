@@ -9,24 +9,23 @@ public class AiAttackState : AiState
     
     bool rollActive = true;
     const float STRAFE_COOL_DOWN = 2f;
-    const float WAIT = 0.5f;
 
 
-    const float ROLL_COOL_DOWN = 3f;
+
+    const float ROLL_COOL_DOWN = 6f;
     const float GRENADE_COOL_DOWN = 5f;
     float grenadeTimer = GRENADE_COOL_DOWN;
 
     float rollTimer = ROLL_COOL_DOWN;
     float strafeTimer = STRAFE_COOL_DOWN;
-    float waitTimer = STRAFE_COOL_DOWN;
-    bool waitActive = false;
     bool grenadeActive = true;
-
     bool strafeActive = true;
 
     void AiState.Enter(EnemyController enemyController)
     {
         // glitchy
+        enemyController.agent.updateRotation = false;
+        enemyController.wasChasingPlayer = true;
         enemyController.Attack();
         enemyController.Aim();
         enemyController.animator.SetBool("Attack", true);
@@ -51,14 +50,7 @@ public class AiAttackState : AiState
         Vector3 playerForward = enemyController.targetOrientation.forward;
         Vector3 toEnemy = enemyController.transform.position - enemyController.target.transform.position;
         float angle = Vector3.Angle(playerForward, toEnemy);
-        if (enemyController.grenades > 0 && grenadeActive)
-        {
-            if (Random.Range(0, 3) == 1)
-            {
-                enemyController.animator.SetTrigger("ThrowGrenade");
-            }
-            grenadeActive = false;
-        }
+        
 
         if (!rollActive)
         {
@@ -99,6 +91,16 @@ public class AiAttackState : AiState
                 strafeActive = true;
             }
         }
+
+        if (enemyController.grenades > 0 && grenadeActive)
+        {
+            if (Random.Range(0, 3) == 1)
+            {
+                enemyController.animator.SetTrigger("ThrowGrenade");
+            }
+            grenadeActive = false;
+        }
+
         float distance = Vector3.Distance(enemyController.transform.position, wayPoint);
 
         if (angle < 8.0 && rollActive && distance < 0.025f)
@@ -107,16 +109,7 @@ public class AiAttackState : AiState
             rollActive = false;
         }
 
-        if (distance < 1.0f && waitActive)
-        {
-            waitTimer -= Time.deltaTime;
-            if (waitTimer < 0)
-            {
-                waitTimer = WAIT;
-                waitActive = false;
-            }
-        }
-        if (strafeActive && !waitActive)
+        if (strafeActive)
         {
             Vector3 randomVar = Vector3.zero;
             while (randomVar.magnitude < 7)
@@ -129,7 +122,6 @@ public class AiAttackState : AiState
             wayPoint = enemyController.transform.position + randomVar;
             enemyController.agent.SetDestination(wayPoint);
             strafeActive = false;
-            waitActive = true;
        
         }
 

@@ -13,7 +13,7 @@ public class RayCastWeapon : MonoBehaviour
     float accumulatedTime;
     float damage = 7.0f;
     public float inaccuracy = 0.0f;
-    public float fireRate = 1.0f;
+    public float fireRate = 1.4f;
 
     public void UpdateFiring(float deltaTime)
     {
@@ -23,6 +23,7 @@ public class RayCastWeapon : MonoBehaviour
 
         if (accumulatedTime <= 0.0f && isFiring && PlayerManager.Instance.isAlive)
         {
+
             accumulatedTime = fireInterval;
             FireBullet();
         }
@@ -31,7 +32,7 @@ public class RayCastWeapon : MonoBehaviour
     public void StartFiring()
     {
         isFiring = true;
-        accumulatedTime = 2f;
+        accumulatedTime = 0.5f;
     }
 
     void FireBullet()
@@ -45,12 +46,17 @@ public class RayCastWeapon : MonoBehaviour
         ray.direction = rayCastOrigin.forward;
         Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
         ray.direction += randomVar;
+        
+
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
+            Debug.Log("Hit something");
+
             PlayerTarget target = hit.transform.GetComponent<PlayerTarget>();
             if (target != null)
             {
+                Debug.Log("Hit player");
                 target.DamagePlayer(this.damage);
             }
             Destroy(tracer.gameObject, 0.5f);
@@ -61,6 +67,5 @@ public class RayCastWeapon : MonoBehaviour
     public void StopFiring()
     {
         isFiring = false;
-        accumulatedTime = 999f;
     }
 }

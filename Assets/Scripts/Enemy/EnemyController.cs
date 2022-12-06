@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -19,7 +20,11 @@ public class EnemyController : MonoBehaviour
     public AiStateMachine stateMachine;
     public AiStateId initialState = AiStateId.Idle;
     public float chaseSpeed = 8.0f;
+    public float fleeingSpeed = 12.0f;
     public float strafeSpeed = 4.5f;
+    public float fleeDistance = 2f;
+
+    
     public int grenades = 2;
     public float throwForce = 50f;
     public float maxThrowForce = 1000f;
@@ -27,11 +32,11 @@ public class EnemyController : MonoBehaviour
     public GameObject grenadeObject;
     public float armingRange = 6.0f;
     public Transform grenadeThrowPoint;
+    public EnemySensor sensor;
     RayCastWeapon weapon;
     RigBuilder rigs;
 
-    private Vector2 velocity = Vector2.zero;
-    private Vector2 smoothDeltaPos = Vector2.zero;
+    public bool wasChasingPlayer = false;
     private float maxHealth;
     private Vector3 startingPos;
     private Quaternion startingRot;
@@ -47,7 +52,7 @@ public class EnemyController : MonoBehaviour
         maxHealth = health;
         target = PlayerManager.Instance.player.transform;
         targetOrientation = PlayerManager.Instance.orientation;
-
+        sensor = GetComponent<EnemySensor>();
         rigs = GetComponent<RigBuilder>();
 
         weapon = GetComponentInChildren<RayCastWeapon>();
@@ -70,6 +75,8 @@ public class EnemyController : MonoBehaviour
         stateMachine.RegisterState(new AiIdleState());
         stateMachine.RegisterState(new AiAttackState());
         stateMachine.RegisterState(new AIPlayerDeathState());
+        stateMachine.RegisterState(new AiFleeState());
+
 
         stateMachine.ChangeState(initialState);
 
@@ -89,6 +96,20 @@ public class EnemyController : MonoBehaviour
         {
             return;
         }
+
+        if (sensor.objects.Count > 0)
+        {
+            foreach(Object obj in sensor.objects)
+            {
+                grenade grenade = obj.GetComponent<grenade>();
+                if (grenade != null && stateMachine.currentState != AiStateId.Flee)
+                {
+                    stateMachine.ChangeState(AiStateId.Flee);
+                }
+                
+            }
+        }
+        
         bool shouldMove = (agent.velocity.magnitude > 0.5f
            && agent.remainingDistance > agent.stoppingDistance);
         animator.SetBool("Moving", shouldMove);
@@ -229,11 +250,6 @@ public class EnemyController : MonoBehaviour
         animator.enabled = false;
         agent.enabled = false;
 
-    }
-
-    public float TimeToPeak(float gravityStrength, float verticalDistance)
-    {
-        return Mathf.Sqrt(verticalDistance / (gravityStrength * 0.5f));
     }
 
     public void ThrowGrenade()

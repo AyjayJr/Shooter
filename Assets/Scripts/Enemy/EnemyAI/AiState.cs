@@ -8,7 +8,8 @@ public enum AiStateId
     Chase,
     Death,
     Attack,
-    PlayerDeath
+    PlayerDeath,
+    Flee
 } 
 
 public interface AiState
