@@ -31,7 +31,7 @@ public class WinScreen : MonoBehaviour
     {
         restartButton.onClick.AddListener(Restart);
         // temp go to main menu
-        nextButton.onClick.AddListener(NextButtonClicked);
+        nextButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
         currentScene = SceneManager.GetActiveScene();
         nextButton.interactable = false;
         nextText.text = "...";
