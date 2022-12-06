@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class AiChaseState : AiState
 {
+    const float CHASE_COOL_DOWN = 10f;
+    float chaseTimer = CHASE_COOL_DOWN;
+
     void AiState.Enter(EnemyController enemyController)
     {
         enemyController.Aim();
         enemyController.agent.speed = enemyController.chaseSpeed;
+        enemyController.wasChasingPlayer = true;
+        enemyController.agent.updateRotation = false;
+
     }
 
     void AiState.Exit(EnemyController enemyController)
@@ -33,9 +39,18 @@ public class AiChaseState : AiState
         {
             enemyController.stateMachine.ChangeState(AiStateId.Attack);
         }
+
         if (playerDirection.magnitude > enemyController.visionRadius)
         {
-            enemyController.stateMachine.ChangeState(AiStateId.Idle);
+            chaseTimer -= Time.deltaTime;
+            if (chaseTimer <= 0)
+            {
+                enemyController.stateMachine.ChangeState(AiStateId.Idle);
+            }
+        }
+        else
+        {
+            chaseTimer = CHASE_COOL_DOWN;
         }
 
     }
