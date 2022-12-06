@@ -168,29 +168,37 @@ public class WeaponController : MonoBehaviour
         }
 
 		// these next two ifs make the mouse wheel scroll loop through weapon selections
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f && (unlockedGauss || unlockedARfile))
+        if (!GameManager.Instance.disableScrollWheel)
         {
-            if ((int)selectedWeapon >= transform.childCount - 1)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f && (unlockedGauss || unlockedARfile))
             {
-                selectedWeapon = Weapons.Pistol;
-            } else {
-                selectedWeapon++;
+                if ((int)selectedWeapon >= transform.childCount - 1)
+                {
+                    selectedWeapon = Weapons.Pistol;
+                }
+                else
+                {
+                    selectedWeapon++;
+                }
+                if (selectedWeapon == Weapons.Rifle && !unlockedARfile)
+                    selectedWeapon = Weapons.Gauss;
             }
-            if (selectedWeapon == Weapons.Rifle && !unlockedARfile)
-                selectedWeapon = Weapons.Gauss;
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f && (unlockedGauss || unlockedARfile))
+            {
+                if (selectedWeapon <= 0 && unlockedARfile)
+                {
+                    selectedWeapon = Weapons.Rifle;
+                }
+                else
+                {
+                    selectedWeapon--;
+                }
+                if ((int)selectedWeapon == -1 && !unlockedARfile)
+                    selectedWeapon = Weapons.Pistol;
+            }
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f && (unlockedGauss || unlockedARfile))
-        {
-            if (selectedWeapon <= 0 && unlockedARfile)
-            {
-                selectedWeapon = Weapons.Rifle;
-            } else {
-                selectedWeapon--;
-            }
-            if ((int)selectedWeapon == -1 && !unlockedARfile)
-                selectedWeapon = Weapons.Pistol;
-        }
 		
         // map weapons to num keys 1 and 2 with the possibility for more
         if (Input.GetKeyDown(KeyCode.Alpha1))
