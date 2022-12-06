@@ -184,6 +184,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
             desiredMoveSpeed = sprintSpeed;
             if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
                 sprinting = !sprinting;
+            if (!GameManager.Instance.toggleSprint)
+                sprinting = false;
         }
 
         // Mode - Walking
