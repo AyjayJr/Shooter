@@ -103,6 +103,7 @@ public class ExploderController : MonoBehaviour
         accumulatedTime = 0;
         armedLight.enabled = true;
         isBlinking = true;
+        GetComponent<AudioSource>().Play();
     }
     public void StopBlinking()
     {
