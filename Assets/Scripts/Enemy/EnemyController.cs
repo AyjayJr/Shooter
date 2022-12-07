@@ -175,6 +175,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.RegisterState(new AiIdleState());
         stateMachine.RegisterState(new AiAttackState());
         stateMachine.RegisterState(new AIPlayerDeathState());
+        stateMachine.RegisterState(new AiFleeState());
 
         stateMachine.ChangeState(initialState);
     }
@@ -271,9 +272,10 @@ public class EnemyController : MonoBehaviour
         float force = distance.magnitude * throwForce;
         force = Mathf.Min(force, maxThrowForce);
 
-
+        
         grenades -= 1;
-        GameObject grenade = Instantiate(grenadeObject, grenadeThrowPoint.position, grenadeThrowPoint.rotation);
+        GameObject grenade = Instantiate(grenadeObject, grenadeThrowPoint.position, Quaternion.identity);
+        grenade.transform.rotation = new Quaternion(-0.707106829f, 0, 0, 0.707106829f);
         Rigidbody rb = grenade.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * force);
 

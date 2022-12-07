@@ -436,7 +436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3417513390365946325}
   m_LocalRotation: {x: -0.24132736, y: -0, z: -0, w: 0.9704438}
-  m_LocalPosition: {x: 0.236, y: 1.38, z: 0}
+  m_LocalPosition: {x: 0.326, y: 1.535, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8526,11 +8526,12 @@ MonoBehaviour:
   fleeingSpeed: 12
   strafeSpeed: 3
   fleeDistance: 4
+  isRolling: 0
   grenades: 2
   throwForce: 55
   maxThrowForce: 800
   autoAlertRadius: 2.5
-  grenadeObject: {fileID: 4146174199402912764, guid: d9422f51c04550544a4cc153eb8da8c5,
+  grenadeObject: {fileID: 7676726039464420737, guid: d10cfb41fd0b8f846bc39e78fe7bc4ce,
     type: 3}
   armingRange: 6
   grenadeThrowPoint: {fileID: 5373003071274631323}
@@ -8644,7 +8645,7 @@ MonoBehaviour:
   scanFrequency: 50
   layers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1
   occlusionLayers:
     serializedVersion: 2
     m_Bits: 1
