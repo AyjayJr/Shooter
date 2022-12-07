@@ -6771,7 +6771,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4672
   weaponController: {fileID: 4239235101244032540}
-  grapple: {fileID: 0}
+  grapple: {fileID: 8151071165902004187}
   maxSlopeAngle: 70
   inputEnabled: 1
   orientation: {fileID: 4239235101453511811}
