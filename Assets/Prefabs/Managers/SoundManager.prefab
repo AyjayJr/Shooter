@@ -114,6 +114,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 0fdeaa9b67047814da5794146c424b3a, type: 3}
   - sound: 4
     audioClip: {fileID: 8300000, guid: 5c4a49cd87d78784d9f4893302a67d99, type: 3}
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: 0c6481be3f47a094ca3c6824181741a3, type: 3}
   audioMixer: {fileID: 24100000, guid: df5804cb9362ad24db4100ad71a3f372, type: 2}
   musicAudioSource: {fileID: 4242037835644976522}
   sfxAudioSource: {fileID: 7240574404738154731}

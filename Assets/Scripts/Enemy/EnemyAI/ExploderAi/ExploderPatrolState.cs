@@ -10,7 +10,8 @@ public class ExploderPatrolState : ExploderState
     {
         enemyController.enabled = true;
         wayPoint = enemyController.NextWayPoint(0);
-        enemyController.agent.SetDestination(wayPoint.transform.position);
+        if (wayPoint != null)
+            enemyController.agent.SetDestination(wayPoint.transform.position);
     }
 
     void ExploderState.Exit(ExploderController enemyController)

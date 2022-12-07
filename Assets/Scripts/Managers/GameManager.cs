@@ -29,6 +29,13 @@ public class GameManager : Singleton<GameManager>
             isPaused = false;
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         }
+        if (SceneManager.GetActiveScene().name == "Credits")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            isPaused = false;
+            SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Credits);
+        }
         toggleSprint = PlayerPrefs.GetInt("ToggleSprint") == 0 ? false : true;
         disableScrollWheel = PlayerPrefs.GetInt("DisableScrollWheel") == 0 ? false : true;
         SceneManager.sceneLoaded += OnSceneLoaded;
