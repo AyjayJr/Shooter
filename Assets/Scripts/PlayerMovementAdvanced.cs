@@ -103,6 +103,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
+        Debug.Log(state);
 
         // handle drag
         if (grounded)
@@ -179,14 +180,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // }
 
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey))
+        else if((grounded && Input.GetKey(sprintKey)) || sprinting && grounded)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
-            if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
-                sprinting = !sprinting;
             if (!GameManager.Instance.toggleSprint)
                 sprinting = false;
+            if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
+                sprinting = !sprinting;
         }
 
         // Mode - Walking
@@ -203,12 +204,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Air
-        else
+        else if (!grounded)
         {
             state = MovementState.air;
         }
 
-        if(recoilFlag)
+        if (recoilFlag)
         {
             return;
         }
