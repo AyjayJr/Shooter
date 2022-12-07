@@ -104,7 +104,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
-        Debug.Log(state);
 
         // handle drag
         if (grounded)
