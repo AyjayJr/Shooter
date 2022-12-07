@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -354,7 +354,7 @@ MonoBehaviour:
   startingPassComplete: 0
   startDelay: 1
   backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  scrollSpeed: 2
+  scrollSpeed: 1
   TextCentering: 0
   TitleLogoCentering: -0.215
   KeepTitleCentered: 1
@@ -388,7 +388,7 @@ MonoBehaviour:
   titleColor: {r: 1, g: 1, b: 1, a: 1}
   startPointOffset: 0
   ExitToSceneOnEnd: 1
-  exitTime: 3
+  exitTime: 6
   SceneToExitTo: 0
   KeepLegalLineCentred: 1
   LegalLine: Credits powered by Easy Credits
