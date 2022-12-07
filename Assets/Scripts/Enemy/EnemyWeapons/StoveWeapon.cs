@@ -7,11 +7,12 @@ public class StoveWeapon : MonoBehaviour
     public float explosionRadius = 6.0f;
     public float explosionForce = 2000.0f;
     public float explosionDamage = 30.0f;
+    private bool damagedPlayer = false;
     Target self;
     private void Start()
     {
         self = GetComponent<Target>();
-
+        damagedPlayer = false;
     }
 
     // Update is called once per frame
@@ -25,7 +26,6 @@ public class StoveWeapon : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         bool hasExploded = false;
-        Debug.Log("Collision");
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider collider in colliders)
         {
@@ -42,10 +42,11 @@ public class StoveWeapon : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
-            if (target != null)
+            if (target != null && !damagedPlayer)
             {
                 hasExploded = true;
                 target.DamagePlayer(explosionDamage);
+                damagedPlayer = true;
             }
             if (targetPlatform != null)
             {
@@ -56,17 +57,18 @@ public class StoveWeapon : MonoBehaviour
         }
         if (hasExploded)
         {
-            Instantiate(explosionEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
             Explode();
         }
-        
     }
     public GameObject explosionEffect;
 
     public void Explode()
     {
-        Instantiate(explosionEffect, transform.position, transform.rotation);
-        Destroy(gameObject);
+        this.enabled = false;
+        GetComponent<AudioSource>().Play();
+        GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Destroy(explosion, 1.5f);
+        GetComponent<MeshRenderer>().enabled = false;
+        Destroy(gameObject, 0.5f);
     }
 }

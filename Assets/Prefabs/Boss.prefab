@@ -1602,6 +1602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecbf6e83fc7e0f4993f89387174dcce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 0}
+  victoryStove: {fileID: 0}
   target: {fileID: 0}
   targetOrientation: {fileID: 0}
   agent: {fileID: 0}
@@ -1610,6 +1612,7 @@ MonoBehaviour:
   isDead: 0
   forceField: {fileID: 0}
   initialState: 0
+  bossPlatform: {fileID: 0}
   throwForce: 1200
   maxThrowForce: 13000
   ovenObject: {fileID: 6267303429212916027, guid: 6d47f793c9db38e4f91cfc3ee8ad8ca1,
