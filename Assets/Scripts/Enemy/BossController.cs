@@ -123,7 +123,7 @@ public class BossController : MonoBehaviour
             + Mathf.Sin(angle) * throwStrength * Vector3.up;
 
         GameObject oven = Instantiate(ovenObject, ovenThrowPoint.position, ovenThrowPoint.rotation);
-        Rigidbody rb = oven.GetComponent<Rigidbody>();
+        Rigidbody rb = oven.GetComponentInChildren<Rigidbody>();
 
 
         rb.velocity = initialVelocity;

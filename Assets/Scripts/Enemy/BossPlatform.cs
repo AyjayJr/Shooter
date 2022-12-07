@@ -12,7 +12,7 @@ public class BossPlatform : MonoBehaviour
     {
         if (playerOn && damageActive)
         {
-            PlayerManager.Instance.LoseHealth(damage * Time.deltaTime);
+            PlayerManager.Instance.LoseHealth(damage);
         }
     }
     void OnCollisionEnter(Collision collision)
