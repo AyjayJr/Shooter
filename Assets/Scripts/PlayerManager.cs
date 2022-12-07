@@ -15,8 +15,11 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
     [SerializeField] private float Health;
     [SerializeField] private float lastDamageTaken = float.MaxValue;
     [SerializeField] private float healthRegenRate;
+    [SerializeField] private float hurtSoundCD = 1f;
     
     private float maxHealth;
+    private bool canPlayHurtSound = true;
+    private float hurtCooldown = -1;
 
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
 
@@ -27,14 +30,20 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
 
     private void Start()
     {
-        GameManager.Instance.onRespawn += () => Health = maxHealth - 1;
+        GameManager.Instance.onRespawn += () => Health = maxHealth - 3;
+        hurtCooldown = -1;
     }
 
     public void LoseHealth(float damageReceived)
     {
 
         Health -= damageReceived;
-        SoundManager.Instance.PlayRandomPlayerHurt();
+        if (canPlayHurtSound && !GameManager.Instance.IsPaused)
+        {
+            SoundManager.Instance.PlayRandomPlayerHurt();
+            hurtCooldown = hurtSoundCD;
+        }
+            
         onPlayerDamaged?.Invoke(damageReceived);
 
         lastDamageTaken = Time.time + 3f;
@@ -62,6 +71,18 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
             lastDamageTaken = Time.time + 2f;
             StartCoroutine(HealthRegneration());
         }
+
+        if (hurtCooldown <= 0.0f)
+        {
+            canPlayHurtSound = true;
+        }  
+        else
+        {
+            hurtCooldown -= Time.deltaTime;
+            canPlayHurtSound = false;
+        }
+            
+            
     }
 
     IEnumerator HealthRegneration()
