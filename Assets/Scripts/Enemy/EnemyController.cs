@@ -204,6 +204,20 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void RollStart()
+    {
+        rigs.enabled = false;
+        animator.applyRootMotion = true;
+        agent.updatePosition = false;
+    }
+
+    public void RollEnd()
+    {
+        rigs.enabled = true;
+        animator.applyRootMotion = false;
+        agent.updatePosition = true;
+    }
+
     public void Attack()
     {
         weapon.StartFiring();
