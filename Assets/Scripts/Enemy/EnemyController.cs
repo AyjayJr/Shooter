@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour
     public float fleeingSpeed = 12.0f;
     public float strafeSpeed = 4.5f;
     public float fleeDistance = 2f;
+    public bool isRolling = false;
 
     
     public int grenades = 2;
@@ -246,9 +247,12 @@ public class EnemyController : MonoBehaviour
 
     public void FaceTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        if (!isRolling)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
     }
 
     public void Die()

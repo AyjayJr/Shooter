@@ -10,6 +10,7 @@ public class ShortenColliderSize : StateMachineBehaviour
         CapsuleCollider enemyCollider = animator.gameObject.GetComponent<CapsuleCollider>();
         enemyCollider.height = 1;
         enemyCollider.center = new Vector3(0.003411323f, 0.5f, 0f);
+        animator.gameObject.GetComponent<EnemyController>().isRolling = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -24,6 +25,7 @@ public class ShortenColliderSize : StateMachineBehaviour
         CapsuleCollider enemyCollider = animator.gameObject.GetComponent<CapsuleCollider>();
         enemyCollider.height = 1.645f;
         enemyCollider.center = new Vector3(0.003411323f, 0.82f, 0f);
+        animator.gameObject.GetComponent<EnemyController>().isRolling = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
