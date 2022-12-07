@@ -26,8 +26,9 @@ public class Platform : MonoBehaviour
 
     public void Explode()
     {
-        Instantiate(explosionEffect, transform.position, transform.rotation);
+        GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);
         gameObject.SetActive(false);
         hasExploded = true;
+        Destroy(explosion, 1.5f);
     }
 }
