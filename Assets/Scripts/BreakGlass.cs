@@ -10,7 +10,6 @@ public class BreakGlass : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            Debug.Log("break");
             Instantiate(shattered, transform.position, transform.rotation);
             Destroy(gameObject);
         }

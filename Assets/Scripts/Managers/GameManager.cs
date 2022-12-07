@@ -52,7 +52,6 @@ public class GameManager : Singleton<GameManager>
     public void TogglePause(bool shouldShowPauseUI = false)
     {
         isPaused = !isPaused;
-        Debug.Log(IsPaused);
         onPaused?.Invoke(shouldShowPauseUI);
         ManageCursorState();
     }
