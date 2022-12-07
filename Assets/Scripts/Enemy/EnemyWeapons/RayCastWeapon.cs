@@ -51,12 +51,10 @@ public class RayCastWeapon : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
-            Debug.Log("Hit something");
 
             PlayerTarget target = hit.transform.GetComponent<PlayerTarget>();
             if (target != null)
             {
-                Debug.Log("Hit player");
                 target.DamagePlayer(this.damage);
             }
             Destroy(tracer.gameObject, 0.5f);
