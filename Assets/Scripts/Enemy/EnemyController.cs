@@ -1,4 +1,4 @@
-
+using System;
 using System.Collections;
 using System.Linq;
 using Unity.VisualScripting;
@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    public static Action onSpawned;
+    public static Action<bool> onDeath;
     public float visionRadius = 10f;
     public float shootingRange = 6f;
     public Transform target;
@@ -43,6 +45,7 @@ public class EnemyController : MonoBehaviour
     private Quaternion startingRot;
     private Vector3 wStartingPos;
     private Quaternion wStartingRot;
+    private bool revived = false;
 
 
     // Start is called before the first frame update
@@ -82,6 +85,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.ChangeState(initialState);
 
         GameManager.Instance.onRespawn += ResetAi;
+        onSpawned?.Invoke();
     }
 
     // Update is called once per frame
@@ -100,7 +104,7 @@ public class EnemyController : MonoBehaviour
 
         if (sensor.objects.Count > 0)
         {
-            foreach(Object obj in sensor.objects)
+            foreach(UnityEngine.Object obj in sensor.objects)
             {
                 grenade grenade = obj.GetComponent<grenade>();
                 if (grenade != null && stateMachine.currentState != AiStateId.Flee)
@@ -157,6 +161,7 @@ public class EnemyController : MonoBehaviour
         weapon.transform.localRotation = wStartingRot;
         health = maxHealth;
         isDead = false;
+        revived = true;
         target = PlayerManager.Instance.player.transform;
         targetOrientation = PlayerManager.Instance.orientation;
 
@@ -261,7 +266,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.ChangeState(AiStateId.Death);
         animator.enabled = false;
         agent.enabled = false;
-
+        onDeath?.Invoke(revived);
     }
 
     public void ThrowGrenade()

@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class ExploderController : MonoBehaviour
 {
+    public static Action onSpawned;
+    public static Action<bool> onDeath;
     System.Random rand = new System.Random();
     public Transform target;
     public NavMeshAgent agent;
@@ -33,7 +35,7 @@ public class ExploderController : MonoBehaviour
     private Vector3 startingPos;
     private Quaternion startingRot;
     private float maxHealth;
-
+    private bool revived = false;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,7 @@ public class ExploderController : MonoBehaviour
         stateMachine.ChangeState(initialState);
 
         GameManager.Instance.onRespawn += ResetAi;
+        onSpawned?.Invoke();
     }
 
     // Update is called once per frame
@@ -80,6 +83,7 @@ public class ExploderController : MonoBehaviour
         startingRot = transform.localRotation;
         health = maxHealth;
         isDead = false;
+        revived = true;
 
         meshRenderer.enabled = true;
         boxCollider.enabled = true;
@@ -179,6 +183,7 @@ public class ExploderController : MonoBehaviour
         if (health <= 0f)
         {
             stateMachine.ChangeState(ExploderStateId.Death);
+            onDeath?.Invoke(revived);
         }
     }
 }
