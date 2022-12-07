@@ -23,6 +23,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce;
+    public float slideJumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
@@ -343,9 +344,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         exitingSlope = true;
 
+        if (sliding)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.AddForce(transform.up * slideJumpForce, ForceMode.Impulse);
+        }
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
     private void ResetJump()
