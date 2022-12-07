@@ -22,7 +22,7 @@ public class TimeManager : Singleton<TimeManager>
     void Start()
     {
         SceneManager.sceneLoaded += OnGameSceneLoaded;
-        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro" && SceneManager.GetActiveScene().name != "Credits")
         {
             InitializeTimer();
         }
@@ -30,7 +30,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void OnGameSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Intro" && SceneManager.GetActiveScene().name != "Credits")
         {
             InitializeTimer();
         }
