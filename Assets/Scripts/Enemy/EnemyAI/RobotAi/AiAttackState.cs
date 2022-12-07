@@ -20,6 +20,7 @@ public class AiAttackState : AiState
     float strafeTimer = STRAFE_COOL_DOWN;
     bool grenadeActive = true;
     bool strafeActive = true;
+    CapsuleCollider capsuleCollider;
 
     void AiState.Enter(EnemyController enemyController)
     {
@@ -31,6 +32,7 @@ public class AiAttackState : AiState
         enemyController.animator.SetBool("Attack", true);
         wayPoint = enemyController.transform.position;
         enemyController.agent.speed = enemyController.strafeSpeed;
+        capsuleCollider = enemyController.GetComponent<CapsuleCollider>();
     }
 
     void AiState.Exit(EnemyController enemyController)
@@ -51,16 +53,6 @@ public class AiAttackState : AiState
         Vector3 toEnemy = enemyController.transform.position - enemyController.target.transform.position;
         float angle = Vector3.Angle(playerForward, toEnemy);
         
-
-        if (!rollActive)
-        {
-            rollTimer -= Time.deltaTime;
-            if (rollTimer < 0)
-            {
-                rollTimer = 10;
-                rollActive = true;
-            }
-        }
 
         if (!grenadeActive)
         {
