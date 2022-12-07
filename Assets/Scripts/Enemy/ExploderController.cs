@@ -173,8 +173,11 @@ public class ExploderController : MonoBehaviour
         {
             randomIndex = rand.Next(4);
         }
-     
-        return wayPointSystem.wayPoints[currentWayPoint].neighboirs[randomIndex];
+
+        if (wayPointSystem.wayPoints != null)
+            return wayPointSystem.wayPoints[currentWayPoint].neighboirs[randomIndex];
+        else
+            return null;
     }
 
     public void TakeDamage(float amount)
