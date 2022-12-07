@@ -8524,7 +8524,7 @@ MonoBehaviour:
   initialState: 0
   chaseSpeed: 6.5
   fleeingSpeed: 12
-  strafeSpeed: 3.2
+  strafeSpeed: 3
   fleeDistance: 4
   grenades: 2
   throwForce: 55

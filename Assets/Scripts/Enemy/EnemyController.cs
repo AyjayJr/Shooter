@@ -114,9 +114,16 @@ public class EnemyController : MonoBehaviour
            && agent.remainingDistance > agent.stoppingDistance);
         animator.SetBool("Moving", shouldMove);
 
-
-        animator.SetFloat("speed_x", agent.velocity.x);
-        animator.SetFloat("speed_y", agent.velocity.z);
+        if (stateMachine.currentState == AiStateId.Attack)
+        {
+            animator.SetFloat("speed_x", agent.velocity.x * (target.position - transform.position).normalized.x);
+            animator.SetFloat("speed_y", agent.velocity.z * (target.position - transform.position).normalized.z);
+        }
+        else
+        {
+            animator.SetFloat("speed_x", agent.velocity.x * transform.right.normalized.x);
+            animator.SetFloat("speed_y", agent.velocity.z * transform.forward.normalized.z);
+        }
 
 
 
