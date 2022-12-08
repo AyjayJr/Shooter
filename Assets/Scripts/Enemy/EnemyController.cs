@@ -225,8 +225,8 @@ public class EnemyController : MonoBehaviour
     {
         animator.applyRootMotion = true;
         agent.updatePosition = false;
-        float rand_x = Random.Range(-180, 190);
-        float rand_z = Random.Range(-180, 190);
+        float rand_x = Random.Range(-180, 180);
+        float rand_z = Random.Range(-180, 180);
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(transform.rotation.x + rand_x, 0, transform.rotation.z + rand_z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 1f);
 

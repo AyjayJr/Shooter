@@ -11,7 +11,7 @@ public class RayCastWeapon : MonoBehaviour
     RaycastHit hit;
     public TrailRenderer tracerEffect;
     float accumulatedTime;
-    float damage = 7.0f;
+    public float damage = 7.0f;
     public float inaccuracy = 0.0f;
     public float fireRate = 1.4f;
 
@@ -32,7 +32,7 @@ public class RayCastWeapon : MonoBehaviour
     public void StartFiring()
     {
         isFiring = true;
-        accumulatedTime = 0.5f;
+        accumulatedTime = 0.05f;
     }
 
     void FireBullet()
