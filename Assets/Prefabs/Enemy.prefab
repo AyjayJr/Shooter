@@ -9777,8 +9777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f6c3dbe2bbe8a48884aad79d9fa955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 10
-  angle: 30
+  distance: 5
+  angle: 50
   height: 1
   meshColor: {r: 1, g: 0, b: 0, a: 0.09803922}
   scanFrequency: 50
