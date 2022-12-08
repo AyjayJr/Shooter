@@ -318,7 +318,10 @@ public class EnemyController : MonoBehaviour
 
     public void PlayerShootingAlert()
     {
-        stateMachine.ChangeState(AiStateId.Chase);
+        if (stateMachine.currentState == AiStateId.Idle)
+        {
+            stateMachine.ChangeState(AiStateId.Chase);
+        }
     }
 
     public IEnumerator moveToPoint(Vector3 waypoint)
