@@ -6179,8 +6179,9 @@ MonoBehaviour:
   muzzleFlash: {fileID: 419447291313383716}
   rayCastOrigin: {fileID: 5802588654664727106}
   tracerEffect: {fileID: 6714797252424461038}
+  damage: 10
   inaccuracy: 0
-  fireRate: 2.3
+  fireRate: 1.8
 --- !u!114 &6813962278125650810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9627,9 +9628,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 4
-  m_Acceleration: 5
+  m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 200
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -9650,8 +9651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e2fc82050c8074c9250bc78ecad829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionRadius: 20
-  shootingRange: 10
+  visionRadius: 27
+  shootingRange: 16
   target: {fileID: 8163535376256650432}
   targetOrientation: {fileID: 0}
   agent: {fileID: 429787417}
@@ -9659,18 +9660,18 @@ MonoBehaviour:
   health: 25
   isDead: 0
   initialState: 0
-  chaseSpeed: 6.5
-  fleeingSpeed: 12
-  strafeSpeed: 3
-  fleeDistance: 4
+  chaseSpeed: 7.5
+  fleeingSpeed: 13
+  strafeSpeed: 4
+  fleeDistance: 4.5
   isRolling: 0
-  grenades: 2
-  throwForce: 55
-  maxThrowForce: 800
-  autoAlertRadius: 2.5
+  grenades: 3
+  throwForce: 65
+  maxThrowForce: 900
+  autoAlertRadius: 3.5
   grenadeObject: {fileID: 7676726039464420737, guid: d10cfb41fd0b8f846bc39e78fe7bc4ce,
     type: 3}
-  armingRange: 6
+  armingRange: 10
   grenadeThrowPoint: {fileID: 5373003071274631323}
   sensor: {fileID: 0}
   wasChasingPlayer: 0

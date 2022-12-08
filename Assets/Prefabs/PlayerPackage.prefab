@@ -6935,7 +6935,7 @@ MonoBehaviour:
   isAlive: 1
   Health: 170
   lastDamageTaken: 3.4028235e+38
-  healthRegenRate: 2
+  healthRegenRate: 5
   hurtSoundCD: 1
 --- !u!114 &4513681167933502003
 MonoBehaviour:
