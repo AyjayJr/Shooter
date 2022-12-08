@@ -23,6 +23,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce;
+    public float slideJumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
@@ -103,6 +104,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         SpeedControl();
         StateHandler();
 
+
         // handle drag
         if (grounded)
             rb.drag = groundDrag;
@@ -178,14 +180,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // }
 
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey))
+        else if((grounded && Input.GetKey(sprintKey)) || sprinting && grounded)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
-            if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
-                sprinting = !sprinting;
             if (!GameManager.Instance.toggleSprint)
                 sprinting = false;
+            if (grounded && GameManager.Instance.toggleSprint && Input.GetKeyDown(sprintKey))
+                sprinting = !sprinting;
         }
 
         // Mode - Walking
@@ -202,12 +204,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Air
-        else
+        else if (!grounded)
         {
             state = MovementState.air;
         }
 
-        if(recoilFlag)
+        if (recoilFlag)
         {
             return;
         }
@@ -343,9 +345,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         exitingSlope = true;
 
+        if (sliding)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.AddForce(transform.up * slideJumpForce, ForceMode.Impulse);
+        }
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
     private void ResetJump()

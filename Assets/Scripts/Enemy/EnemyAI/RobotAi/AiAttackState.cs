@@ -52,16 +52,6 @@ public class AiAttackState : AiState
         float angle = Vector3.Angle(playerForward, toEnemy);
         
 
-        if (!rollActive)
-        {
-            rollTimer -= Time.deltaTime;
-            if (rollTimer < 0)
-            {
-                rollTimer = 10;
-                rollActive = true;
-            }
-        }
-
         if (!grenadeActive)
         {
             grenadeTimer -= Time.deltaTime;
@@ -105,28 +95,16 @@ public class AiAttackState : AiState
 
         if (angle < 8.0 && rollActive && distance < 0.025f)
         {
+            Strafe(enemyController);
             enemyController.animator.SetTrigger("Roll");
             rollActive = false;
         }
 
         if (strafeActive)
         {
-            Vector3 randomVar = Vector3.zero;
-            while (randomVar.magnitude < 7)
-            {
-                randomVar = Random.insideUnitSphere;
-                randomVar *= 20.0f;
-                randomVar.y = 0;
-            }
-          
-            wayPoint = enemyController.transform.position + randomVar;
-            enemyController.agent.SetDestination(wayPoint);
+            Strafe(enemyController);
             strafeActive = false;
-       
         }
-
-        
-
 
         enemyController.FaceTarget();
         Vector3 playerDir = enemyController.target.transform.position - enemyController.transform.position;
@@ -136,5 +114,19 @@ public class AiAttackState : AiState
             enemyController.stateMachine.ChangeState(AiStateId.Chase);
         }
 
+    }
+
+    private void Strafe(EnemyController enemyController)
+    {
+        Vector3 randomVar = Vector3.zero;
+        while (randomVar.magnitude < 7)
+        {
+            randomVar = Random.insideUnitSphere;
+            randomVar *= 20.0f;
+            randomVar.y = 0;
+        }
+
+        wayPoint = enemyController.transform.position + randomVar;
+        enemyController.agent.SetDestination(wayPoint);
     }
 }

@@ -59,8 +59,9 @@ public class grenade : MonoBehaviour
             }
 
         }
-        Instantiate(explosionEffect, transform.position, transform.rotation);
+        GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(gameObject);
+        Destroy(explosion, 1.5f);
     }
     
 }

@@ -22,9 +22,14 @@ public class GrapplingScript : MonoBehaviour
     private Vector3 direction;
     private ConstantForce grapplePull;
     [HideInInspector] public bool isDeployed = false;
-    
     public float pullForceValue;
     public float cameraForceValue;
+
+
+    [Header("Claw Visuals")]
+    [SerializeField] private MeshRenderer claw1;
+    [SerializeField] private MeshRenderer claw2;
+    [SerializeField] private MeshRenderer claw3;
 
     [HideInInspector] public Coroutine rotate; 
 
@@ -37,6 +42,12 @@ public class GrapplingScript : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.IsPaused)
+        {
+            EndGrapple();
+            return;
+        }
+
         if(Input.GetMouseButtonDown(1))
         {
             Grapple();
@@ -75,6 +86,9 @@ public class GrapplingScript : MonoBehaviour
 
         if(Physics.Raycast(pCamera.position, pCamera.forward, out hit, range, whatIsGrappleable))
         {
+            claw1.enabled = false;
+            claw2.enabled = false;
+            claw3.enabled = false;
             direction = pCamera.forward;
             isDeployed = true;
             SoundManager.Instance.PlaySFXOnce(SoundManager.GameSounds.GrappleShoot);
@@ -101,6 +115,9 @@ public class GrapplingScript : MonoBehaviour
 
     public void EndGrapple()
     {
+        claw1.enabled = true;
+        claw2.enabled = true;
+        claw3.enabled = true;
         StopCoroutine(PullTowards());
         isDeployed = false;
         grapplePull.force = Vector3.zero;
@@ -136,7 +153,7 @@ public class GrapplingScript : MonoBehaviour
 
     public IEnumerator PullTowards()
     {
-        while(Vector3.Distance(hand.position, grapplePoint) >= 0.1f && isDeployed)
+        while (Vector3.Distance(hand.position, grapplePoint) >= 0.1f && isDeployed)
         {
             limb.LookAt(grapplePoint);
             joint.maxDistance = Vector3.Distance(grapplePoint, player.gameObject.transform.position);

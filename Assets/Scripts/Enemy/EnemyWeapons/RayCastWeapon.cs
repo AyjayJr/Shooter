@@ -46,21 +46,21 @@ public class RayCastWeapon : MonoBehaviour
         ray.direction = rayCastOrigin.forward;
         Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
         ray.direction += randomVar;
-        
+
 
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
-            Debug.Log("Hit something");
+            Debug.Log(tracer.material.ToString());
+            Debug.Log(tracer.name.ToString());
 
             PlayerTarget target = hit.transform.GetComponent<PlayerTarget>();
             if (target != null)
             {
-                Debug.Log("Hit player");
                 target.DamagePlayer(this.damage);
             }
-            Destroy(tracer.gameObject, 0.5f);
         }
+        Destroy(tracer.gameObject, 0.5f);
 
     }
 

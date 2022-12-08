@@ -1,10 +1,13 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class ScoutDroidController : MonoBehaviour
 {
+    public static Action onSpawned;
+    public static Action<bool> onDeath;
     public float visionRadius = 10f;
     public float shootingRange = 6f;
     public float YOffset = 2.5f;
@@ -28,6 +31,7 @@ public class ScoutDroidController : MonoBehaviour
     private Vector3 startingPos;
     private Quaternion startingRot;
     private float maxHealth;
+    private bool revived = false;
 
     void Start()
     {
@@ -45,6 +49,7 @@ public class ScoutDroidController : MonoBehaviour
         stateMachine.ChangeState(initialState);
 
         GameManager.Instance.onRespawn += ResetAi;
+        onSpawned?.Invoke();
     }
 
     // Update is called once per frame
@@ -80,6 +85,7 @@ public class ScoutDroidController : MonoBehaviour
         transform.localRotation = startingRot;
         health = maxHealth;
         isDead = false;
+        revived = true;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().drag = 10f;
@@ -150,6 +156,7 @@ public class ScoutDroidController : MonoBehaviour
         if (health <= 0f)
         {
             Die();
+            onDeath?.Invoke(revived);
         }
     }
 }

@@ -1,4 +1,4 @@
-
+using System;
 using System.Collections;
 using System.Linq;
 using Unity.VisualScripting;
@@ -6,9 +6,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
+    public static Action onSpawned;
+    public static Action<bool> onDeath;
     public float visionRadius = 10f;
     public float shootingRange = 6f;
     public Transform target;
@@ -23,6 +26,7 @@ public class EnemyController : MonoBehaviour
     public float fleeingSpeed = 12.0f;
     public float strafeSpeed = 4.5f;
     public float fleeDistance = 2f;
+    public bool isRolling = false;
 
     
     public int grenades = 2;
@@ -42,6 +46,9 @@ public class EnemyController : MonoBehaviour
     private Quaternion startingRot;
     private Vector3 wStartingPos;
     private Quaternion wStartingRot;
+    private bool revived = false;
+    public GameObject vanishEffect;
+  
 
 
     // Start is called before the first frame update
@@ -54,7 +61,6 @@ public class EnemyController : MonoBehaviour
         targetOrientation = PlayerManager.Instance.orientation;
         sensor = GetComponent<EnemySensor>();
         rigs = GetComponent<RigBuilder>();
-
         weapon = GetComponentInChildren<RayCastWeapon>();
         wStartingPos = weapon.transform.localPosition;
         wStartingRot = weapon.transform.localRotation;
@@ -81,6 +87,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.ChangeState(initialState);
 
         GameManager.Instance.onRespawn += ResetAi;
+        onSpawned?.Invoke();
     }
 
     // Update is called once per frame
@@ -99,7 +106,7 @@ public class EnemyController : MonoBehaviour
 
         if (sensor.objects.Count > 0)
         {
-            foreach(Object obj in sensor.objects)
+            foreach(UnityEngine.Object obj in sensor.objects)
             {
                 grenade grenade = obj.GetComponent<grenade>();
                 if (grenade != null && stateMachine.currentState != AiStateId.Flee)
@@ -114,14 +121,22 @@ public class EnemyController : MonoBehaviour
            && agent.remainingDistance > agent.stoppingDistance);
         animator.SetBool("Moving", shouldMove);
 
-
-        animator.SetFloat("speed_x", agent.velocity.x);
-        animator.SetFloat("speed_y", agent.velocity.z);
+        if (stateMachine.currentState == AiStateId.Attack)
+        {
+            animator.SetFloat("speed_x", agent.velocity.x * (target.position - transform.position).normalized.x);
+            animator.SetFloat("speed_y", agent.velocity.z * (target.position - transform.position).normalized.z);
+        }
+        else
+        {
+            animator.SetFloat("speed_x", agent.velocity.x * transform.right.normalized.x);
+            animator.SetFloat("speed_y", agent.velocity.z * transform.forward.normalized.z);
+        }
 
 
 
 
     }
+
 
     private void LateUpdate()
     {
@@ -149,6 +164,7 @@ public class EnemyController : MonoBehaviour
         weapon.transform.localRotation = wStartingRot;
         health = maxHealth;
         isDead = false;
+        revived = true;
         target = PlayerManager.Instance.player.transform;
         targetOrientation = PlayerManager.Instance.orientation;
 
@@ -167,6 +183,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.RegisterState(new AiIdleState());
         stateMachine.RegisterState(new AiAttackState());
         stateMachine.RegisterState(new AIPlayerDeathState());
+        stateMachine.RegisterState(new AiFleeState());
 
         stateMachine.ChangeState(initialState);
     }
@@ -206,16 +223,28 @@ public class EnemyController : MonoBehaviour
 
     public void RollStart()
     {
-        rigs.enabled = false;
         animator.applyRootMotion = true;
         agent.updatePosition = false;
-    }
+        float rand_x = Random.Range(-180, 190);
+        float rand_z = Random.Range(-180, 190);
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(transform.rotation.x + rand_x, 0, transform.rotation.z + rand_z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+
+        rand_x = Random.Range(-10, 10);
+        rand_z = Random.Range(-10, 10);
+        Vector3 teleport = new Vector3(rand_x + transform.position.x, 0, rand_z + transform.position.z);
+        agent.SetDestination(teleport);
+
+     }
 
     public void RollEnd()
     {
-        rigs.enabled = true;
         animator.applyRootMotion = false;
         agent.updatePosition = true;
+        agent.updatePosition = true;
+        animator.applyRootMotion = false;
+        GameObject explosion = Instantiate(vanishEffect, this.transform);
+        GetComponent<AudioSource>().Play();
     }
 
     public void Attack()
@@ -253,9 +282,12 @@ public class EnemyController : MonoBehaviour
 
     public void FaceTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        if (!isRolling)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
     }
 
     public void Die()
@@ -263,7 +295,7 @@ public class EnemyController : MonoBehaviour
         stateMachine.ChangeState(AiStateId.Death);
         animator.enabled = false;
         agent.enabled = false;
-
+        onDeath?.Invoke(revived);
     }
 
     public void ThrowGrenade()
@@ -274,9 +306,10 @@ public class EnemyController : MonoBehaviour
         float force = distance.magnitude * throwForce;
         force = Mathf.Min(force, maxThrowForce);
 
-
+        
         grenades -= 1;
-        GameObject grenade = Instantiate(grenadeObject, grenadeThrowPoint.position, grenadeThrowPoint.rotation);
+        GameObject grenade = Instantiate(grenadeObject, grenadeThrowPoint.position, Quaternion.identity);
+        grenade.transform.rotation = new Quaternion(-0.707106829f, 0, 0, 0.707106829f);
         Rigidbody rb = grenade.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * force);
 

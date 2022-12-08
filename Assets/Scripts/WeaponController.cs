@@ -262,8 +262,15 @@ public class WeaponController : MonoBehaviour
 
         }     
     }
+
+    void DetermineRecoil()
+    {
+        transform.localPosition -= Vector3.forward * 0.1f;
+    }
+
     void Shoot()
     {
+        DetermineRecoil();
         AlertEnemies();
         muzzleFlash.Play();
         if (selectedWeapon == Weapons.Pistol)
