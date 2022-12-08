@@ -49,7 +49,6 @@ public class PlayerManager : Singleton<PlayerManager> //  <-- Has Instance From 
         lastDamageTaken = Time.time + 3f;
         if (Health <= 0 && isAlive)
         {
-            Debug.Log("player died");
             // Invoke tells subscribers to trigger listened functions (+=)
             GameManager.Instance.LoseScreen();
             return;

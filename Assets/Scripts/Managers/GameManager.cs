@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
@@ -29,6 +30,13 @@ public class GameManager : Singleton<GameManager>
             isPaused = false;
             SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.GameplayDNB, true);
         }
+        if (SceneManager.GetActiveScene().name == "Credits")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            isPaused = false;
+            SoundManager.Instance.PlayMusicLoop(SoundManager.MusicTracks.Credits);
+        }
         toggleSprint = PlayerPrefs.GetInt("ToggleSprint") == 0 ? false : true;
         disableScrollWheel = PlayerPrefs.GetInt("DisableScrollWheel") == 0 ? false : true;
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,7 +52,6 @@ public class GameManager : Singleton<GameManager>
     public void TogglePause(bool shouldShowPauseUI = false)
     {
         isPaused = !isPaused;
-        Debug.Log(IsPaused);
         onPaused?.Invoke(shouldShowPauseUI);
         ManageCursorState();
     }
@@ -80,6 +87,9 @@ public class GameManager : Singleton<GameManager>
         PlayerManager.Instance.isAlive = true;
         PlayerManager.Instance.player.GetComponent<Rigidbody>().isKinematic = false;
         TimeManager.Instance.ResumeTimer();
+        PostProcessVolume v = Camera.main.GetComponent<PostProcessVolume>();
+        var vignette = v.profile.GetSetting<Vignette>();
+        vignette.intensity.value = 0f;
         onRespawn?.Invoke();
         TogglePause();
         if (respawnLocation)

@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class WeaponController : MonoBehaviour
 {
-    private enum Weapons
+    // had to make weapons public to access by grapple script; very hacky solution;
+    public enum Weapons
     {
         Pistol,
         Gauss,
@@ -23,7 +24,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private LayerMask shootableLayerMask;
     [SerializeField] private GrapplingScript grapple;
-    private Weapons selectedWeapon;
+    public Weapons selectedWeapon;
     private Weapons previousSelectedWeapon;
     public float soundRadius = 10;
 
@@ -265,6 +266,11 @@ public class WeaponController : MonoBehaviour
 
     void DetermineRecoil()
     {
+        // ok i will probably have remove "Limb" as a child of the pistol.
+        // attach it to the weapon cam
+        // attach a script to Limb that will apply the gun bob still
+
+        // add recoil to weapon holder
         transform.localPosition -= Vector3.forward * 0.1f;
     }
 

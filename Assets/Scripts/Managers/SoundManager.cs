@@ -39,7 +39,8 @@ public class SoundManager : Singleton<SoundManager>
         GameplayDNB,
         GameplayBass,
         Victory,
-        Death
+        Death,
+        Credits
     }
 
     public void Start()
@@ -168,7 +169,7 @@ public class SoundManager : Singleton<SoundManager>
 
     private AudioClip GetRandomMusicAudioClip()
     {
-        int rand = Random.Range(1, musicClipArray.Length - 2);
+        int rand = Random.Range(1, musicClipArray.Length - 3);
         return musicClipArray[rand].audioClip;
     }
 

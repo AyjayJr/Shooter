@@ -50,6 +50,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     [Header("Gunbob")]
     public WeaponController weaponController;
+    public grappleBob grapple;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -104,7 +105,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
         SpeedControl();
         StateHandler();
 
-
         // handle drag
         if (grounded)
             rb.drag = groundDrag;
@@ -113,6 +113,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
         // handle weapon bob
         weaponController.currentSpeed = AllowGunbob() ? moveSpeed : 0;
+        grapple.currentSpeed = AllowGunbob() ? moveSpeed : 0;
     }
 
     private void FixedUpdate()
