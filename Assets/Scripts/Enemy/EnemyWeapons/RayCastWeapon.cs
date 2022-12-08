@@ -60,7 +60,7 @@ public class RayCastWeapon : MonoBehaviour
                 target.DamagePlayer(this.damage);
             }
         }
-        Destroy(tracer.gameObject, 0.5f);
+        Destroy(tracer.gameObject, 1f);
 
     }
 
