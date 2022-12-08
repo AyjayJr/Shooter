@@ -45,6 +45,8 @@ public class grappleBob : MonoBehaviour
 
     void Update()
     {
+        if (!PlayerManager.Instance.isAlive || GameManager.Instance.IsPaused) return;
+
         // if pistol selected; enable grapple -> else; disable
         if (holster.selectedWeapon == WeaponController.Weapons.Pistol)
         {
