@@ -37,22 +37,21 @@ public class RayCastWeapon : MonoBehaviour
 
     void FireBullet()
     {
+        tracerEffect.Clear();
+        tracerEffect.emitting = true;
+        var tracer = Instantiate(tracerEffect, ray.origin, Quaternion.identity);
         muzzleFlash.Emit(1);
         GetComponent<AudioSource>().Play();
-        var tracer = Instantiate(tracerEffect, ray.origin, Quaternion.identity);
-        tracer.AddPosition(ray.origin);
+        tracer.AddPosition(rayCastOrigin.position);
 
         ray.origin = rayCastOrigin.position;
         ray.direction = rayCastOrigin.forward;
         Vector3 randomVar = Random.insideUnitSphere * inaccuracy;
         ray.direction += randomVar;
 
-
         if (Physics.Raycast(ray, out hit))
         {
             tracer.transform.position = hit.point;
-            Debug.Log(tracer.material.ToString());
-            Debug.Log(tracer.name.ToString());
 
             PlayerTarget target = hit.transform.GetComponent<PlayerTarget>();
             if (target != null)
@@ -60,7 +59,8 @@ public class RayCastWeapon : MonoBehaviour
                 target.DamagePlayer(this.damage);
             }
         }
-        Destroy(tracer.gameObject, 1f);
+        tracerEffect.emitting = false;
+        Destroy(tracer.gameObject, 0.6f);
 
     }
 
