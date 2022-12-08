@@ -147,6 +147,7 @@ public class ScoutDroidController : MonoBehaviour
         stateMachine.ChangeState(AiFlyStateId.Death);
         Destroy(explosion, 1.5f);
         isDead = true;
+        onDeath?.Invoke(revived);
         this.enabled = false;
     }
 
@@ -156,7 +157,6 @@ public class ScoutDroidController : MonoBehaviour
         if (health <= 0f)
         {
             Die();
-            onDeath?.Invoke(revived);
         }
     }
 }
