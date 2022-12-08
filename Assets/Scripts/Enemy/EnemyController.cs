@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class EnemyController : MonoBehaviour
     private Vector3 wStartingPos;
     private Quaternion wStartingRot;
     private bool revived = false;
+    public GameObject vanishEffect;
+  
 
 
     // Start is called before the first frame update
@@ -58,7 +61,6 @@ public class EnemyController : MonoBehaviour
         targetOrientation = PlayerManager.Instance.orientation;
         sensor = GetComponent<EnemySensor>();
         rigs = GetComponent<RigBuilder>();
-
         weapon = GetComponentInChildren<RayCastWeapon>();
         wStartingPos = weapon.transform.localPosition;
         wStartingRot = weapon.transform.localRotation;
@@ -134,6 +136,7 @@ public class EnemyController : MonoBehaviour
 
 
     }
+
 
     private void LateUpdate()
     {
@@ -216,6 +219,32 @@ public class EnemyController : MonoBehaviour
         {
             collider.enabled = !state;
         }
+    }
+
+    public void RollStart()
+    {
+        animator.applyRootMotion = true;
+        agent.updatePosition = false;
+        float rand_x = Random.Range(-180, 190);
+        float rand_z = Random.Range(-180, 190);
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(transform.rotation.x + rand_x, 0, transform.rotation.z + rand_z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+
+        rand_x = Random.Range(-10, 10);
+        rand_z = Random.Range(-10, 10);
+        Vector3 teleport = new Vector3(rand_x + transform.position.x, 0, rand_z + transform.position.z);
+        agent.SetDestination(teleport);
+
+     }
+
+    public void RollEnd()
+    {
+        animator.applyRootMotion = false;
+        agent.updatePosition = true;
+        agent.updatePosition = true;
+        animator.applyRootMotion = false;
+        GameObject explosion = Instantiate(vanishEffect, this.transform);
+        GetComponent<AudioSource>().Play();
     }
 
     public void Attack()
