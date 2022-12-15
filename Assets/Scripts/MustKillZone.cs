@@ -10,6 +10,7 @@ public class MustKillZone : MonoBehaviour
     private int numOfAliveEnemies;
     public Transform[] enemysArray;
     private int[] aliveEnemiesArray;
+    private int[] enemiesTypeArray;
 
     //REFERENCE THIS VARIABLE TO CHECK IF ALL FLOORS HAVE BEEN CLEARED
     public bool FloorHasBeenCleared;
@@ -28,11 +29,28 @@ public class MustKillZone : MonoBehaviour
         numOfAliveEnemies = numOfEnemies;
 
         aliveEnemiesArray = new int[numOfEnemies];
+        enemiesTypeArray = new int[numOfEnemies];
 
         //Set all indices of enemies to 1, to show that they are currently alive. 0 means dead
         for(int i = 0; i < numOfEnemies; i++)
         {
             aliveEnemiesArray[i] = 1;
+            
+            if(enemysArray[i].GetComponent<EnemyController>() != null)
+            {
+                enemiesTypeArray[i] = 1;
+                enemysArray[i].GetComponent<EnemyController>().visionRadius = 1;
+            }
+            else if(enemysArray[i].GetComponent<ScoutDroidController>() != null)
+            {
+                enemiesTypeArray[i] = 2;
+                enemysArray[i].GetComponent<ScoutDroidController>().visionRadius = 1;
+            }
+            else if(enemysArray[i].GetComponentInChildren<ExploderController>() != null)
+            {
+                enemiesTypeArray[i] = 3;
+                enemysArray[i].GetComponentInChildren<ExploderController>().visionRadius = 1;
+            }
         }
     }
 
@@ -56,6 +74,23 @@ public class MustKillZone : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             Debug.Log("KILL EVERYONE");
+
+            for(int i = 0; i < numOfEnemies; i++)
+            {
+                if(enemysArray[i].GetComponent<EnemyController>() != null)
+            {
+                enemysArray[i].GetComponent<EnemyController>().visionRadius = 40;
+            }
+            else if(enemysArray[i].GetComponent<ScoutDroidController>() != null)
+            {
+                enemysArray[i].GetComponent<ScoutDroidController>().visionRadius = 40;
+            }
+            else if(enemysArray[i].GetComponentInChildren<ExploderController>() != null)
+            {
+                enemysArray[i].GetComponentInChildren<ExploderController>().visionRadius = 15;
+            }
+            }
+
             active = true;
         }
     }
